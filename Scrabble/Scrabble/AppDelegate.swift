@@ -1,13 +1,10 @@
-//
-//  AppDelegate.swift
-//  Scrabble
-//
-//  Created by Charu Tak on 07/07/18.
-//  Copyright © 2018 Charu Tak. All rights reserved.
-//
-
 import UIKit
 
+import SwiftyBeaver
+let log = SwiftyBeaver.self
+
+
+// swiftlint:disable line_length
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,6 +12,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let console = ConsoleDestination()
+        console.format = "$DHH:mm:ss$d $C$L$c $N.$F:$l - $M"
+        log.addDestination(console)
+        
+        log.verbose("launching application")
+        window = UIWindow(frame: UIScreen.main.bounds)
+        let rootViewController = RootViewController()
+        window!.rootViewController = rootViewController
+        window!.makeKeyAndVisible()
         // Override point for customization after application launch.
         return true
     }
@@ -27,10 +33,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        if let controller = window?.rootViewController as? RootViewController {
+            controller.applicationDidEnterBackground()
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        if let controller = window?.rootViewController as? RootViewController {
+            controller.applicationWillEnterForeground()
+        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -44,3 +56,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// swiftlint:enable line_length
