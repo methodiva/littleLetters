@@ -13,7 +13,7 @@ protocol CameraViewNodeProtocol {
 extension SCNNode: CameraViewNodeProtocol {
     func addChildNode(_ node: CameraViewNodeProtocol) {
         guard let scnNode = node as? SCNNode else {
-            log.error("Node needs to be SCNNode")
+            log.error("Node needs to be of data type SCNNode")
             return
         }
         self.addChildNode(scnNode)
@@ -24,10 +24,10 @@ class ARCameraView: ARSCNView, ARSCNViewDelegate, CameraTypeProtocol {
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
         self.delegate = self as ARSCNViewDelegate
-        initUI()
+        initScene()
     }
     
-    func initUI() {
+    private func initScene() {
         self.autoenablesDefaultLighting = true
         self.scene = SCNScene()
     }
@@ -36,16 +36,16 @@ class ARCameraView: ARSCNView, ARSCNViewDelegate, CameraTypeProtocol {
         let configuration = ARWorldTrackingConfiguration()
         configuration.isLightEstimationEnabled = true
         self.session.run(configuration)
-        log.verbose("ARSession started")
+        log.verbose("AR Session started")
     }
     
     func stopCameraSession() {
-        log.verbose("ARSession paused")
+        log.verbose("AR Session paused")
         self.session.pause()
     }
     
-    func getImage() -> CameraImageViewProtocol {
-        log.verbose("Image captured from ARCamera")
+    func getImage() -> CameraImageViewProtocol? {
+        log.verbose("Image captured from AR Camera")
         return self.snapshot()
     }
     

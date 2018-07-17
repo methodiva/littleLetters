@@ -8,7 +8,7 @@ enum CameraType: String {
 }
 
 protocol CameraTypeProtocol {
-    func getImage() -> CameraImageViewProtocol
+    func getImage() -> CameraImageViewProtocol?
     func startCameraSession()
     func stopCameraSession()
 }
@@ -25,11 +25,11 @@ class CameraView: UIView, CameraViewProtocol {
             return
         }
         self.featureLogic = logic
-        self.isUserInteractionEnabled = false
+        self.isUserInteractionEnabled = true
         initUI()
     }
-
-    func initUI() {
+    
+    private func initUI() {
         switch gameCameraType {
         case .ARCamera:
             cameraView = ARCameraView()
