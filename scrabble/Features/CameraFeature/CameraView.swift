@@ -1,23 +1,22 @@
-import ARKit
-import SceneKit
+import UIKit
 
-// just makes SCNNode satisfy CameraViewNodeProtocol, so that
-// feature views can create SCNNodes and pass them around to
-// camera feature as CameraViewNodeProtocol
-extension SCNNode: CameraViewNodeProtocol {
-    func addChildNode(_ node: CameraViewNodeProtocol) {
-        guard let scnNode = node as? SCNNode else {
-            log.error("Node needs to be SCNNode")
-            return
-        }
-        self.addChildNode(scnNode)
-    }
+extension UIImage: CameraImageViewProtocol {}
+
+enum CameraType: String {
+    case ARCamera = "ARCamera"
+    case AVFoundationCamera = "AVFoundationCamera"
 }
 
+protocol CameraTypeProtocol {
+    func getImage() -> CameraImageViewProtocol
+    func startCameraSession()
+    func stopCameraSession()
+}
 
-class CameraView: ARSCNView, ARSCNViewDelegate, CameraViewProtocol {
-
+class CameraView: UIView, CameraViewProtocol {
     weak var featureLogic: CameraLogicProtocol!
+    let gameCameraType = CameraType.AVFoundationCamera
+    var cameraView: CameraTypeProtocol?
    
     convenience init(_ featureLogic: FeatureLogicProtocol) {
         self.init(frame: UIScreen.main.bounds)
@@ -27,75 +26,39 @@ class CameraView: ARSCNView, ARSCNViewDelegate, CameraViewProtocol {
         }
         self.featureLogic = logic
         self.isUserInteractionEnabled = false
-        self.delegate = self as ARSCNViewDelegate
         initUI()
-        initConstraints()
     }
 
     func initUI() {
-        self.autoenablesDefaultLighting = true
-        self.debugOptions = [
-//            .showWorldOrigin,
-//            .showFeaturePoints,
-//            .showBoundingBoxes,
-        ]
-        self.scene = SCNScene()
-    }
-
-    func initConstraints() {
-    }
-
-    // MARK: - Property getters and setters
-    var cameraPosition: Vector {
-        get {
-            if let cameraNode = self.pointOfView {
-                return cameraNode.position
-            }
-            return Vector()
+        switch gameCameraType {
+        case .ARCamera:
+            cameraView = ARCameraView()
+        case .AVFoundationCamera:
+            cameraView = ARFoundationCameraView()
         }
-        set(newCameraPosition) {
-            self.pointOfView?.position = newCameraPosition
+        if let view = cameraView as? UIView {
+            log.verbose("Added camera view of type: ", gameCameraType.rawValue)
+            self.addSubview(view)
         }
     }
-
-    var cameraTransform: Transform {
-        get {
-            if let cameraNode = self.pointOfView {
-                return cameraNode.transform
-            }
-            return Transform()
-        }
-        set(newCameraTransform) {
-            self.pointOfView?.transform = newCameraTransform
-        }
+   
+    func startCameraSession() {
+        self.cameraView?.startCameraSession()
     }
 
-    // MARK: - ARSCNViewDelegate
-
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        self.featureLogic.onRendererUpdate()
+    func stopCameraSession() {
+        self.cameraView?.stopCameraSession()
     }
-
-    // MARK: - CameraViewProtocol
-
-    func startARSession() {
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.isLightEstimationEnabled = true
-        self.session.run(configuration)
-    }
-
-    func stopARSession() {
-        self.session.pause()
-    }
-
-    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+    
+    func captureImage() -> CameraImageViewProtocol? {
+        return self.cameraView?.getImage()
     }
 
     func addNode(_ node: CameraViewNodeProtocol) {
-        guard let sceneNode = node as? SCNNode else {
-            log.error("Invalid scene node provided to camera view")
-            return
+        if let arCamera = cameraView as? ARCameraView {
+            arCamera.addNode(node)
+        } else {
+            log.warning("Not Using ARCamera Currently")
         }
-        scene.rootNode.addChildNode(sceneNode)
     }
 }
