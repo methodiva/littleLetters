@@ -30,10 +30,10 @@ class ARFoundationCameraView: UIView, CameraTypeProtocol {
         previewLayer.frame = self.frame
     }
     
-    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?) {
+    func captureImage(_ imageCaptureCallback: ((CameraImageProtocol) -> Void)?) {
         let photoSettings = AVCapturePhotoSettings()
         photoOutput.capturePhoto(with: photoSettings, delegate: self)
-        capturedImageCallback = imageCallBack
+        capturedImageCallback = imageCaptureCallback
     }
     
     func startCameraSession() {

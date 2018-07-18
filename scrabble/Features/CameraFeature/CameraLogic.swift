@@ -44,7 +44,7 @@ class CameraLogic: CameraLogicProtocol {
         cameraView.addNode(node)
     }
     
-    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?) {
-        self.view?.captureImage(imageCallBack)
+    func captureImage(_ imageCaptureCallback: ((CameraImageProtocol) -> Void)?) {
+        self.view?.captureImage(imageCaptureCallback)
     }
 }

@@ -10,7 +10,7 @@ enum CameraType: String {
 protocol CameraTypeProtocol {
     func startCameraSession()
     func stopCameraSession()
-    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?)
+    func captureImage(_ imageCaptureCallback: ((CameraImageProtocol) -> Void)?)
 }
 
 class CameraView: UIView, CameraViewProtocol {
@@ -50,8 +50,8 @@ class CameraView: UIView, CameraViewProtocol {
         self.cameraView?.stopCameraSession()
     }
     
-    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?) {
-        self.cameraView?.captureImage(imageCallBack)
+    func captureImage(_ imageCaptureCallback: ((CameraImageProtocol) -> Void)?) {
+        self.cameraView?.captureImage(imageCaptureCallback)
     }
 
     func addNode(_ node: CameraViewNodeProtocol) {

@@ -44,10 +44,10 @@ class ARCameraView: ARSCNView, ARSCNViewDelegate, CameraTypeProtocol {
         self.session.pause()
     }
     
-    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?) {
+    func captureImage(_ imageCaptureCallback: ((CameraImageProtocol) -> Void)?) {
         let image = self.snapshot()
         log.verbose("Image captured from AR Camera")
-        imageCallBack?(image)
+        imageCaptureCallback?(image)
     }
     
     func addNode(_ node: CameraViewNodeProtocol) {
