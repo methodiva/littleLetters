@@ -1,6 +1,6 @@
 import UIKit
 
-extension UIImage: CameraImageViewProtocol {}
+extension UIImage: CameraImageProtocol {}
 
 enum CameraType: String {
     case ARCamera = "ARCamera"
@@ -8,14 +8,14 @@ enum CameraType: String {
 }
 
 protocol CameraTypeProtocol {
-    func getImage() -> CameraImageViewProtocol?
     func startCameraSession()
     func stopCameraSession()
+    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?)
 }
 
 class CameraView: UIView, CameraViewProtocol {
     weak var featureLogic: CameraLogicProtocol!
-    let gameCameraType = CameraType.AVFoundationCamera
+    let gameCameraType = CameraType.ARCamera
     var cameraView: CameraTypeProtocol?
    
     convenience init(_ featureLogic: FeatureLogicProtocol) {
@@ -50,8 +50,8 @@ class CameraView: UIView, CameraViewProtocol {
         self.cameraView?.stopCameraSession()
     }
     
-    func captureImage() -> CameraImageViewProtocol? {
-        return self.cameraView?.getImage()
+    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?) {
+        self.cameraView?.captureImage(imageCallBack)
     }
 
     func addNode(_ node: CameraViewNodeProtocol) {

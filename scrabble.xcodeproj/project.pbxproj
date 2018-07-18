@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D73792E20F0B6CF00885CEB /* AppDelegate.swift */; };
-		5D73793120F0B6CF00885CEB /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793020F0B6CF00885CEB /* art.scnassets */; };
 		5D73793820F0B6D000885CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793720F0B6D000885CEB /* Assets.xcassets */; };
 		5D73793B20F0B6D000885CEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793920F0B6D000885CEB /* LaunchScreen.storyboard */; };
 		5D86358E20FE446A005E7141 /* ARCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D86358D20FE446A005E7141 /* ARCameraView.swift */; };
@@ -27,7 +26,6 @@
 		208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.debug.xcconfig"; sourceTree = "<group>"; };
 		5D73792B20F0B6CF00885CEB /* scrabble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scrabble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D73792E20F0B6CF00885CEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5D73793020F0B6CF00885CEB /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		5D73793720F0B6D000885CEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D73793A20F0B6D000885CEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5D73793C20F0B6D000885CEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -90,7 +88,6 @@
 				5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */,
 				5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */,
 				5DF346DD20F0E148006FFCF8 /* Features */,
-				5D73793020F0B6CF00885CEB /* art.scnassets */,
 				5DF346D720F0DB82006FFCF8 /* Feature.swift */,
 				5DF346D820F0DB82006FFCF8 /* Logger.swift */,
 				5DF346D920F0DB82006FFCF8 /* RootViewController.swift */,
@@ -188,7 +185,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D73793120F0B6CF00885CEB /* art.scnassets in Resources */,
 				5D73793B20F0B6D000885CEB /* LaunchScreen.storyboard in Resources */,
 				5D73793820F0B6D000885CEB /* Assets.xcassets in Resources */,
 			);

@@ -1,18 +1,18 @@
 protocol CameraViewProtocol: FeatureViewProtocol {
     func startCameraSession()
     func stopCameraSession()
-    func captureImage() -> CameraImageViewProtocol?
+    func captureImage(_ imageCallBack: ((_ image: CameraImageProtocol) -> Void)?)
     func addNode(_ node: CameraViewNodeProtocol)
 }
 
-protocol CameraImageViewProtocol {}
+protocol CameraImageProtocol {}
 
 protocol CameraLogicProtocol: FeatureLogicProtocol {
     func addNode(_ node: CameraViewNodeProtocol)
+    func captureImage(_ imageCallBack: ((_ image: CameraImageProtocol) -> Void)?)
 }
 
 class CameraLogic: CameraLogicProtocol {
-
     private weak var view: CameraViewProtocol?
     
     // MARK: - FeatureProtocol conformance
@@ -27,12 +27,12 @@ class CameraLogic: CameraLogicProtocol {
     }
 
     func willAppear(_ animated: Bool) {
-        log.verbose("Starting AR session")
+        log.verbose("Starting camera session")
         view?.startCameraSession()
     }
 
     func willDisappear(_ animated: Bool) {
-        log.verbose("Stopping AR session")
+        log.verbose("Stopping camera session")
         view?.stopCameraSession()
     }
     
@@ -41,7 +41,10 @@ class CameraLogic: CameraLogicProtocol {
             log.error("Camera view not initialized")
             return
         }
-        log.verbose("Adding Node: \(String(describing: node))")
         cameraView.addNode(node)
+    }
+    
+    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?) {
+        self.view?.captureImage(imageCallBack)
     }
 }

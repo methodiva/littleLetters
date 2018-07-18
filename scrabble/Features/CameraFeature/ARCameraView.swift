@@ -44,9 +44,10 @@ class ARCameraView: ARSCNView, ARSCNViewDelegate, CameraTypeProtocol {
         self.session.pause()
     }
     
-    func getImage() -> CameraImageViewProtocol? {
+    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?) {
+        let image = self.snapshot()
         log.verbose("Image captured from AR Camera")
-        return self.snapshot()
+        imageCallBack?(image)
     }
     
     func addNode(_ node: CameraViewNodeProtocol) {
@@ -55,6 +56,6 @@ class ARCameraView: ARSCNView, ARSCNViewDelegate, CameraTypeProtocol {
             return
         }
         scene.rootNode.addChildNode(sceneNode)
-        log.verbose("Node added", sceneNode.debugDescription)
+        log.verbose("Node added: \(String(describing: node))")
     }
 }

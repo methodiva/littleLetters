@@ -2,11 +2,11 @@ import UIKit
 import Foundation
 import AVKit
 
-class ARFoundationCameraView: UIView, CameraTypeProtocol{
+class ARFoundationCameraView: UIView, CameraTypeProtocol {
     
     let captureSession = AVCaptureSession()
     let photoOutput = AVCapturePhotoOutput()
-    var capturedImage: UIImage?
+    var capturedImageCallback: ((CameraImageProtocol) -> Void)?
     
     convenience init() {
         self.init(frame: UIScreen.main.bounds)
@@ -30,10 +30,10 @@ class ARFoundationCameraView: UIView, CameraTypeProtocol{
         previewLayer.frame = self.frame
     }
     
-    func getImage() -> CameraImageViewProtocol? {
+    func captureImage(_ imageCallBack: ((CameraImageProtocol) -> Void)?) {
         let photoSettings = AVCapturePhotoSettings()
         photoOutput.capturePhoto(with: photoSettings, delegate: self)
-        return capturedImage
+        capturedImageCallback = imageCallBack
     }
     
     func startCameraSession() {
@@ -56,6 +56,8 @@ extension ARFoundationCameraView: AVCapturePhotoCaptureDelegate {
             let image =  UIImage(data: data)  else {
                 return
         }
-        self.capturedImage = image
+        log.verbose("Image captured from AV Foundation camera")
+        capturedImageCallback?(image)
+        capturedImageCallback = nil
     }
 }
