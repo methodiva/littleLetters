@@ -25,7 +25,7 @@ class CameraView: UIView, CameraViewProtocol {
             return
         }
         self.featureLogic = logic
-        self.isUserInteractionEnabled = true
+        self.isUserInteractionEnabled = false
         initUI()
     }
     

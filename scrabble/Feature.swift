@@ -9,7 +9,15 @@ struct Feature {
 
 // swiftlint:disable identifier_name
 enum FeatureName {
-    case CameraFeature
+    case Camera
+    case HomeScreen
+    case StartGameScreen
+    case EndGameScreen
+    case GameScreen
+    case TutorialScreen
+    case SettingsScreen
+    case LoadGameScreen
+    
 }
 // swiftlint:enable identifier_name
 

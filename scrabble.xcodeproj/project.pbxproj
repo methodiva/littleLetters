@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */; };
+		5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */; };
+		5D36EC502100A98700DCFBE4 /* LoadGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4F2100A98700DCFBE4 /* LoadGameScreenLogic.swift */; };
+		5D36EC532100A9EC00DCFBE4 /* LoadGameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC522100A9EC00DCFBE4 /* LoadGameScreenView.swift */; };
+		5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC542100A9FF00DCFBE4 /* StartGameScreenLogic.swift */; };
+		5D36EC572100AA0C00DCFBE4 /* StartGameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC562100AA0C00DCFBE4 /* StartGameScreenView.swift */; };
+		5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC592100AA7400DCFBE4 /* SettingsScreenLogic.swift */; };
+		5D36EC5C2100AA8300DCFBE4 /* SettingsScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC5B2100AA8300DCFBE4 /* SettingsScreenView.swift */; };
+		5D36EC5F2100AAAE00DCFBE4 /* TutorialScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC5E2100AAAE00DCFBE4 /* TutorialScreenLogic.swift */; };
+		5D36EC612100AABB00DCFBE4 /* TutorialScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC602100AABB00DCFBE4 /* TutorialScreenView.swift */; };
+		5D36EC642100AAE000DCFBE4 /* GameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC632100AAE000DCFBE4 /* GameScreenView.swift */; };
+		5D36EC662100AAEB00DCFBE4 /* GameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC652100AAEB00DCFBE4 /* GameScreenLogic.swift */; };
+		5D36EC692100AB2F00DCFBE4 /* EndGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC682100AB2F00DCFBE4 /* EndGameScreenLogic.swift */; };
+		5D36EC6B2100AB3D00DCFBE4 /* EndGameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC6A2100AB3C00DCFBE4 /* EndGameScreenView.swift */; };
 		5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D73792E20F0B6CF00885CEB /* AppDelegate.swift */; };
 		5D73793820F0B6D000885CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793720F0B6D000885CEB /* Assets.xcassets */; };
 		5D73793B20F0B6D000885CEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793920F0B6D000885CEB /* LaunchScreen.storyboard */; };
@@ -19,11 +33,26 @@
 		5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346E920F0E148006FFCF8 /* CameraView.swift */; };
 		5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */; };
 		5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */; };
+		5DF85E462100C8C20079CD18 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF85E452100C8C20079CD18 /* BackButton.swift */; };
 		BF4FF8A1F372414F91DD4946 /* Pods_scrabble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DE57D99B9E3DF8F81F4D7BF /* Pods_scrabble.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.debug.xcconfig"; sourceTree = "<group>"; };
+		5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
+		5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenLogic.swift; sourceTree = "<group>"; };
+		5D36EC4F2100A98700DCFBE4 /* LoadGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGameScreenLogic.swift; sourceTree = "<group>"; };
+		5D36EC522100A9EC00DCFBE4 /* LoadGameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGameScreenView.swift; sourceTree = "<group>"; };
+		5D36EC542100A9FF00DCFBE4 /* StartGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameScreenLogic.swift; sourceTree = "<group>"; };
+		5D36EC562100AA0C00DCFBE4 /* StartGameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameScreenView.swift; sourceTree = "<group>"; };
+		5D36EC592100AA7400DCFBE4 /* SettingsScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenLogic.swift; sourceTree = "<group>"; };
+		5D36EC5B2100AA8300DCFBE4 /* SettingsScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenView.swift; sourceTree = "<group>"; };
+		5D36EC5E2100AAAE00DCFBE4 /* TutorialScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreenLogic.swift; sourceTree = "<group>"; };
+		5D36EC602100AABB00DCFBE4 /* TutorialScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreenView.swift; sourceTree = "<group>"; };
+		5D36EC632100AAE000DCFBE4 /* GameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenView.swift; sourceTree = "<group>"; };
+		5D36EC652100AAEB00DCFBE4 /* GameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenLogic.swift; sourceTree = "<group>"; };
+		5D36EC682100AB2F00DCFBE4 /* EndGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameScreenLogic.swift; sourceTree = "<group>"; };
+		5D36EC6A2100AB3C00DCFBE4 /* EndGameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameScreenView.swift; sourceTree = "<group>"; };
 		5D73792B20F0B6CF00885CEB /* scrabble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scrabble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D73792E20F0B6CF00885CEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D73793720F0B6D000885CEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,6 +67,7 @@
 		5DF346E920F0E148006FFCF8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraLogic.swift; sourceTree = "<group>"; };
 		5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 3DTypes.swift; sourceTree = "<group>"; };
+		5DF85E452100C8C20079CD18 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		9DE57D99B9E3DF8F81F4D7BF /* Pods_scrabble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scrabble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.release.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,6 +93,83 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5D36EC492100A88300DCFBE4 /* HomeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */,
+				5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */,
+			);
+			path = HomeScreen;
+			sourceTree = "<group>";
+		};
+		5D36EC4E2100A96800DCFBE4 /* LoadGameScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5D36EC4F2100A98700DCFBE4 /* LoadGameScreenLogic.swift */,
+				5D36EC522100A9EC00DCFBE4 /* LoadGameScreenView.swift */,
+			);
+			path = LoadGameScreen;
+			sourceTree = "<group>";
+		};
+		5D36EC512100A9BC00DCFBE4 /* StartGameScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5D36EC542100A9FF00DCFBE4 /* StartGameScreenLogic.swift */,
+				5D36EC562100AA0C00DCFBE4 /* StartGameScreenView.swift */,
+			);
+			path = StartGameScreen;
+			sourceTree = "<group>";
+		};
+		5D36EC582100AA5F00DCFBE4 /* SettingsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5D36EC592100AA7400DCFBE4 /* SettingsScreenLogic.swift */,
+				5D36EC5B2100AA8300DCFBE4 /* SettingsScreenView.swift */,
+			);
+			path = SettingsScreen;
+			sourceTree = "<group>";
+		};
+		5D36EC5D2100AA9500DCFBE4 /* TutorialScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5D36EC5E2100AAAE00DCFBE4 /* TutorialScreenLogic.swift */,
+				5D36EC602100AABB00DCFBE4 /* TutorialScreenView.swift */,
+			);
+			path = TutorialScreen;
+			sourceTree = "<group>";
+		};
+		5D36EC622100AACD00DCFBE4 /* GameScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5D36EC652100AAEB00DCFBE4 /* GameScreenLogic.swift */,
+				5D36EC632100AAE000DCFBE4 /* GameScreenView.swift */,
+			);
+			path = GameScreen;
+			sourceTree = "<group>";
+		};
+		5D36EC672100AB1700DCFBE4 /* EndGameScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5D36EC682100AB2F00DCFBE4 /* EndGameScreenLogic.swift */,
+				5D36EC6A2100AB3C00DCFBE4 /* EndGameScreenView.swift */,
+			);
+			path = EndGameScreen;
+			sourceTree = "<group>";
+		};
+		5D36EC6C2100B00500DCFBE4 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				5D36EC492100A88300DCFBE4 /* HomeScreen */,
+				5D36EC512100A9BC00DCFBE4 /* StartGameScreen */,
+				5D36EC4E2100A96800DCFBE4 /* LoadGameScreen */,
+				5D36EC5D2100AA9500DCFBE4 /* TutorialScreen */,
+				5D36EC582100AA5F00DCFBE4 /* SettingsScreen */,
+				5D36EC622100AACD00DCFBE4 /* GameScreen */,
+				5D36EC672100AB1700DCFBE4 /* EndGameScreen */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		5D73792220F0B6CF00885CEB = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +191,7 @@
 		5D73792D20F0B6CF00885CEB /* scrabble */ = {
 			isa = PBXGroup;
 			children = (
+				5DF85E442100C8B10079CD18 /* Components */,
 				5D73792E20F0B6CF00885CEB /* AppDelegate.swift */,
 				5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */,
 				5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */,
@@ -101,20 +209,29 @@
 		5DF346DD20F0E148006FFCF8 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				5DF346E820F0E148006FFCF8 /* CameraFeature */,
+				5D36EC6C2100B00500DCFBE4 /* Screens */,
+				5DF346E820F0E148006FFCF8 /* Camera */,
 			);
 			path = Features;
 			sourceTree = "<group>";
 		};
-		5DF346E820F0E148006FFCF8 /* CameraFeature */ = {
+		5DF346E820F0E148006FFCF8 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				5DF346E920F0E148006FFCF8 /* CameraView.swift */,
 				5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */,
+				5DF346E920F0E148006FFCF8 /* CameraView.swift */,
 				5D86358D20FE446A005E7141 /* ARCameraView.swift */,
 				5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */,
 			);
-			path = CameraFeature;
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		5DF85E442100C8B10079CD18 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5DF85E452100C8C20079CD18 /* BackButton.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		5FDBE47E7E4C2E080F262E69 /* Frameworks */ = {
@@ -239,15 +356,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */,
+				5D36EC572100AA0C00DCFBE4 /* StartGameScreenView.swift in Sources */,
+				5D36EC642100AAE000DCFBE4 /* GameScreenView.swift in Sources */,
+				5D36EC612100AABB00DCFBE4 /* TutorialScreenView.swift in Sources */,
+				5DF85E462100C8C20079CD18 /* BackButton.swift in Sources */,
 				5DF346DB20F0DB82006FFCF8 /* Logger.swift in Sources */,
+				5D36EC5C2100AA8300DCFBE4 /* SettingsScreenView.swift in Sources */,
 				5DF346DA20F0DB82006FFCF8 /* Feature.swift in Sources */,
+				5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */,
+				5D36EC662100AAEB00DCFBE4 /* GameScreenLogic.swift in Sources */,
 				5D86359020FE4483005E7141 /* AVFoundationCameraView.swift in Sources */,
 				5DF346DC20F0DB82006FFCF8 /* RootViewController.swift in Sources */,
 				5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */,
+				5D36EC502100A98700DCFBE4 /* LoadGameScreenLogic.swift in Sources */,
 				5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */,
+				5D36EC6B2100AB3D00DCFBE4 /* EndGameScreenView.swift in Sources */,
+				5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */,
+				5D36EC692100AB2F00DCFBE4 /* EndGameScreenLogic.swift in Sources */,
+				5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */,
 				5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */,
 				5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */,
+				5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */,
+				5D36EC532100A9EC00DCFBE4 /* LoadGameScreenView.swift in Sources */,
 				5D86358E20FE446A005E7141 /* ARCameraView.swift in Sources */,
+				5D36EC5F2100AAAE00DCFBE4 /* TutorialScreenLogic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
