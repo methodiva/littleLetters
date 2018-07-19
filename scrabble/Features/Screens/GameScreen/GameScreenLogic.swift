@@ -1,12 +1,19 @@
+import Foundation
+
 protocol GameScreenViewProtocol: FeatureViewProtocol {
+    func onTapBackButton(_ target: Any?, _ handler: Selector)
+    func onTapGameOverButton(_ target: Any?, _ handler: Selector)
 }
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
-    func startGame()
+    func show()
 }
 
 class GameScreenLogic: GameScreenLogicProtocol {
     private weak var view: GameScreenViewProtocol?
+    private weak var homeScreenLogic: HomeScreenLogicProtocol?
+    private weak var cameraLogic: CameraLogicProtocol?
+    private weak var endGameScreenLogic: EndGameScreenLogicProtocol?
     
     // MARK: - FeatureProtocol conformance
     func initialize(root: RootProtocol,
@@ -16,7 +23,19 @@ class GameScreenLogic: GameScreenLogicProtocol {
             log.error("Unknown view type")
             return
         }
+        guard let deps = dependencies,
+            let homeScreenLogic = deps[.HomeScreen] as? HomeScreenLogicProtocol,
+            let endGameScreenLogic = deps[.EndGameScreen] as? EndGameScreenLogicProtocol,
+            let cameraLogic = deps[.Camera] as? CameraLogicProtocol else {
+                log.error("Dependency unfulfilled")
+                return
+        }
+        self.homeScreenLogic = homeScreenLogic
+        self.endGameScreenLogic = endGameScreenLogic
+        self.cameraLogic = cameraLogic
         self.view = uiView
+        self.view?.onTapBackButton(self, #selector(goBack))
+        self.view?.onTapGameOverButton(self, #selector(endGame))
     }
     
     func willAppear(_ animated: Bool) {
@@ -24,9 +43,28 @@ class GameScreenLogic: GameScreenLogicProtocol {
     
     func willDisappear(_ animated: Bool) {
     }
+     
+    @objc
+    func goBack() {
+        log.verbose("Stopping connect dots game")
+        self.view?.hide {
+            self.homeScreenLogic?.show{}
+        }
+    }
     
-    func startGame() {
+    @objc
+    func endGame() {
+        log.verbose("Stopping connect dots game")
+        self.view?.hide {
+            self.endGameScreenLogic?.show()
+        }
+    }
+    
+    func show() {
         log.verbose("Started Game")
+        self.view?.show{
+            
+        }
     }
     
     

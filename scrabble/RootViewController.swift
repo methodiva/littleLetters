@@ -43,13 +43,13 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .GameScreen: Feature(
             logic: GameScreenLogic(),
-            dependencies: nil,
+            dependencies: [.HomeScreen, .EndGameScreen, .Camera],
             view: nil,
             viewOrder: 7
         ),
         .EndGameScreen: Feature(
             logic: EndGameScreenLogic(),
-            dependencies: nil,
+            dependencies: [.HomeScreen],
             view: nil,
             viewOrder: 8
         )

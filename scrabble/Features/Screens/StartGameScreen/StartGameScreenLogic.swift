@@ -52,7 +52,9 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     
     @objc
     func startGame() {
-        self.gameScreenLogic?.startGame()
+        self.view?.hide({
+            self.gameScreenLogic?.show()
+        })
     }
     
     func willAppear(_ animated: Bool) {

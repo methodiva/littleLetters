@@ -1,11 +1,17 @@
+import Foundation
+
 protocol EndGameScreenViewProtocol: FeatureViewProtocol {
+    func onTapBackButton(_ target: Any?, _ handler: Selector)
 }
 
 protocol EndGameScreenLogicProtocol: FeatureLogicProtocol {
+    func show()
 }
 
 class EndGameScreenLogic: EndGameScreenLogicProtocol {
     private weak var view: EndGameScreenViewProtocol?
+    
+    private weak var homeScreenLogic: HomeScreenLogicProtocol?
     
     // MARK: - FeatureProtocol conformance
     func initialize(root: RootProtocol,
@@ -15,7 +21,28 @@ class EndGameScreenLogic: EndGameScreenLogicProtocol {
             log.error("Unknown view type")
             return
         }
+        guard let deps = dependencies,
+            let homeScreenLogic = deps[.HomeScreen] as? HomeScreenLogicProtocol else {
+                log.error("Dependency unfulfilled")
+                return
+        }
+        
+        self.homeScreenLogic = homeScreenLogic
+        
         self.view = uiView
+        self.view?.onTapBackButton(self, #selector(goBack))
+    }
+    
+    @objc
+    func goBack() {
+        log.verbose("Stopping connect dots game")
+        self.view?.hide {
+            self.homeScreenLogic?.show{}
+        }
+    }
+    
+    func show() {
+        self.view?.show{}
     }
     
     func willAppear(_ animated: Bool) {
