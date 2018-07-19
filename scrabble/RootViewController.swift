@@ -13,7 +13,7 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .HomeScreen: Feature(
             logic: HomeScreenLogic(),
-            dependencies: [.StartGameScreen, .LoadGameScreen, .TutorialScreen, .SettingsScreen],
+            dependencies: [.StartGameScreen, .JoinGameScreen, .TutorialScreen, .SettingsScreen],
             view: nil,
             viewOrder: 2
         ),
@@ -23,8 +23,8 @@ class RootViewController: UIViewController, RootProtocol {
             view: nil,
             viewOrder: 3
         ),
-        .LoadGameScreen: Feature(
-            logic: LoadGameScreenLogic(),
+        .JoinGameScreen: Feature(
+            logic: JoinGameScreenLogic(),
             dependencies: [.HomeScreen, .GameScreen],
             view: nil,
             viewOrder: 4
@@ -63,7 +63,7 @@ class RootViewController: UIViewController, RootProtocol {
         .Camera: { featureLogic in CameraView(featureLogic) },
         .HomeScreen: { featureLogic in HomeScreenView(featureLogic) },
         .StartGameScreen: { featureLogic in StartGameScreenView(featureLogic) },
-        .LoadGameScreen: { featureLogic in LoadGameScreenView(featureLogic) },
+        .JoinGameScreen: { featureLogic in JoinGameScreenView(featureLogic) },
         .TutorialScreen: { featureLogic in TutorialScreenView(featureLogic) },
         .SettingsScreen: { featureLogic in SettingsScreenView(featureLogic) },
         .GameScreen: { featureLogic in GameScreenView(featureLogic) },

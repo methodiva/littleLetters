@@ -110,22 +110,28 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     }
     
     func updatePlayerScore(to newScore: Int) {
+        log.verbose("Updated player score to \(String(newScore))")
         playerScoreButton.setTitle("Player Score: \(String(newScore))", for: .normal)
     }
     
     func updateEnemyScore(to newScore: Int) {
+        
+        log.verbose("Updated enemy score to \(String(newScore))")
         enemyScoreButton.setTitle("Enemy Score: \(String(newScore))", for: .normal)
     }
     
     func updateCurrentStars(to stars: Int) {
+        log.verbose("Updated current stars to \(String(stars))")
         currentStarsButton.setTitle("Current Stars: \(String(stars))", for: .normal)
     }
     
     func updateCurrentTries(to tries: Int) {
+        log.verbose("Updated current tries to \(String(tries))")
         currentTriesButton.setTitle("Current Tries: \(String(tries))", for: .normal)
     }
     
     func updateTimer(to time: Int) {
+//        log.verbose("Updated timer to \(String(time))")
         timerButton.setTitle("Current Time: \(String(time))", for: .normal)
     }
     

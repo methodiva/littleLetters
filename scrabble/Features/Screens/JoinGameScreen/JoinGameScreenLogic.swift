@@ -1,16 +1,16 @@
 import Foundation
 
-protocol LoadGameScreenViewProtocol: FeatureViewProtocol {
+protocol JoinGameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapPlayGameButton(_ target: Any?, _ handler: Selector)
 }
 
-protocol LoadGameScreenLogicProtocol: FeatureLogicProtocol {
+protocol JoinGameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
 }
 
-class LoadGameScreenLogic: LoadGameScreenLogicProtocol {
-    private weak var view: LoadGameScreenViewProtocol?
+class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
+    private weak var view: JoinGameScreenViewProtocol?
     
     private weak var homeScreenLogic: HomeScreenLogicProtocol?
     private weak var gameScreenLogic: GameScreenLogicProtocol?
@@ -19,7 +19,7 @@ class LoadGameScreenLogic: LoadGameScreenLogicProtocol {
     func initialize(root: RootProtocol,
                     view: FeatureViewProtocol?,
                     dependencies: [FeatureName: FeatureLogicProtocol]?) {
-        guard let uiView = view as? LoadGameScreenViewProtocol else {
+        guard let uiView = view as? JoinGameScreenViewProtocol else {
             log.error("Unknown view type")
             return
         }
@@ -40,26 +40,22 @@ class LoadGameScreenLogic: LoadGameScreenLogicProtocol {
     
     @objc
     func goBack() {
-        log.verbose("Stopping connect dots game")
+        log.verbose("Going back to home screen")
         self.view?.hide {
             self.homeScreenLogic?.show{}
         }
     }
     
     func show() {
+        log.verbose("Started join game screen")
         self.view?.show{}
     }
     
     @objc
     func startGame() {
+        log.verbose("Starting game")
         self.view?.hide({
             self.gameScreenLogic?.show()
         })
-    }
-    
-    func willAppear(_ animated: Bool) {
-    }
-    
-    func willDisappear(_ animated: Bool) {
     }
 }

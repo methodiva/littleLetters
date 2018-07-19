@@ -67,16 +67,10 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.view?.onTapCurrentTriesButton(self, #selector(increaseCurrentTries))
         self.view?.onTapTimerButton(self, #selector(startTimer))
     }
-    
-    func willAppear(_ animated: Bool) {
-    }
-    
-    func willDisappear(_ animated: Bool) {
-    }
      
     @objc
     func goBack() {
-        log.verbose("Stopping connect dots game")
+        log.verbose("Going back to home screen")
         self.view?.hide {
             self.homeScreenLogic?.show{}
             self.resetVariables()
@@ -85,7 +79,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     
     @objc
     func endGame() {
-        log.verbose("Stopping connect dots game")
+        log.verbose("Going to end game screen")
         self.view?.hide {
             self.endGameScreenLogic?.show()
             self.resetVariables()

@@ -2,7 +2,7 @@ import Foundation
 
 protocol HomeScreenViewProtocol: FeatureViewProtocol {
     func onTapStartGameButton(_ target: Any?, _ handler: Selector)
-    func onTapLoadGameButton(_ target: Any?, _ handler: Selector)
+    func onTapJoinGameButton(_ target: Any?, _ handler: Selector)
     func onTapSettingsButton(_ target: Any?, _ handler: Selector)
     func onTapTutorialButton(_ target: Any?, _ handler: Selector)
 }
@@ -15,7 +15,7 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
     private weak var view: HomeScreenViewProtocol?
     
     private weak var startGameScreenLogic: StartGameScreenLogicProtocol?
-    private weak var loadGameScreenLogic: LoadGameScreenLogicProtocol?
+    private weak var joinGameScreenLogic: JoinGameScreenLogicProtocol?
     private weak var tutorialGameScreenLogic: TutorialScreenLogicProtocol?
     private weak var settingsGameScreenLogic: SettingsScreenLogicProtocol?
     
@@ -29,7 +29,7 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
         }
         guard let deps = dependencies,
             let startGameScreenLogic = deps[.StartGameScreen] as? StartGameScreenLogicProtocol,
-            let loadGameScreenLogic = deps[.LoadGameScreen] as? LoadGameScreenLogicProtocol,
+            let joinGameScreenLogic = deps[.JoinGameScreen] as? JoinGameScreenLogicProtocol,
             let tutorialGameScreenLogic = deps[.TutorialScreen] as? TutorialScreenLogicProtocol,
             let settingsGameScreenLogic = deps[.SettingsScreen] as? SettingsScreenLogicProtocol else {
                 log.error("Dependency unfulfilled")
@@ -37,7 +37,7 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
         }
         self.view = uiView
         self.startGameScreenLogic = startGameScreenLogic
-        self.loadGameScreenLogic = loadGameScreenLogic
+        self.joinGameScreenLogic = joinGameScreenLogic
         self.tutorialGameScreenLogic = tutorialGameScreenLogic
         self.settingsGameScreenLogic = settingsGameScreenLogic
         
@@ -46,7 +46,7 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
     
     func linkFunctionsWithButtons() {
         self.view?.onTapStartGameButton(self, #selector(showStartGameScreen))
-        self.view?.onTapLoadGameButton(self, #selector(showLoadGameScreen))
+        self.view?.onTapJoinGameButton(self, #selector(showJoinGameScreen))
         self.view?.onTapSettingsButton(self, #selector(showSettingsScreen))
         self.view?.onTapTutorialButton(self, #selector(showTutorialScreen))
     }
@@ -60,16 +60,17 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
     }
     
     func show(_ onShowing: (() -> Void)?) {
+        log.verbose("Showing home screen")
         self.view?.show{
             onShowing?()
         }
     }
     
     @objc
-    func showLoadGameScreen() {
-        log.verbose("Showing load game screen")
+    func showJoinGameScreen() {
+        log.verbose("Showing join game screen")
         self.view?.hide{
-            self.loadGameScreenLogic?.show()
+            self.joinGameScreenLogic?.show()
         }
     }
     

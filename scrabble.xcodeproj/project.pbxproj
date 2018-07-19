@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */; };
 		5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */; };
-		5D36EC502100A98700DCFBE4 /* LoadGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4F2100A98700DCFBE4 /* LoadGameScreenLogic.swift */; };
-		5D36EC532100A9EC00DCFBE4 /* LoadGameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC522100A9EC00DCFBE4 /* LoadGameScreenView.swift */; };
+		5D36EC502100A98700DCFBE4 /* JoinGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */; };
+		5D36EC532100A9EC00DCFBE4 /* JoinGameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC522100A9EC00DCFBE4 /* JoinGameScreenView.swift */; };
 		5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC542100A9FF00DCFBE4 /* StartGameScreenLogic.swift */; };
 		5D36EC572100AA0C00DCFBE4 /* StartGameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC562100AA0C00DCFBE4 /* StartGameScreenView.swift */; };
 		5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC592100AA7400DCFBE4 /* SettingsScreenLogic.swift */; };
@@ -41,8 +41,8 @@
 		208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.debug.xcconfig"; sourceTree = "<group>"; };
 		5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenLogic.swift; sourceTree = "<group>"; };
-		5D36EC4F2100A98700DCFBE4 /* LoadGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGameScreenLogic.swift; sourceTree = "<group>"; };
-		5D36EC522100A9EC00DCFBE4 /* LoadGameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadGameScreenView.swift; sourceTree = "<group>"; };
+		5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGameScreenLogic.swift; sourceTree = "<group>"; };
+		5D36EC522100A9EC00DCFBE4 /* JoinGameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGameScreenView.swift; sourceTree = "<group>"; };
 		5D36EC542100A9FF00DCFBE4 /* StartGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameScreenLogic.swift; sourceTree = "<group>"; };
 		5D36EC562100AA0C00DCFBE4 /* StartGameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGameScreenView.swift; sourceTree = "<group>"; };
 		5D36EC592100AA7400DCFBE4 /* SettingsScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenLogic.swift; sourceTree = "<group>"; };
@@ -102,13 +102,13 @@
 			path = HomeScreen;
 			sourceTree = "<group>";
 		};
-		5D36EC4E2100A96800DCFBE4 /* LoadGameScreen */ = {
+		5D36EC4E2100A96800DCFBE4 /* JoinGameScreen */ = {
 			isa = PBXGroup;
 			children = (
-				5D36EC4F2100A98700DCFBE4 /* LoadGameScreenLogic.swift */,
-				5D36EC522100A9EC00DCFBE4 /* LoadGameScreenView.swift */,
+				5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */,
+				5D36EC522100A9EC00DCFBE4 /* JoinGameScreenView.swift */,
 			);
-			path = LoadGameScreen;
+			path = JoinGameScreen;
 			sourceTree = "<group>";
 		};
 		5D36EC512100A9BC00DCFBE4 /* StartGameScreen */ = {
@@ -161,7 +161,7 @@
 			children = (
 				5D36EC492100A88300DCFBE4 /* HomeScreen */,
 				5D36EC512100A9BC00DCFBE4 /* StartGameScreen */,
-				5D36EC4E2100A96800DCFBE4 /* LoadGameScreen */,
+				5D36EC4E2100A96800DCFBE4 /* JoinGameScreen */,
 				5D36EC5D2100AA9500DCFBE4 /* TutorialScreen */,
 				5D36EC582100AA5F00DCFBE4 /* SettingsScreen */,
 				5D36EC622100AACD00DCFBE4 /* GameScreen */,
@@ -368,7 +368,7 @@
 				5D86359020FE4483005E7141 /* AVFoundationCameraView.swift in Sources */,
 				5DF346DC20F0DB82006FFCF8 /* RootViewController.swift in Sources */,
 				5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */,
-				5D36EC502100A98700DCFBE4 /* LoadGameScreenLogic.swift in Sources */,
+				5D36EC502100A98700DCFBE4 /* JoinGameScreenLogic.swift in Sources */,
 				5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */,
 				5D36EC6B2100AB3D00DCFBE4 /* EndGameScreenView.swift in Sources */,
 				5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */,
@@ -377,7 +377,7 @@
 				5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */,
 				5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */,
 				5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */,
-				5D36EC532100A9EC00DCFBE4 /* LoadGameScreenView.swift in Sources */,
+				5D36EC532100A9EC00DCFBE4 /* JoinGameScreenView.swift in Sources */,
 				5D86358E20FE446A005E7141 /* ARCameraView.swift in Sources */,
 				5D36EC5F2100AAAE00DCFBE4 /* TutorialScreenLogic.swift in Sources */,
 			);

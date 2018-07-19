@@ -35,19 +35,14 @@ class EndGameScreenLogic: EndGameScreenLogicProtocol {
     
     @objc
     func goBack() {
-        log.verbose("Stopping connect dots game")
+        log.verbose("Going back to home screen")
         self.view?.hide {
             self.homeScreenLogic?.show{}
         }
     }
     
     func show() {
+        log.verbose("Started end game screen")
         self.view?.show{}
-    }
-    
-    func willAppear(_ animated: Bool) {
-    }
-    
-    func willDisappear(_ animated: Bool) {
     }
 }

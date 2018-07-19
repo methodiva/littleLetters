@@ -1,11 +1,11 @@
 import UIKit
 
-class LoadGameScreenView: UIView, LoadGameScreenViewProtocol {
-    weak var featureLogic: LoadGameScreenLogicProtocol!
+class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
+    weak var featureLogic: JoinGameScreenLogicProtocol!
     
     convenience init(_ featureLogic: FeatureLogicProtocol) {
         self.init(frame: UIScreen.main.bounds)
-        guard let logic = featureLogic as? LoadGameScreenLogicProtocol else {
+        guard let logic = featureLogic as? JoinGameScreenLogicProtocol else {
             log.error("Invalid featureLogic provided")
             return
         }
@@ -23,7 +23,7 @@ class LoadGameScreenView: UIView, LoadGameScreenViewProtocol {
     
     func initUI() {
         self.backgroundColor = .white
-        screenTitleLabel.text = "Load Game"
+        screenTitleLabel.text = "Join Game"
         screenTitleLabel.textAlignment = .center
         playGameButton.setTitle("Play Game", for: .normal)
         playGameButton.backgroundColor = .cyan

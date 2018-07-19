@@ -40,26 +40,22 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     
     @objc
     func goBack() {
-        log.verbose("Stopping connect dots game")
+        log.verbose("Going back to home screen")
         self.view?.hide {
             self.homeScreenLogic?.show{}
         }
     }
     
     func show() {
+        log.verbose("Started game menu")
         self.view?.show{}
     }
     
     @objc
     func startGame() {
+        log.verbose("Starting game")
         self.view?.hide({
             self.gameScreenLogic?.show()
         })
-    }
-    
-    func willAppear(_ animated: Bool) {
-    }
-    
-    func willDisappear(_ animated: Bool) {
     }
 }

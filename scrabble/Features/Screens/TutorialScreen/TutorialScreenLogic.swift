@@ -35,19 +35,14 @@ class TutorialScreenLogic: TutorialScreenLogicProtocol {
     
     @objc
     func goBack() {
-        log.verbose("Stopping connect dots game")
+        log.verbose("Going back to home screen")
         self.view?.hide {
             self.homeScreenLogic?.show{}
         }
     }
     
     func show() {
+        log.verbose("Started tutorial screen")
         self.view?.show{}
-    }
-    
-    func willAppear(_ animated: Bool) {
-    }
-    
-    func willDisappear(_ animated: Bool) {
     }
 }

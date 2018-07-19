@@ -20,7 +20,7 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
     
     let gameTitleLabel = UILabel()
     let startGameButton = UIButton()
-    let loadGameButton = UIButton()
+    let joinGameButton = UIButton()
     let tutorialButton = UIButton()
     let settingsButton = UIButton()
     
@@ -30,23 +30,23 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
         gameTitleLabel.textAlignment = .center
         
         startGameButton.backgroundColor = .red
-        loadGameButton.backgroundColor = .blue
+        joinGameButton.backgroundColor = .blue
         tutorialButton.backgroundColor = .green
         settingsButton.backgroundColor = .yellow
         
         startGameButton.setTitle("Start game", for: .normal)
-        loadGameButton.setTitle("Load game", for: .normal)
+        joinGameButton.setTitle("Join game", for: .normal)
         tutorialButton.setTitle("T", for: .normal)
         settingsButton.setTitle("S", for: .normal)
         
         startGameButton.titleLabel?.textColor = .black
-        loadGameButton.titleLabel?.textColor = .black
+        joinGameButton.titleLabel?.textColor = .black
         tutorialButton.titleLabel?.textColor = .black
         settingsButton.titleLabel?.textColor = .black
         
         self.addSubview(gameTitleLabel)
         self.addSubview(startGameButton)
-        self.addSubview(loadGameButton)
+        self.addSubview(joinGameButton)
         self.addSubview(tutorialButton)
         self.addSubview(settingsButton)
         
@@ -65,7 +65,7 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
             make.width.equalTo(200)
             make.height.equalTo(50)
         }
-        loadGameButton.snp.makeConstraints { make in
+        joinGameButton.snp.makeConstraints { make in
             make.topMargin.equalTo(300)
             make.centerX.equalToSuperview()
             make.width.equalTo(200)
@@ -100,8 +100,8 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
         self.startGameButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
-    func onTapLoadGameButton(_ target: Any?, _ handler: Selector) {
-        self.loadGameButton.addTarget(target, action: handler, for: .touchUpInside)
+    func onTapJoinGameButton(_ target: Any?, _ handler: Selector) {
+        self.joinGameButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
     func onTapSettingsButton(_ target: Any?, _ handler: Selector) {
