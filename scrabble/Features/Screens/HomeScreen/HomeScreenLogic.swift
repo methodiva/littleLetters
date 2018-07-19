@@ -53,7 +53,7 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
     
     @objc
     func showStartGameScreen() {
-        log.verbose("Showing Start Game Screen")
+        log.verbose("Showing start game screen")
         self.view?.hide{
             self.startGameScreenLogic?.show()
         }
@@ -67,7 +67,7 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
     
     @objc
     func showLoadGameScreen() {
-        log.verbose("Showing Load Game Screen")
+        log.verbose("Showing load game screen")
         self.view?.hide{
             self.loadGameScreenLogic?.show()
         }
@@ -75,12 +75,15 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
     
     @objc
     func showSettingsScreen() {
-        
+        log.verbose("Showing settings screen")
+        self.view?.hide{
+            self.settingsGameScreenLogic?.show()
+        }
     }
     
     @objc
     func showTutorialScreen() {
-        log.verbose("Showing Tutorial Screen")
+        log.verbose("Showing tutorial screen")
         self.view?.hide{
             self.tutorialGameScreenLogic?.show()
         }
