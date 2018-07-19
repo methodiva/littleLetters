@@ -25,7 +25,7 @@ class LoadGameScreenView: UIView, LoadGameScreenViewProtocol {
         self.backgroundColor = .white
         screenTitleLabel.text = "Load Game"
         screenTitleLabel.textAlignment = .center
-        playGameButton.titleLabel?.text = "Play Game"
+        playGameButton.setTitle("Play Game", for: .normal)
         playGameButton.backgroundColor = .cyan
         self.addSubview(playGameButton)
         self.addSubview(backButton)

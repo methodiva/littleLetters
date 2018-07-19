@@ -34,10 +34,10 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
         tutorialButton.backgroundColor = .green
         settingsButton.backgroundColor = .yellow
         
-        startGameButton.titleLabel?.text = "Start Button"
-        loadGameButton.titleLabel?.text = "Load Button"
-        tutorialButton.titleLabel?.text = "Tutorial Button"
-        settingsButton.titleLabel?.text = "Settings Button"
+        startGameButton.setTitle("Start game", for: .normal)
+        loadGameButton.setTitle("Load game", for: .normal)
+        tutorialButton.setTitle("T", for: .normal)
+        settingsButton.setTitle("S", for: .normal)
         
         startGameButton.titleLabel?.textColor = .black
         loadGameButton.titleLabel?.textColor = .black

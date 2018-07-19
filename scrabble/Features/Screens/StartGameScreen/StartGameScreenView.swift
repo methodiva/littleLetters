@@ -25,7 +25,8 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         self.backgroundColor = .white
         screenTitleLabel.text = "Start Game"
         screenTitleLabel.textAlignment = .center
-        playGameButton.titleLabel?.text = "Play Game"
+        
+        playGameButton.setTitle("Play Game", for: .normal)
         playGameButton.backgroundColor = .cyan
         self.addSubview(playGameButton)
         self.addSubview(backButton)
