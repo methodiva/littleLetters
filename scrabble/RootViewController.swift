@@ -5,11 +5,53 @@ class RootViewController: UIViewController, RootProtocol {
 
     // features should be listed in order such that their dependencies are fulfilled by previous features in the list
     private var features: [FeatureName: Feature] = [
-        .CameraFeature: Feature(
+        .Camera: Feature(
             logic: CameraLogic(),
             dependencies: nil,
             view: nil,
-            viewOrder: 0
+            viewOrder: 1
+        ),
+        .HomeScreen: Feature(
+            logic: HomeScreenLogic(),
+            dependencies: [.StartGameScreen, .JoinGameScreen, .TutorialScreen, .SettingsScreen],
+            view: nil,
+            viewOrder: 2
+        ),
+        .StartGameScreen: Feature(
+            logic: StartGameScreenLogic(),
+            dependencies: [.HomeScreen, .GameScreen],
+            view: nil,
+            viewOrder: 3
+        ),
+        .JoinGameScreen: Feature(
+            logic: JoinGameScreenLogic(),
+            dependencies: [.HomeScreen, .GameScreen],
+            view: nil,
+            viewOrder: 4
+        ),
+        .TutorialScreen: Feature(
+            logic: TutorialScreenLogic(),
+            dependencies: [.HomeScreen],
+            view: nil,
+            viewOrder: 5
+        ),
+        .SettingsScreen: Feature(
+            logic: SettingsScreenLogic(),
+            dependencies: [.HomeScreen],
+            view: nil,
+            viewOrder: 6
+        ),
+        .GameScreen: Feature(
+            logic: GameScreenLogic(),
+            dependencies: [.HomeScreen, .EndGameScreen, .Camera],
+            view: nil,
+            viewOrder: 7
+        ),
+        .EndGameScreen: Feature(
+            logic: EndGameScreenLogic(),
+            dependencies: [.HomeScreen],
+            view: nil,
+            viewOrder: 8
         )
      ]
 
@@ -18,7 +60,14 @@ class RootViewController: UIViewController, RootProtocol {
     // and re-initialize when resources are available (app foregrounded)
 
     private let views: [FeatureName: (FeatureLogicProtocol) -> FeatureViewProtocol] = [
-        .CameraFeature: { featureLogic in CameraView(featureLogic) },
+        .Camera: { featureLogic in CameraView(featureLogic) },
+        .HomeScreen: { featureLogic in HomeScreenView(featureLogic) },
+        .StartGameScreen: { featureLogic in StartGameScreenView(featureLogic) },
+        .JoinGameScreen: { featureLogic in JoinGameScreenView(featureLogic) },
+        .TutorialScreen: { featureLogic in TutorialScreenView(featureLogic) },
+        .SettingsScreen: { featureLogic in SettingsScreenView(featureLogic) },
+        .GameScreen: { featureLogic in GameScreenView(featureLogic) },
+        .EndGameScreen: { featureLogic in EndGameScreenView(featureLogic) }
     ]
 
     // MARK: - UIViewController
