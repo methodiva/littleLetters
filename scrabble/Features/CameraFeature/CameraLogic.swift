@@ -1,32 +1,20 @@
-protocol CameraViewNodeProtocol {
-    var name: String? { get set }
-    var transform: Transform { get set }
-    var worldTransform: Transform { get }
-    var eulerAngles: Vector { get set}
-    func addChildNode(_ node: CameraViewNodeProtocol)
-    func removeFromParentNode()
-}
-
 protocol CameraViewProtocol: FeatureViewProtocol {
-    func startARSession()
-    func stopARSession()
-    var cameraPosition: Vector { get }
-    var cameraTransform: Transform { get }
+    func startCameraSession()
+    func stopCameraSession()
+    func captureImage(_ imageCallBack: ((_ image: CameraImageProtocol) -> Void)?)
     func addNode(_ node: CameraViewNodeProtocol)
 }
+
+protocol CameraImageProtocol {}
 
 protocol CameraLogicProtocol: FeatureLogicProtocol {
-    var cameraTransform: Transform? { get }
     func addNode(_ node: CameraViewNodeProtocol)
-    func addRendererCallback(_ callback: @escaping () -> Void)
-    func onRendererUpdate()
+    func captureImage(_ imageCallBack: ((_ image: CameraImageProtocol) -> Void)?)
 }
 
 class CameraLogic: CameraLogicProtocol {
-
     private weak var view: CameraViewProtocol?
-    var rendererCallbacks: [() -> Void] = []
-
+    
     // MARK: - FeatureProtocol conformance
     func initialize(root: RootProtocol,
                     view: FeatureViewProtocol?,
@@ -39,37 +27,24 @@ class CameraLogic: CameraLogicProtocol {
     }
 
     func willAppear(_ animated: Bool) {
-        log.verbose("Starting AR session")
-        view?.startARSession()
+        log.verbose("Starting camera session")
+        view?.startCameraSession()
     }
 
     func willDisappear(_ animated: Bool) {
-        log.verbose("Stopping AR session")
-        view?.stopARSession()
+        log.verbose("Stopping camera session")
+        view?.stopCameraSession()
     }
-
-    var cameraTransform: Transform? {
-        get {
-            return self.view?.cameraTransform
-        }
-    }
-
+    
     func addNode(_ node: CameraViewNodeProtocol) {
         guard let cameraView = self.view else {
             log.error("Camera view not initialized")
             return
         }
-        log.verbose("Adding Node: \(String(describing: node))")
         cameraView.addNode(node)
     }
-
-    func addRendererCallback(_ callback: @escaping () -> Void) {
-        self.rendererCallbacks.append(callback)
-    }
-
-    func onRendererUpdate() {
-        for callback in self.rendererCallbacks {
-            callback()
-        }
+    
+    func captureImage(_ imageCaptureCallback: ((CameraImageProtocol) -> Void)?) {
+        self.view?.captureImage(imageCaptureCallback)
     }
 }
