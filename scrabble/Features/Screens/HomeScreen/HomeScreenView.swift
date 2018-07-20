@@ -94,6 +94,7 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
+        onShowing?()
     }
     
     func onTapStartGameButton(_ target: Any?, _ handler: Selector) {

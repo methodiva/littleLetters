@@ -37,7 +37,7 @@ class TutorialScreenLogic: TutorialScreenLogicProtocol {
     func goBack() {
         log.verbose("Going back to home screen")
         self.view?.hide {
-            self.homeScreenLogic?.show{}
+            self.homeScreenLogic?.show()
         }
     }
     

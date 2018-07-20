@@ -8,7 +8,7 @@ protocol HomeScreenViewProtocol: FeatureViewProtocol {
 }
 
 protocol HomeScreenLogicProtocol: FeatureLogicProtocol {
-    func show(_ onShowing: (() -> Void)?)
+    func show()
 }
 
 class HomeScreenLogic: HomeScreenLogicProtocol {
@@ -59,10 +59,9 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
         }
     }
     
-    func show(_ onShowing: (() -> Void)?) {
+    func show() {
         log.verbose("Showing home screen")
         self.view?.show{
-            onShowing?()
         }
     }
     

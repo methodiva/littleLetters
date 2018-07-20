@@ -55,5 +55,6 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
+        onShowing?()
     }
 }

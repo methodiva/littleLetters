@@ -170,5 +170,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
+        onShowing?()
     }
 }
