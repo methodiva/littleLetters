@@ -131,7 +131,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     }
     
     func updateTimer(to time: Int) {
-//        log.verbose("Updated timer to \(String(time))")
         timerButton.setTitle("Current Time: \(String(time))", for: .normal)
     }
     

@@ -2,23 +2,27 @@ PODS:
   - SnapKit (4.0.0)
   - SwiftLint (0.24.0)
   - SwiftyBeaver (1.4.3)
+  - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
   - SnapKit (~> 4.0.0)
   - SwiftLint
   - SwiftyBeaver
+  - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - SnapKit
     - SwiftLint
     - SwiftyBeaver
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftLint: a014c92b4664e8b13f380f8640a51bb1733778ba
   SwiftyBeaver: e10b1668e0512229c36c34769b97eed3dfae2ca3
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 9a14965ada053d196055964de7973f90b79ef35f
+PODFILE CHECKSUM: 416254894f65be8676947c1fe965ead53546c439
 
 COCOAPODS: 1.5.3

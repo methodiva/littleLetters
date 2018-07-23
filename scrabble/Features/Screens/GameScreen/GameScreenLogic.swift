@@ -27,6 +27,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     private weak var homeScreenLogic: HomeScreenLogicProtocol?
     private weak var cameraLogic: CameraLogicProtocol?
     private weak var endGameScreenLogic: EndGameScreenLogicProtocol?
+    private weak var imageInterpreterLogic: ImageInterpreterLogicProtocol?
     
     // Game's state variables
     var playerScore = 0
@@ -49,13 +50,16 @@ class GameScreenLogic: GameScreenLogicProtocol {
         guard let deps = dependencies,
             let homeScreenLogic = deps[.HomeScreen] as? HomeScreenLogicProtocol,
             let endGameScreenLogic = deps[.EndGameScreen] as? EndGameScreenLogicProtocol,
-            let cameraLogic = deps[.Camera] as? CameraLogicProtocol else {
+            let cameraLogic = deps[.Camera] as? CameraLogicProtocol,
+            let imageInterpreterLogic = deps[.ImageInterpreter] as? ImageInterpreterLogicProtocol else {
                 log.error("Dependency unfulfilled")
                 return
         }
         self.homeScreenLogic = homeScreenLogic
         self.endGameScreenLogic = endGameScreenLogic
         self.cameraLogic = cameraLogic
+        self.imageInterpreterLogic = imageInterpreterLogic
+        
         self.view = uiView
         self.view?.onTapBackButton(self, #selector(goBack))
         self.view?.onTapGameOverButton(self, #selector(endGame))
