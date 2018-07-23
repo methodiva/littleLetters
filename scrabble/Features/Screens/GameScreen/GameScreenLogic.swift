@@ -3,6 +3,7 @@ import Foundation
 protocol GameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapGameOverButton(_ target: Any?, _ handler: Selector)
+    func onTapScreen(_ target: Any?, _ handler: Selector)
     func updatePlayerScore(to newScore: Int)
     func updateEnemyScore(to newScore: Int)
     func updateCurrentStars(to stars: Int)
@@ -63,6 +64,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.view = uiView
         self.view?.onTapBackButton(self, #selector(goBack))
         self.view?.onTapGameOverButton(self, #selector(endGame))
+        self.view?.onTapScreen(self, #selector(onScreenTap))
         
         // Temp functions
         self.view?.onTapPlayerScoreButton(self, #selector(increasePlayerScore))
@@ -88,6 +90,16 @@ class GameScreenLogic: GameScreenLogicProtocol {
             self.endGameScreenLogic?.show()
             self.resetVariables()
         }
+    }
+    
+    @objc
+    func onScreenTap() {
+        log.verbose("Screen tapped")
+        cameraLogic?.captureImage({ (image) in
+            self.imageInterpreterLogic?.getLabel(for: image, startingFrom: "C", labelCallBack: { (label) in
+                log.debug("Label selected: \(label)")
+            })
+        })
     }
     
     // Temporary functions to test

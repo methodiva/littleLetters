@@ -1,18 +1,24 @@
 import SwiftyJSON
 import Foundation
 
+struct ImageLabel {
+    let Score: Float
+    let Topicality: Float
+    let label: String
+}
+
 protocol ImageInterpreterLogicProtocol: FeatureLogicProtocol {
-    func getLabel(for image: CameraImageProtocol, startingFrom letter: Character) -> String?
+    func getLabel(for image: CameraImageProtocol, startingFrom letter: Character, labelCallBack: ((String) -> Void)?)
 }
 
 // This feature uses Google Vision API to detect objects in the image,
-// And further analyses the results
+// And further interprets the results
 
 class ImageInterpreterLogic: ImageInterpreterLogicProtocol {
     
-    let urlSession = URLSession.shared
-    var googleAPIKey = "AIzaSyCwZptA29KD3UpFDIStXIcGihVaU9z2lNE"
-    var googleURL: URL {
+    private let urlSession = URLSession.shared
+    private var googleAPIKey = "AIzaSyCwZptA29KD3UpFDIStXIcGihVaU9z2lNE"
+    private var googleURL: URL {
         return URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(googleAPIKey)")!
     }
     
@@ -22,16 +28,23 @@ class ImageInterpreterLogic: ImageInterpreterLogicProtocol {
                     dependencies: [FeatureName: FeatureLogicProtocol]?) {
     }
     
-    func getLabel(for image: CameraImageProtocol, startingFrom letter: Character) -> String? {
+    func getLabel(for image: CameraImageProtocol, startingFrom letter: Character, labelCallBack: ((String) -> Void)?) {
+        // Send Data to Google Vision API
         getDataFromVisionAPI(for: image, dataInterpreterCallback: { (data) in
-            // Analyse data
-            let labelList = self.getLabelList(for: data)
-            log.debug(labelList)
+            // Interpret data
+            guard let labelList = self.getLabelList(for: data) else { return }
+            guard let label = self.chooseLabel(from: labelList, startFrom: letter) else {
+                log.error("Couldn't find a label for the image")
+                return
+            }
+            labelCallBack?(label)
         })
-        return nil
     }
-   
-    private func getLabelList(for dataToParse: Data) -> [String]?{
+}
+
+// Image Interpretation
+extension ImageInterpreterLogic {
+    private func getLabelList(for dataToParse: Data) -> [ImageLabel]?{
         do {
             let json = try JSON(data: dataToParse)
             let errorObj: JSON =  json["error"]
@@ -42,11 +55,15 @@ class ImageInterpreterLogic: ImageInterpreterLogicProtocol {
             } else {
                 let responses: JSON = json["responses"][0]
                 let labelAnnotations: JSON = responses["labelAnnotations"]
+                log.debug(labelAnnotations)
                 let numLabels: Int = labelAnnotations.count
-                var labels: Array<String> = []
+                var labels: Array<ImageLabel> = []
                 if numLabels > 0 {
                     for index in 0..<numLabels {
-                        let label = labelAnnotations[index]["description"].stringValue
+                        let label = ImageLabel(
+                            Score: Float(labelAnnotations[index]["score"].stringValue)!,
+                            Topicality: Float(labelAnnotations[index]["topicality"].stringValue)!,
+                            label: labelAnnotations[index]["description"].stringValue)
                         labels.append(label)
                     }
                     return labels
@@ -60,6 +77,11 @@ class ImageInterpreterLogic: ImageInterpreterLogicProtocol {
             return nil
         }
      }
+    
+    private func chooseLabel(from labelList: [ImageLabel], startFrom letter: Character) -> String? {
+        // TODO: Sophesticated logic to choose the label
+        return labelList.first?.label
+    }
 }
 /// Networking
 extension ImageInterpreterLogic {

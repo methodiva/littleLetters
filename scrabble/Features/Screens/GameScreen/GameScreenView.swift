@@ -115,7 +115,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     }
     
     func updateEnemyScore(to newScore: Int) {
-        
         log.verbose("Updated enemy score to \(String(newScore))")
         enemyScoreButton.setTitle("Enemy Score: \(String(newScore))", for: .normal)
     }
@@ -140,6 +139,11 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     
     func onTapGameOverButton(_ target: Any?, _ handler: Selector) {
         self.endGameButton.addTarget(target, action: handler, for: .touchUpInside)
+    }
+    
+    func onTapScreen(_ target: Any?, _ handler: Selector) {
+        let gestureRecognizer = UITapGestureRecognizer(target: target, action: handler)
+        self.addGestureRecognizer(gestureRecognizer)
     }
     
     // Temporary functions to test the functionality
