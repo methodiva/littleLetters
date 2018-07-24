@@ -18,6 +18,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     // UI elements
     
     let screenTitleLabel = UILabel()
+    let keyTextField = UITextField()
     let backButton = BackButton()
     let playGameButton = UIButton()
     
@@ -27,15 +28,24 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         screenTitleLabel.textAlignment = .center
         playGameButton.setTitle("Play Game", for: .normal)
         playGameButton.backgroundColor = .cyan
+        configureTextfield()
+        
         self.addSubview(playGameButton)
         self.addSubview(backButton)
         self.addSubview(screenTitleLabel)
+        self.addSubview(keyTextField)
         self.hide{}
     }
     
     func initConstraints() {
         screenTitleLabel.snp.makeConstraints { make in
             make.topMargin.equalTo(80)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(200)
+            make.height.equalTo(50)
+        }
+        keyTextField.snp.makeConstraints { make in
+            make.topMargin.equalTo(250)
             make.centerX.equalToSuperview()
             make.width.equalTo(200)
             make.height.equalTo(50)
@@ -70,5 +80,17 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         self.isUserInteractionEnabled = true
         self.alpha = 1
         onShowing?()
+    }
+}
+
+extension JoinGameScreenView: UITextFieldDelegate {
+    func configureTextfield() {
+        keyTextField.backgroundColor = .green
+        keyTextField.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
