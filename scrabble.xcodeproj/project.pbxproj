@@ -24,6 +24,8 @@
 		5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D73792E20F0B6CF00885CEB /* AppDelegate.swift */; };
 		5D73793820F0B6D000885CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793720F0B6D000885CEB /* Assets.xcassets */; };
 		5D73793B20F0B6D000885CEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793920F0B6D000885CEB /* LaunchScreen.storyboard */; };
+		5D7766932105E48800ACEE22 /* ObjectRecognizerLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7766922105E48800ACEE22 /* ObjectRecognizerLogic.swift */; };
+		5D7766972105E59F00ACEE22 /* ImageToStringConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7766962105E59F00ACEE22 /* ImageToStringConverter.swift */; };
 		5D86358E20FE446A005E7141 /* ARCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D86358D20FE446A005E7141 /* ARCameraView.swift */; };
 		5D86359020FE4483005E7141 /* AVFoundationCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */; };
 		5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */; };
@@ -58,6 +60,8 @@
 		5D73793720F0B6D000885CEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D73793A20F0B6D000885CEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5D73793C20F0B6D000885CEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5D7766922105E48800ACEE22 /* ObjectRecognizerLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectRecognizerLogic.swift; sourceTree = "<group>"; };
+		5D7766962105E59F00ACEE22 /* ImageToStringConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToStringConverter.swift; sourceTree = "<group>"; };
 		5D86358D20FE446A005E7141 /* ARCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCameraView.swift; sourceTree = "<group>"; };
 		5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundationCameraView.swift; sourceTree = "<group>"; };
 		5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootProtocol.swift; sourceTree = "<group>"; };
@@ -206,9 +210,19 @@
 			path = scrabble;
 			sourceTree = "<group>";
 		};
+		5D7766912105E2F100ACEE22 /* ObjectRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				5D7766922105E48800ACEE22 /* ObjectRecognizerLogic.swift */,
+				5D7766962105E59F00ACEE22 /* ImageToStringConverter.swift */,
+			);
+			path = ObjectRecognizer;
+			sourceTree = "<group>";
+		};
 		5DF346DD20F0E148006FFCF8 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				5D7766912105E2F100ACEE22 /* ObjectRecognizer */,
 				5D36EC6C2100B00500DCFBE4 /* Screens */,
 				5DF346E820F0E148006FFCF8 /* Camera */,
 			);
@@ -337,11 +351,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-scrabble/Pods-scrabble-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -364,11 +380,13 @@
 				5D36EC5C2100AA8300DCFBE4 /* SettingsScreenView.swift in Sources */,
 				5DF346DA20F0DB82006FFCF8 /* Feature.swift in Sources */,
 				5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */,
+				5D7766932105E48800ACEE22 /* ObjectRecognizerLogic.swift in Sources */,
 				5D36EC662100AAEB00DCFBE4 /* GameScreenLogic.swift in Sources */,
 				5D86359020FE4483005E7141 /* AVFoundationCameraView.swift in Sources */,
 				5DF346DC20F0DB82006FFCF8 /* RootViewController.swift in Sources */,
 				5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */,
 				5D36EC502100A98700DCFBE4 /* JoinGameScreenLogic.swift in Sources */,
+				5D7766972105E59F00ACEE22 /* ImageToStringConverter.swift in Sources */,
 				5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */,
 				5D36EC6B2100AB3D00DCFBE4 /* EndGameScreenView.swift in Sources */,
 				5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */,
