@@ -3,6 +3,7 @@ import Foundation
 protocol GameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapGameOverButton(_ target: Any?, _ handler: Selector)
+    func onTapScreen(_ target: Any?, _ handler: Selector)
     func updatePlayerScore(to newScore: Int)
     func updateEnemyScore(to newScore: Int)
     func updateCurrentStars(to stars: Int)
@@ -27,6 +28,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     private weak var homeScreenLogic: HomeScreenLogicProtocol?
     private weak var cameraLogic: CameraLogicProtocol?
     private weak var endGameScreenLogic: EndGameScreenLogicProtocol?
+    private weak var objectRecognizerLogic: ObjectRecognizerLogicProtocol?
     
     // Game's state variables
     var playerScore = 0
@@ -49,16 +51,20 @@ class GameScreenLogic: GameScreenLogicProtocol {
         guard let deps = dependencies,
             let homeScreenLogic = deps[.HomeScreen] as? HomeScreenLogicProtocol,
             let endGameScreenLogic = deps[.EndGameScreen] as? EndGameScreenLogicProtocol,
-            let cameraLogic = deps[.Camera] as? CameraLogicProtocol else {
+            let cameraLogic = deps[.Camera] as? CameraLogicProtocol,
+            let objectRecognizerLogic = deps[.ObjectRecognizer] as? ObjectRecognizerLogicProtocol else {
                 log.error("Dependency unfulfilled")
                 return
         }
         self.homeScreenLogic = homeScreenLogic
         self.endGameScreenLogic = endGameScreenLogic
         self.cameraLogic = cameraLogic
+        self.objectRecognizerLogic = objectRecognizerLogic
+        
         self.view = uiView
         self.view?.onTapBackButton(self, #selector(goBack))
         self.view?.onTapGameOverButton(self, #selector(endGame))
+        self.view?.onTapScreen(self, #selector(onScreenTap))
         
         // Temp functions
         self.view?.onTapPlayerScoreButton(self, #selector(increasePlayerScore))
@@ -84,6 +90,16 @@ class GameScreenLogic: GameScreenLogicProtocol {
             self.endGameScreenLogic?.show()
             self.resetVariables()
         }
+    }
+    
+    @objc
+    func onScreenTap() {
+        log.verbose("Screen tapped")
+        cameraLogic?.captureImage({ (image) in
+            self.objectRecognizerLogic?.getLabel(for: image, labelCallBack: { (imageLabels) in
+                // Use the image labels 
+            })
+        })
     }
     
     // Temporary functions to test

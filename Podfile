@@ -7,6 +7,7 @@ target 'scrabble' do
 
   pod 'SwiftyBeaver'
   pod 'SwiftLint'
+  pod 'SwiftyJSON', '~> 4.0'	
   pod 'SnapKit', '~> 4.0.0'
   # Pods for scrabble
 
