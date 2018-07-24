@@ -97,7 +97,9 @@ class GameScreenLogic: GameScreenLogicProtocol {
         log.verbose("Screen tapped")
         cameraLogic?.captureImage({ (image) in
             self.objectRecognizerLogic?.getLabel(for: image, labelCallBack: { (imageLabels) in
-                // Use the image labels 
+                // ASSUMPTION: starting letter would not be capital
+                let label = labelChooser.getCorrectLabel(from: imageLabels, startFrom: "b")
+                log.debug(label)
             })
         })
     }
