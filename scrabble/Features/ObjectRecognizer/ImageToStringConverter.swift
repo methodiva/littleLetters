@@ -1,7 +1,7 @@
 import UIKit
 
 class ImageToStringCoverter {
-
+    
     private let imageDataCountMax = 2097152
     private let widthPixels: CGFloat = 800
     
@@ -10,8 +10,11 @@ class ImageToStringCoverter {
             log.error("Image not in the correct format, need UIImage")
             return nil
         }
-        var imagedata = uiImage.pngData()
-        if (imagedata?.count > imageDataCountMax/compressionFactor) {
+        guard var imagedata = uiImage.pngData() else {
+            log.error("Coudldn't get pngData for uiImage")
+            return nil
+        }
+        if (imagedata.count > imageDataCountMax/compressionFactor) {
             let oldSize: CGSize = uiImage.size
             let calculatedWidthPixels = widthPixels/CGFloat(compressionFactor)
             let calculatedHeightPixels = oldSize.height / oldSize.width * calculatedWidthPixels
@@ -19,7 +22,7 @@ class ImageToStringCoverter {
             let newSize: CGSize = CGSize(width: calculatedWidthPixels, height: calculatedHeightPixels)
             imagedata = resizeImage(newSize, image: uiImage)
         }
-        return imagedata!.base64EncodedString(options: .endLineWithCarriageReturn)
+        return imagedata.base64EncodedString(options: .endLineWithCarriageReturn)
     }
     
     fileprivate func resizeImage(_ imageSize: CGSize, image: UIImage) -> Data {
@@ -33,25 +36,3 @@ class ImageToStringCoverter {
 }
 
 let imageConverter = ImageToStringCoverter()
-
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l < r
-    case (nil, _?):
-        return true
-    default:
-        return false
-    }
-}
-
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l > r
-    default:
-        return rhs < lhs
-    }
-}
-

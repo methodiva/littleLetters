@@ -7,14 +7,14 @@ struct ImageLabel {
     let label: String
 }
 
-protocol ImageInterpreterLogicProtocol: FeatureLogicProtocol {
-    func getLabel(for image: CameraImageProtocol, startingFrom letter: Character, labelCallBack: ((String) -> Void)?)
+protocol ObjectRecognizerLogicProtocol: FeatureLogicProtocol {
+    func getLabel(for image: CameraImageProtocol, labelCallBack: (([ImageLabel]) -> Void)?)
 }
 
 // This feature uses Google Vision API to detect objects in the image,
 // And further interprets the results
 
-class ImageInterpreterLogic: ImageInterpreterLogicProtocol {
+class ObjectRecognizerLogic: ObjectRecognizerLogicProtocol {
     
     private let urlSession = URLSession.shared
     private var googleAPIKey = "AIzaSyCwZptA29KD3UpFDIStXIcGihVaU9z2lNE"
@@ -28,63 +28,48 @@ class ImageInterpreterLogic: ImageInterpreterLogicProtocol {
                     dependencies: [FeatureName: FeatureLogicProtocol]?) {
     }
     
-    func getLabel(for image: CameraImageProtocol, startingFrom letter: Character, labelCallBack: ((String) -> Void)?) {
+    func getLabel(for image: CameraImageProtocol, labelCallBack: (([ImageLabel]) -> Void)?) {
         // Send Data to Google Vision API
         getDataFromVisionAPI(for: image, dataInterpreterCallback: { (data) in
-            // Interpret data
             guard let labelList = self.getLabelList(for: data) else { return }
-            guard let label = self.chooseLabel(from: labelList, startFrom: letter) else {
-                log.error("Couldn't find a label for the image")
-                return
-            }
-            labelCallBack?(label)
+            labelCallBack?(labelList)
         })
     }
-}
-
-// Image Interpretation
-extension ImageInterpreterLogic {
+    
     private func getLabelList(for dataToParse: Data) -> [ImageLabel]?{
         do {
             let json = try JSON(data: dataToParse)
             let errorObj: JSON =  json["error"]
-            
             if (errorObj.dictionaryValue != [:]) {
                 log.error("Error code \(errorObj["code"]): \(errorObj["message"])")
                 return nil
-            } else {
-                let responses: JSON = json["responses"][0]
-                let labelAnnotations: JSON = responses["labelAnnotations"]
-                log.debug(labelAnnotations)
-                let numLabels: Int = labelAnnotations.count
-                var labels: Array<ImageLabel> = []
-                if numLabels > 0 {
-                    for index in 0..<numLabels {
-                        let label = ImageLabel(
-                            Score: Float(labelAnnotations[index]["score"].stringValue)!,
-                            Topicality: Float(labelAnnotations[index]["topicality"].stringValue)!,
-                            label: labelAnnotations[index]["description"].stringValue)
-                        labels.append(label)
-                    }
-                    return labels
-                } else {
-                    log.warning("No Label found")
-                    return nil
-                }
             }
+            let responses: JSON = json["responses"][0]
+            let labelAnnotations: JSON = responses["labelAnnotations"]
+            let numLabels: Int = labelAnnotations.count
+            log.debug(labelAnnotations)
+            guard numLabels > 0 else {
+                log.warning("No Label found")
+                return nil
+            }
+            var labels: Array<ImageLabel> = []
+            for index in 0..<numLabels {
+                let label = ImageLabel(
+                    Score: Float(labelAnnotations[index]["score"].stringValue)!,
+                    Topicality: Float(labelAnnotations[index]["topicality"].stringValue)!,
+                    label: labelAnnotations[index]["description"].stringValue)
+                labels.append(label)
+            }
+            return labels
         } catch {
             log.error("Error, couldnt parse json")
             return nil
         }
-     }
-    
-    private func chooseLabel(from labelList: [ImageLabel], startFrom letter: Character) -> String? {
-        // TODO: Sophesticated logic to choose the label
-        return labelList.first?.label
     }
 }
-/// Networking
-extension ImageInterpreterLogic {
+
+// Networking
+extension ObjectRecognizerLogic {
     private func getDataFromVisionAPI(for image: CameraImageProtocol, dataInterpreterCallback:((Data) -> Void)?) {
         guard let imageForRequest = imageConverter.toString(for: image, compressionFactor: 8) else {
             return

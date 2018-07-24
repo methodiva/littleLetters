@@ -43,7 +43,7 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .GameScreen: Feature(
             logic: GameScreenLogic(),
-            dependencies: [.HomeScreen, .EndGameScreen, .Camera, .ImageInterpreter],
+            dependencies: [.HomeScreen, .EndGameScreen, .Camera, .ObjectRecognizer],
             view: nil,
             viewOrder: 7
         ),
@@ -53,8 +53,8 @@ class RootViewController: UIViewController, RootProtocol {
             view: nil,
             viewOrder: 8
         ),
-        .ImageInterpreter: Feature(
-            logic: ImageInterpreterLogic(),
+        .ObjectRecognizer: Feature(
+            logic: ObjectRecognizerLogic(),
             dependencies: nil,
             view: nil,
             viewOrder: 0
