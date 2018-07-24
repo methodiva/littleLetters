@@ -48,35 +48,32 @@ extension ImageInterpreterLogic {
         do {
             let json = try JSON(data: dataToParse)
             let errorObj: JSON =  json["error"]
-            
             if (errorObj.dictionaryValue != [:]) {
                 log.error("Error code \(errorObj["code"]): \(errorObj["message"])")
                 return nil
-            } else {
-                let responses: JSON = json["responses"][0]
-                let labelAnnotations: JSON = responses["labelAnnotations"]
-                log.debug(labelAnnotations)
-                let numLabels: Int = labelAnnotations.count
-                var labels: Array<ImageLabel> = []
-                if numLabels > 0 {
-                    for index in 0..<numLabels {
-                        let label = ImageLabel(
-                            Score: Float(labelAnnotations[index]["score"].stringValue)!,
-                            Topicality: Float(labelAnnotations[index]["topicality"].stringValue)!,
-                            label: labelAnnotations[index]["description"].stringValue)
-                        labels.append(label)
-                    }
-                    return labels
-                } else {
-                    log.warning("No Label found")
-                    return nil
-                }
             }
+            let responses: JSON = json["responses"][0]
+            let labelAnnotations: JSON = responses["labelAnnotations"]
+            log.debug(labelAnnotations)
+            let numLabels: Int = labelAnnotations.count
+            guard numLabels > 0 else {
+                log.warning("No Label found")
+                return nil
+            }
+            var labels: Array<ImageLabel> = []
+            for index in 0..<numLabels {
+                let label = ImageLabel(
+                    Score: Float(labelAnnotations[index]["score"].stringValue)!,
+                    Topicality: Float(labelAnnotations[index]["topicality"].stringValue)!,
+                    label: labelAnnotations[index]["description"].stringValue)
+                labels.append(label)
+            }
+            return labels
         } catch {
             log.error("Error, couldnt parse json")
             return nil
         }
-     }
+    }
     
     private func chooseLabel(from labelList: [ImageLabel], startFrom letter: Character) -> String? {
         // TODO: Sophesticated logic to choose the label
