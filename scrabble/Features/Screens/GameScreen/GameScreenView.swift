@@ -109,7 +109,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
-    func updatePlayerScore(to newScore: Int) {
+    func updatePlayerPoints(to newScore: Int) {
         log.verbose("Updated player score to \(String(newScore))")
         playerScoreButton.setTitle("Player Score: \(String(newScore))", for: .normal)
     }

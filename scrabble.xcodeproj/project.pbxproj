@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D189C4B21076A690005C938 /* CorrectLabelChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D189C4A21076A690005C938 /* CorrectLabelChooser.swift */; };
 		5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */; };
 		5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */; };
 		5D36EC502100A98700DCFBE4 /* JoinGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.debug.xcconfig"; sourceTree = "<group>"; };
+		5D189C4A21076A690005C938 /* CorrectLabelChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectLabelChooser.swift; sourceTree = "<group>"; };
 		5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenLogic.swift; sourceTree = "<group>"; };
 		5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGameScreenLogic.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			children = (
 				5D36EC652100AAEB00DCFBE4 /* GameScreenLogic.swift */,
 				5D36EC632100AAE000DCFBE4 /* GameScreenView.swift */,
+				5D189C4A21076A690005C938 /* CorrectLabelChooser.swift */,
 			);
 			path = GameScreen;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */,
 				5D36EC692100AB2F00DCFBE4 /* EndGameScreenLogic.swift in Sources */,
 				5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */,
+				5D189C4B21076A690005C938 /* CorrectLabelChooser.swift in Sources */,
 				5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */,
 				5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */,
 				5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */,
