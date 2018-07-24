@@ -28,7 +28,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     private weak var homeScreenLogic: HomeScreenLogicProtocol?
     private weak var cameraLogic: CameraLogicProtocol?
     private weak var endGameScreenLogic: EndGameScreenLogicProtocol?
-    private weak var imageInterpreterLogic: ImageInterpreterLogicProtocol?
+    private weak var objectRecognizerLogic: ObjectRecognizerLogicProtocol?
     
     // Game's state variables
     var playerScore = 0
@@ -52,14 +52,14 @@ class GameScreenLogic: GameScreenLogicProtocol {
             let homeScreenLogic = deps[.HomeScreen] as? HomeScreenLogicProtocol,
             let endGameScreenLogic = deps[.EndGameScreen] as? EndGameScreenLogicProtocol,
             let cameraLogic = deps[.Camera] as? CameraLogicProtocol,
-            let imageInterpreterLogic = deps[.ImageInterpreter] as? ImageInterpreterLogicProtocol else {
+            let objectRecognizerLogic = deps[.ObjectRecognizer] as? ObjectRecognizerLogicProtocol else {
                 log.error("Dependency unfulfilled")
                 return
         }
         self.homeScreenLogic = homeScreenLogic
         self.endGameScreenLogic = endGameScreenLogic
         self.cameraLogic = cameraLogic
-        self.imageInterpreterLogic = imageInterpreterLogic
+        self.objectRecognizerLogic = objectRecognizerLogic
         
         self.view = uiView
         self.view?.onTapBackButton(self, #selector(goBack))
@@ -96,8 +96,8 @@ class GameScreenLogic: GameScreenLogicProtocol {
     func onScreenTap() {
         log.verbose("Screen tapped")
         cameraLogic?.captureImage({ (image) in
-            self.imageInterpreterLogic?.getLabel(for: image, startingFrom: "C", labelCallBack: { (label) in
-                log.debug("Label selected: \(label)")
+            self.objectRecognizerLogic?.getLabel(for: image, labelCallBack: { (imageLabels) in
+                // Use the image labels 
             })
         })
     }
