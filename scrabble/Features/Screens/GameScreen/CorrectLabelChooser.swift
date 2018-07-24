@@ -7,14 +7,12 @@ class CorrectLabelChooser {
     func getCorrectLabel(from labelList: [ImageLabel], startFrom firstLetter: Character) -> String? {
         
         let labelFilteredList = filter(labelList: labelList)
-        
         // Filtering for correct first letter
         let labelsStartingFromCorrectLetter = labelFilteredList.filter { (label) -> Bool in
             return label.description.first == firstLetter
         }
+        
         log.debug("list here 5\(labelsStartingFromCorrectLetter)")
-        
-        
         if labelsStartingFromCorrectLetter.count > 0 {
             return chooseMostAppropriateLabel(from: labelsStartingFromCorrectLetter).description
         }
@@ -35,7 +33,6 @@ class CorrectLabelChooser {
         }
         
         log.debug("list here 2\(labelFilteredList)")
-        
         // Filtering for labels with more than one word
         labelFilteredList = labelFilteredList.filter { (label) -> Bool in
             let words = label.description.components(separatedBy: " ")
@@ -43,7 +40,6 @@ class CorrectLabelChooser {
         }
         
         log.debug("list here 3\(labelFilteredList)")
-        
         // Filtering for words to ignore
         labelFilteredList = labelFilteredList.filter{ (label) -> Bool in
             for word in wordsToIgnore {
@@ -53,8 +49,8 @@ class CorrectLabelChooser {
             }
             return true
         }
-        log.debug("list here 4\(labelFilteredList)")
         
+        log.debug("list here 4\(labelFilteredList)")
         return labelFilteredList
     }
     
