@@ -36,6 +36,10 @@
 		5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346E920F0E148006FFCF8 /* CameraView.swift */; };
 		5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */; };
 		5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */; };
+		5DF4DDCE2108AF2C0045E330 /* FiddleLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF4DDCB2108AF2C0045E330 /* FiddleLogic.swift */; };
+		5DF4DDCF2108AF2C0045E330 /* FiddleProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF4DDCC2108AF2C0045E330 /* FiddleProperties.swift */; };
+		5DF4DDD02108AF2C0045E330 /* FiddleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF4DDCD2108AF2C0045E330 /* FiddleView.swift */; };
+		5DF4DDD22108AFA80045E330 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF4DDD12108AFA80045E330 /* Config.swift */; };
 		5DF85E462100C8C20079CD18 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF85E452100C8C20079CD18 /* BackButton.swift */; };
 		BF4FF8A1F372414F91DD4946 /* Pods_scrabble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DE57D99B9E3DF8F81F4D7BF /* Pods_scrabble.framework */; };
 /* End PBXBuildFile section */
@@ -73,6 +77,10 @@
 		5DF346E920F0E148006FFCF8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraLogic.swift; sourceTree = "<group>"; };
 		5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 3DTypes.swift; sourceTree = "<group>"; };
+		5DF4DDCB2108AF2C0045E330 /* FiddleLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiddleLogic.swift; sourceTree = "<group>"; };
+		5DF4DDCC2108AF2C0045E330 /* FiddleProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiddleProperties.swift; sourceTree = "<group>"; };
+		5DF4DDCD2108AF2C0045E330 /* FiddleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiddleView.swift; sourceTree = "<group>"; };
+		5DF4DDD12108AFA80045E330 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		5DF85E452100C8C20079CD18 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		9DE57D99B9E3DF8F81F4D7BF /* Pods_scrabble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scrabble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.release.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.release.xcconfig"; sourceTree = "<group>"; };
@@ -166,6 +174,7 @@
 		5D36EC6C2100B00500DCFBE4 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				5DF4DDCA2108AF2C0045E330 /* FiddleScreen */,
 				5D36EC492100A88300DCFBE4 /* HomeScreen */,
 				5D36EC512100A9BC00DCFBE4 /* StartGameScreen */,
 				5D36EC4E2100A96800DCFBE4 /* JoinGameScreen */,
@@ -204,6 +213,7 @@
 				5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */,
 				5DF346DD20F0E148006FFCF8 /* Features */,
 				5DF346D720F0DB82006FFCF8 /* Feature.swift */,
+				5DF4DDD12108AFA80045E330 /* Config.swift */,
 				5DF346D820F0DB82006FFCF8 /* Logger.swift */,
 				5DF346D920F0DB82006FFCF8 /* RootViewController.swift */,
 				5D73793720F0B6D000885CEB /* Assets.xcassets */,
@@ -241,6 +251,16 @@
 				5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		5DF4DDCA2108AF2C0045E330 /* FiddleScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5DF4DDCB2108AF2C0045E330 /* FiddleLogic.swift */,
+				5DF4DDCC2108AF2C0045E330 /* FiddleProperties.swift */,
+				5DF4DDCD2108AF2C0045E330 /* FiddleView.swift */,
+			);
+			path = FiddleScreen;
 			sourceTree = "<group>";
 		};
 		5DF85E442100C8B10079CD18 /* Components */ = {
@@ -374,9 +394,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DF4DDCE2108AF2C0045E330 /* FiddleLogic.swift in Sources */,
 				5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */,
 				5D36EC572100AA0C00DCFBE4 /* StartGameScreenView.swift in Sources */,
 				5D36EC642100AAE000DCFBE4 /* GameScreenView.swift in Sources */,
+				5DF4DDD02108AF2C0045E330 /* FiddleView.swift in Sources */,
 				5D36EC612100AABB00DCFBE4 /* TutorialScreenView.swift in Sources */,
 				5DF85E462100C8C20079CD18 /* BackButton.swift in Sources */,
 				5DF346DB20F0DB82006FFCF8 /* Logger.swift in Sources */,
@@ -397,9 +419,11 @@
 				5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */,
 				5D189C4B21076A690005C938 /* CorrectLabelSelector.swift in Sources */,
 				5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */,
+				5DF4DDCF2108AF2C0045E330 /* FiddleProperties.swift in Sources */,
 				5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */,
 				5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */,
 				5D36EC532100A9EC00DCFBE4 /* JoinGameScreenView.swift in Sources */,
+				5DF4DDD22108AFA80045E330 /* Config.swift in Sources */,
 				5D86358E20FE446A005E7141 /* ARCameraView.swift in Sources */,
 				5D36EC5F2100AAAE00DCFBE4 /* TutorialScreenLogic.swift in Sources */,
 			);
