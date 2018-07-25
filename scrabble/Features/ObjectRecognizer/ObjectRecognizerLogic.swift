@@ -2,9 +2,9 @@ import SwiftyJSON
 import Foundation
 
 struct ImageLabel {
-    let Score: Float
-    let Topicality: Float
-    let label: String
+    var Score: Float
+    var Topicality: Float
+    var description: String
 }
 
 protocol ObjectRecognizerLogicProtocol: FeatureLogicProtocol {
@@ -57,7 +57,7 @@ class ObjectRecognizerLogic: ObjectRecognizerLogicProtocol {
                 let label = ImageLabel(
                     Score: Float(labelAnnotations[index]["score"].stringValue)!,
                     Topicality: Float(labelAnnotations[index]["topicality"].stringValue)!,
-                    label: labelAnnotations[index]["description"].stringValue)
+                    description: labelAnnotations[index]["description"].stringValue)
                 labels.append(label)
             }
             return labels
