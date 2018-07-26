@@ -71,12 +71,12 @@ class FiddleScreenView: UIView, FiddleScreenViewProtocol, UITableViewDelegate, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let currentProperty = property.tableData[indexPath.section].properties[indexPath.row]
         let cell:PropertyCell = (tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as! PropertyCell?)!
-        cell.slider.maximumValue = currentProperty.maxBound
-        cell.slider.minimumValue = currentProperty.minBound
+        cell.slider.maximumValue = Float(currentProperty.maxBound)
+        cell.slider.minimumValue = Float(currentProperty.minBound)
         cell.slider.value = Float(currentProperty.value)
         cell.slider.tag = self.getTag(section: indexPath.section, index: indexPath.row)
         cell.slider.addTarget(self, action: #selector(onSliderUpdate(_:)), for: UIControl.Event.valueChanged)
-        cell.value.text = String(format:"%.5f", cell.slider.value)
+        cell.value.text = String(format:"%.1f", cell.slider.value)
         cell.titleView.text = currentProperty.propertyName
         return cell
     }
@@ -96,7 +96,7 @@ class FiddleScreenView: UIView, FiddleScreenViewProtocol, UITableViewDelegate, U
     @objc
     func onSliderUpdate(_ sender : UISlider) {
         let (section, index) = self.getSectionandIndexFor(tag: sender.tag)
-        property.tableData[section].properties[index].value = sender.value
+        property.tableData[section].properties[index].value = Int(sender.value)
     }
     
     private func getTag(section: Int, index: Int) -> Int {

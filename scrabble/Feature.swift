@@ -18,6 +18,7 @@ enum FeatureName {
     case SettingsScreen
     case JoinGameScreen
     case ObjectRecognizer
+    case FiddleScreen
 }
 // swiftlint:enable identifier_name
 
