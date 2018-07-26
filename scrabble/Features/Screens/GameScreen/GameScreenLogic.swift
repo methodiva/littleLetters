@@ -21,6 +21,8 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
+    func showFiddleMenu()
+    func hideFiddleMenu()
 }
 
 class GameScreenLogic: GameScreenLogicProtocol {
@@ -29,6 +31,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     private weak var cameraLogic: CameraLogicProtocol?
     private weak var endGameScreenLogic: EndGameScreenLogicProtocol?
     private weak var objectRecognizerLogic: ObjectRecognizerLogicProtocol?
+    private weak var fiddleScreenLogic: FiddleScreenLogicProtocol?
     
     // Game's state variables
     var playerScore = 0
@@ -52,6 +55,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
             let homeScreenLogic = deps[.HomeScreen] as? HomeScreenLogicProtocol,
             let endGameScreenLogic = deps[.EndGameScreen] as? EndGameScreenLogicProtocol,
             let cameraLogic = deps[.Camera] as? CameraLogicProtocol,
+            let fiddleScreenLogic = deps[.FiddleScreen] as? FiddleScreenLogicProtocol,
             let objectRecognizerLogic = deps[.ObjectRecognizer] as? ObjectRecognizerLogicProtocol else {
                 log.error("Dependency unfulfilled")
                 return
@@ -59,6 +63,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.homeScreenLogic = homeScreenLogic
         self.endGameScreenLogic = endGameScreenLogic
         self.cameraLogic = cameraLogic
+        self.fiddleScreenLogic = fiddleScreenLogic
         self.objectRecognizerLogic = objectRecognizerLogic
         
         self.view = uiView
@@ -102,6 +107,14 @@ class GameScreenLogic: GameScreenLogicProtocol {
                 log.debug(label)
             })
         })
+    }
+    
+    func showFiddleMenu() {
+        fiddleScreenLogic?.showMenu()
+    }
+    
+    func hideFiddleMenu() {
+        fiddleScreenLogic?.hideMenu()
     }
     
     // Temporary functions to test

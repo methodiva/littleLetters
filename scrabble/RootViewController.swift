@@ -43,7 +43,7 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .GameScreen: Feature(
             logic: GameScreenLogic(),
-            dependencies: [.HomeScreen, .EndGameScreen, .Camera, .ObjectRecognizer],
+            dependencies: [.HomeScreen, .EndGameScreen, .Camera, .ObjectRecognizer, .FiddleScreen],
             view: nil,
             viewOrder: 7
         ),
@@ -58,7 +58,14 @@ class RootViewController: UIViewController, RootProtocol {
             dependencies: nil,
             view: nil,
             viewOrder: 0
-        )
+        ),
+        .FiddleScreen: Feature(
+            logic: FiddleScreenLogic(),
+            dependencies: nil,
+            view: nil,
+            viewOrder: 10
+        ),
+        
      ]
 
     // views are separated from feature initialization above because we destroy views
@@ -73,7 +80,8 @@ class RootViewController: UIViewController, RootProtocol {
         .TutorialScreen: { featureLogic in TutorialScreenView(featureLogic) },
         .SettingsScreen: { featureLogic in SettingsScreenView(featureLogic) },
         .GameScreen: { featureLogic in GameScreenView(featureLogic) },
-        .EndGameScreen: { featureLogic in EndGameScreenView(featureLogic) }
+        .EndGameScreen: { featureLogic in EndGameScreenView(featureLogic) },
+        .FiddleScreen: { featureLogic in FiddleScreenView(featureLogic) }
     ]
 
     // MARK: - UIViewController

@@ -28,6 +28,8 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     
     let crossHairLabel = UILabel()
     
+    private let cancelView = UIView()
+    
     func initUI() {
         screenTitleLabel.text = "Game Screen"
         screenTitleLabel.textAlignment = .center
@@ -51,6 +53,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         self.addSubview(backButton)
         self.addSubview(screenTitleLabel)
         self.addSubview(endGameButton)
+        onRightSwipe()
         self.hide{}
     }
     
@@ -144,6 +147,29 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func onTapScreen(_ target: Any?, _ handler: Selector) {
         let gestureRecognizer = UITapGestureRecognizer(target: target, action: handler)
         self.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    // Fiddle Menu
+    
+    func onRightSwipe() {
+        let swipeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(addFiddleMenu(_:)))
+        swipeGesture.edges = .right
+        self.addGestureRecognizer(swipeGesture)
+    }
+    
+    @objc func disableFiddleMenu() {
+        self.cancelView.removeFromSuperview()
+        self.featureLogic.hideFiddleMenu()
+    }
+    
+    @objc func addFiddleMenu(_ gesture: UITapGestureRecognizer) {
+        if gesture.state == .ended {
+            self.cancelView.frame = self.frame
+            let touchToCancel = UITapGestureRecognizer(target: self, action: #selector(disableFiddleMenu))
+            self.addSubview(self.cancelView)
+            cancelView.addGestureRecognizer(touchToCancel)
+            self.featureLogic.showFiddleMenu()
+        }
     }
     
     // Temporary functions to test the functionality
