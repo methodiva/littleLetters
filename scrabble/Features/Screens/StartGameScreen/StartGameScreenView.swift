@@ -124,7 +124,6 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         }
         waitingForPlayer.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(1.5 * gridHeight)
-            //make.bottomMargin.equalTo(1.5 * gridHeight )
             make.centerX.equalToSuperview()
         }
         buttonStack.snp.makeConstraints { make in

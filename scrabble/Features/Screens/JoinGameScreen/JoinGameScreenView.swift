@@ -1,6 +1,7 @@
 import UIKit
 
 class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
+    
     weak var featureLogic: JoinGameScreenLogicProtocol!
     
     convenience init(_ featureLogic: FeatureLogicProtocol) {
@@ -17,57 +18,105 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     
     // UI elements
     
+    let backgroundImage = UIImageView(image: UIImage(named: "BackgroundImage"))
     let screenTitleLabel = UILabel()
-    let keyTextField = UITextField()
     let backButton = BackButton()
-    let playGameButton = UIButton()
+    let joinGameButton = UIButton()
+    let keyTextField = UITextField()
+    
+    let enterCodeLabel = UILabel()
+    let buttonStack = UIStackView()
+    let textFieldBackground = UIImageView(image: UIImage(named: "joinGameTextFieldBackground"))
+    
+    // Loading font
+    let titleFont = UIFont(name: "Montserrat-Bold", size: 22)
+    let buttonsFont = UIFont(name: "Montserrat-Bold", size: 25)
+    let enterCodeFont = UIFont(name: "Montserrat-Regular", size: 28)
+    let keyFont = UIFont(name: "Montserrat-Bold", size: 32)
     
     func initUI() {
-        self.backgroundColor = .white
-        screenTitleLabel.text = "Join Game"
+        screenTitleLabel.text = "JOIN GAME"
         screenTitleLabel.textAlignment = .center
-        playGameButton.setTitle("Play Game", for: .normal)
-        playGameButton.backgroundColor = .cyan
-        configureTextfield()
+        screenTitleLabel.font = titleFont
+        screenTitleLabel.textColor = .white
         
-        self.addSubview(playGameButton)
+        initTextField()
+        initShareKeyButton()
+        
+        buttonStack.addArrangedSubview(textFieldBackground)
+        buttonStack.addArrangedSubview(joinGameButton)
+        buttonStack.axis = .vertical
+        buttonStack.spacing = gridHeight * 2.5
+        buttonStack.alignment = .center
+        
+        self.addSubview(backgroundImage)
         self.addSubview(backButton)
         self.addSubview(screenTitleLabel)
+        
+        self.addSubview(buttonStack)
+        self.addSubview(enterCodeLabel)
         self.addSubview(keyTextField)
         self.hide{}
     }
     
+    func initShareKeyButton() {
+        var attributes = [NSAttributedString.Key: AnyObject]()
+        attributes[.foregroundColor] = UIColor.white
+        joinGameButton.setBackgroundImage(UIImage(named: "pinkSmallButton"), for: .normal)
+        let shareKeyTitle = "Join"
+        let shareKeyAttributedString = NSMutableAttributedString(string: shareKeyTitle, attributes: attributes)
+        shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+                                              value: CGFloat(5.0),
+                                              range: NSRange(location: 0, length: shareKeyTitle.count-1))
+        joinGameButton.setAttributedTitle(shareKeyAttributedString, for: .normal)
+        joinGameButton.titleLabel?.font = buttonsFont
+    }
+    
+    func initTextField() {
+        enterCodeLabel.text = "Enter Code"
+        enterCodeLabel.font = enterCodeFont
+        enterCodeLabel.textColor = .white
+        
+        keyTextField.delegate = self
+        keyTextField.font = keyFont
+        keyTextField.textColor = #colorLiteral(red: 0.1960784314, green: 0.06274509804, blue: 0.01568627451, alpha: 1)
+        
+    }
+    
     func initConstraints() {
-        screenTitleLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(80)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
+        backgroundImage.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
+            make.center.equalToSuperview()
         }
-        keyTextField.snp.makeConstraints { make in
-            make.topMargin.equalTo(250)
+        screenTitleLabel.snp.makeConstraints { make in
+            make.topMargin.equalTo(0.75 * gridHeight )
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
         }
         backButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(30)
-            make.leftMargin.equalTo(30)
+            make.topMargin.equalTo(0.75 * gridHeight)
+            make.leftMargin.equalTo(0.75 * gridWidth)
         }
-        playGameButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(450)
+        enterCodeLabel.snp.makeConstraints { make in
+            make.topMargin.equalTo(8.1 * gridHeight )
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
         }
+        keyTextField.snp.makeConstraints { make in
+            make.topMargin.equalTo(10.5 * gridHeight )
+            make.centerX.equalToSuperview()
+        }
+        buttonStack.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
     }
     
     func onTapBackButton(_ target: Any?, _ handler: Selector) {
         self.backButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
-    func onTapPlayGameButton(_ target: Any?, _ handler: Selector) {
-        self.playGameButton.addTarget(target, action: handler, for: .touchUpInside)
+    func onTapJoinGameButton(_ target: Any?, _ handler: Selector) {
+        self.joinGameButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
     func hide(_ onHidden: (() -> Void)?) {
@@ -84,11 +133,6 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
 }
 
 extension JoinGameScreenView: UITextFieldDelegate {
-    func configureTextfield() {
-        keyTextField.backgroundColor = .green
-        keyTextField.delegate = self
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
