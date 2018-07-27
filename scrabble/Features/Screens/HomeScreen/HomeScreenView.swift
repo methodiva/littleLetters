@@ -1,6 +1,9 @@
 import UIKit
 import SnapKit
 
+let gridWidth = UIScreen.main.bounds.width/15
+let gridHeight = UIScreen.main.bounds.height/27
+
 class HomeScreenView: UIView, HomeScreenViewProtocol {
     weak var featureLogic: HomeScreenLogicProtocol!
     
@@ -17,71 +20,77 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
     }
     
     // UI Elements
-    
-    let gameTitleLabel = UILabel()
+    let gameTitleImageView = UIImageView(image: UIImage(named: "gameTitle"))
+    let backgroundImage = UIImageView(image: UIImage(named: "BackgroundImage"))
+    let playButtonStack = UIStackView()
+    let subMenuButtonStack = UIStackView()
     let startGameButton = UIButton()
     let joinGameButton = UIButton()
     let tutorialButton = UIButton()
     let settingsButton = UIButton()
     
+    // UIimages for buttons
+    let startGameImage = UIImage(named: "purpleButton")
+    let joinGameImage = UIImage(named: "pinkButton")
+    let tutorialImage = UIImage(named: "tutorialButton")
+    let settingsImage = UIImage(named: "settingsButton")
+    
     func initUI() {
-        self.backgroundColor = .white
-        gameTitleLabel.text = "littleLetters"
-        gameTitleLabel.textAlignment = .center
+        initUIConfiguration()
+        self.addSubview(backgroundImage)
+        self.addSubview(gameTitleImageView)
+        self.addSubview(playButtonStack)
+        self.addSubview(subMenuButtonStack)
+    }
+    
+    func initUIConfiguration() {
+        playButtonStack.axis = .vertical
+        playButtonStack.spacing = gridHeight
+        playButtonStack.addArrangedSubview(startGameButton)
+        playButtonStack.addArrangedSubview(joinGameButton)
         
-        startGameButton.backgroundColor = .red
-        joinGameButton.backgroundColor = .blue
-        tutorialButton.backgroundColor = .green
-        settingsButton.backgroundColor = .yellow
+        subMenuButtonStack.axis = .horizontal
+        subMenuButtonStack.spacing = gridWidth
+        subMenuButtonStack.addArrangedSubview(settingsButton)
+        subMenuButtonStack.addArrangedSubview(tutorialButton)
         
-        startGameButton.setTitle("Start game", for: .normal)
-        joinGameButton.setTitle("Join game", for: .normal)
-        tutorialButton.setTitle("T", for: .normal)
-        settingsButton.setTitle("S", for: .normal)
+        startGameButton.setBackgroundImage(startGameImage, for: .normal)
+        joinGameButton.setBackgroundImage(joinGameImage, for: .normal)
+        tutorialButton.setImage(tutorialImage, for: .normal)
+        settingsButton.setImage(settingsImage, for: .normal)
         
-        startGameButton.titleLabel?.textColor = .black
-        joinGameButton.titleLabel?.textColor = .black
-        tutorialButton.titleLabel?.textColor = .black
-        settingsButton.titleLabel?.textColor = .black
-        
-        self.addSubview(gameTitleLabel)
-        self.addSubview(startGameButton)
-        self.addSubview(joinGameButton)
-        self.addSubview(tutorialButton)
-        self.addSubview(settingsButton)
-        
-     }
+        startGameButton.setTitle("Start", for: .normal)
+        joinGameButton.setTitle("Join", for: .normal)
+    }
     
     func initConstraints() {
-        gameTitleLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(80)
+        backgroundImage.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
+            make.center.equalToSuperview()
+        }
+        gameTitleImageView.snp.makeConstraints { make in
+            make.topMargin.equalTo(2 * gridHeight)
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
+        }
+        playButtonStack.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
         startGameButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(200)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
+            make.top.equalToSuperview()
         }
         joinGameButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(300)
+            make.bottom.equalToSuperview()
+        }
+        subMenuButtonStack.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
+            make.bottom.equalToSuperview().inset(3 * gridHeight)
         }
         tutorialButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(400)
-            make.centerX.equalToSuperview().inset(50)
-            make.width.equalTo(50)
-            make.height.equalTo(50)
+            make.right.equalToSuperview()
         }
         settingsButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(400)
-            make.centerX.equalToSuperview().inset(-50)
-            make.width.equalTo(50)
-            make.height.equalTo(50)
+            make.left.equalToSuperview()
         }
     }
     

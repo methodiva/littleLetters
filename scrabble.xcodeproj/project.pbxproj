@@ -212,6 +212,7 @@
 		5D73792D20F0B6CF00885CEB /* scrabble */ = {
 			isa = PBXGroup;
 			children = (
+				5DF68E5D210B2D8300A99468 /* Fonts */,
 				5DF85E442100C8B10079CD18 /* Components */,
 				5D73792E20F0B6CF00885CEB /* AppDelegate.swift */,
 				5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */,
@@ -255,6 +256,13 @@
 				5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		5DF68E5D210B2D8300A99468 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		5DF85E442100C8B10079CD18 /* Components */ = {
