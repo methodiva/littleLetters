@@ -3,7 +3,6 @@ import Foundation
 protocol ChangeNameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapChangeNameButton(_ target: Any?, _ handler: Selector)
-    func getCurrentNameInTextField() -> String
 }
 
 protocol ChangeNameScreenLogicProtocol: FeatureLogicProtocol {
