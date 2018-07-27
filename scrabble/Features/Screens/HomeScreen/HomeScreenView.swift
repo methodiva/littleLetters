@@ -73,13 +73,13 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
         }
         tutorialButton.snp.makeConstraints { make in
             make.topMargin.equalTo(400)
-            make.centerX.equalToSuperview().inset(-50)
+            make.centerX.equalToSuperview().inset(50)
             make.width.equalTo(50)
             make.height.equalTo(50)
         }
         settingsButton.snp.makeConstraints { make in
             make.topMargin.equalTo(400)
-            make.centerX.equalToSuperview().inset(50)
+            make.centerX.equalToSuperview().inset(-50)
             make.width.equalTo(50)
             make.height.equalTo(50)
         }
@@ -106,11 +106,11 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
     }
     
     func onTapSettingsButton(_ target: Any?, _ handler: Selector) {
-        self.tutorialButton.addTarget(target, action: handler, for: .touchUpInside)
+        self.settingsButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
     func onTapTutorialButton(_ target: Any?, _ handler: Selector) {
-        self.settingsButton.addTarget(target, action: handler, for: .touchUpInside)
+        self.tutorialButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
     

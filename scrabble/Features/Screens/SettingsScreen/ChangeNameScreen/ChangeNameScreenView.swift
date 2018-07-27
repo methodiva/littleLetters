@@ -1,11 +1,11 @@
 import UIKit
 
-class SettingsScreenView: UIView, SettingsScreenViewProtocol {
-    weak var featureLogic: SettingsScreenLogicProtocol!
+class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
+    weak var featureLogic: ChangeNameScreenLogicProtocol!
     
     convenience init(_ featureLogic: FeatureLogicProtocol) {
         self.init(frame: UIScreen.main.bounds)
-        guard let logic = featureLogic as? SettingsScreenLogicProtocol else {
+        guard let logic = featureLogic as? ChangeNameScreenLogicProtocol else {
             log.error("Invalid featureLogic provided")
             return
         }
@@ -20,7 +20,6 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
     let screenTitleLabel = UILabel()
     let backButton = BackButton()
     let changeNameButton = UIButton()
-    let rateUsButton = UIButton()
     
     func initUI() {
         self.backgroundColor = .white
@@ -28,17 +27,14 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         self.addSubview(backButton)
         self.addSubview(screenTitleLabel)
         self.addSubview(changeNameButton)
-        self.addSubview(rateUsButton)
         self.hide{}
     }
     
     func initUIConfiguration() {
-        screenTitleLabel.text = "Settings"
+        screenTitleLabel.text = "Change Name"
         screenTitleLabel.textAlignment = .center
+        changeNameButton.backgroundColor = .yellow
         changeNameButton.setTitle("Change Name", for: .normal)
-        changeNameButton.backgroundColor = .red
-        rateUsButton.backgroundColor = .purple
-        rateUsButton.setTitle("Rate Us", for: .normal)
     }
     
     func initConstraints() {
@@ -58,12 +54,6 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
             make.width.equalTo(200)
             make.height.equalTo(50)
         }
-        rateUsButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(480)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
-        }
     }
     
     func onTapBackButton(_ target: Any?, _ handler: Selector) {
@@ -74,8 +64,8 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         self.changeNameButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
-    func onTapRateUsButton(_ target: Any?, _ handler: Selector) {
-        self.rateUsButton.addTarget(target, action: handler, for: .touchUpInside)
+    func getCurrentNameInTextField() -> String {
+        return "YO"
     }
     
     func hide(_ onHidden: (() -> Void)?) {

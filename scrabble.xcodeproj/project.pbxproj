@@ -22,6 +22,8 @@
 		5D36EC662100AAEB00DCFBE4 /* GameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC652100AAEB00DCFBE4 /* GameScreenLogic.swift */; };
 		5D36EC692100AB2F00DCFBE4 /* EndGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC682100AB2F00DCFBE4 /* EndGameScreenLogic.swift */; };
 		5D36EC6B2100AB3D00DCFBE4 /* EndGameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC6A2100AB3C00DCFBE4 /* EndGameScreenView.swift */; };
+		5D48F7DC210B1AC100737814 /* ChangeNameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D48F7DB210B1AC100737814 /* ChangeNameScreenLogic.swift */; };
+		5D48F7DE210B1AD200737814 /* ChangeNameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D48F7DD210B1AD200737814 /* ChangeNameScreenView.swift */; };
 		5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D73792E20F0B6CF00885CEB /* AppDelegate.swift */; };
 		5D73793820F0B6D000885CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793720F0B6D000885CEB /* Assets.xcassets */; };
 		5D73793B20F0B6D000885CEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D73793920F0B6D000885CEB /* LaunchScreen.storyboard */; };
@@ -57,6 +59,8 @@
 		5D36EC652100AAEB00DCFBE4 /* GameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenLogic.swift; sourceTree = "<group>"; };
 		5D36EC682100AB2F00DCFBE4 /* EndGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameScreenLogic.swift; sourceTree = "<group>"; };
 		5D36EC6A2100AB3C00DCFBE4 /* EndGameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameScreenView.swift; sourceTree = "<group>"; };
+		5D48F7DB210B1AC100737814 /* ChangeNameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNameScreenLogic.swift; sourceTree = "<group>"; };
+		5D48F7DD210B1AD200737814 /* ChangeNameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNameScreenView.swift; sourceTree = "<group>"; };
 		5D73792B20F0B6CF00885CEB /* scrabble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scrabble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D73792E20F0B6CF00885CEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D73793720F0B6D000885CEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 		5D36EC582100AA5F00DCFBE4 /* SettingsScreen */ = {
 			isa = PBXGroup;
 			children = (
+				5D48F7DA210B1A9000737814 /* ChangeNameScreen */,
 				5D36EC592100AA7400DCFBE4 /* SettingsScreenLogic.swift */,
 				5D36EC5B2100AA8300DCFBE4 /* SettingsScreenView.swift */,
 			);
@@ -175,6 +180,15 @@
 				5D36EC672100AB1700DCFBE4 /* EndGameScreen */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		5D48F7DA210B1A9000737814 /* ChangeNameScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5D48F7DB210B1AC100737814 /* ChangeNameScreenLogic.swift */,
+				5D48F7DD210B1AD200737814 /* ChangeNameScreenView.swift */,
+			);
+			path = ChangeNameScreen;
 			sourceTree = "<group>";
 		};
 		5D73792220F0B6CF00885CEB = {
@@ -395,12 +409,14 @@
 				5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */,
 				5D36EC692100AB2F00DCFBE4 /* EndGameScreenLogic.swift in Sources */,
 				5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */,
+				5D48F7DE210B1AD200737814 /* ChangeNameScreenView.swift in Sources */,
 				5D189C4B21076A690005C938 /* CorrectLabelSelector.swift in Sources */,
 				5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */,
 				5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */,
 				5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */,
 				5D36EC532100A9EC00DCFBE4 /* JoinGameScreenView.swift in Sources */,
 				5D86358E20FE446A005E7141 /* ARCameraView.swift in Sources */,
+				5D48F7DC210B1AC100737814 /* ChangeNameScreenLogic.swift in Sources */,
 				5D36EC5F2100AAAE00DCFBE4 /* TutorialScreenLogic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

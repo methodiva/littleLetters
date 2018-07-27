@@ -16,6 +16,7 @@ enum FeatureName {
     case GameScreen
     case TutorialScreen
     case SettingsScreen
+    case ChangeNameScreen
     case JoinGameScreen
     case ObjectRecognizer
 }

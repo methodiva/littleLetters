@@ -37,7 +37,13 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .SettingsScreen: Feature(
             logic: SettingsScreenLogic(),
-            dependencies: [.HomeScreen],
+            dependencies: [.HomeScreen, .ChangeNameScreen],
+            view: nil,
+            viewOrder: 6
+        ),
+        .ChangeNameScreen: Feature(
+            logic: ChangeNameScreenLogic(),
+            dependencies: [.SettingsScreen],
             view: nil,
             viewOrder: 6
         ),
@@ -72,6 +78,7 @@ class RootViewController: UIViewController, RootProtocol {
         .JoinGameScreen: { featureLogic in JoinGameScreenView(featureLogic) },
         .TutorialScreen: { featureLogic in TutorialScreenView(featureLogic) },
         .SettingsScreen: { featureLogic in SettingsScreenView(featureLogic) },
+        .ChangeNameScreen: { featureLogic in ChangeNameScreenView(featureLogic) },
         .GameScreen: { featureLogic in GameScreenView(featureLogic) },
         .EndGameScreen: { featureLogic in EndGameScreenView(featureLogic) }
     ]
