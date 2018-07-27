@@ -41,5 +41,12 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Baloo-Regular.ttf</string>
+		<string>coiny-regular.ttf</string>
+		<string>Montserrat-Bold.otf</string>
+		<string>Montserrat-Regular.otf</string>
+	</array>
 </dict>
 </plist>

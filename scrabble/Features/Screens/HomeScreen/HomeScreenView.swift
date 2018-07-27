@@ -29,6 +29,8 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
     let tutorialButton = UIButton()
     let settingsButton = UIButton()
     
+    let buttonsFont = UIFont(name: "Montserrat-Bold", size: 30)
+    
     // UIimages for buttons
     let startGameImage = UIImage(named: "purpleButton")
     let joinGameImage = UIImage(named: "pinkButton")
@@ -44,23 +46,43 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
     }
     
     func initUIConfiguration() {
-        playButtonStack.axis = .vertical
-        playButtonStack.spacing = gridHeight
-        playButtonStack.addArrangedSubview(startGameButton)
-        playButtonStack.addArrangedSubview(joinGameButton)
+        initPlayButtons()
         
         subMenuButtonStack.axis = .horizontal
         subMenuButtonStack.spacing = gridWidth
         subMenuButtonStack.addArrangedSubview(settingsButton)
         subMenuButtonStack.addArrangedSubview(tutorialButton)
         
-        startGameButton.setBackgroundImage(startGameImage, for: .normal)
-        joinGameButton.setBackgroundImage(joinGameImage, for: .normal)
         tutorialButton.setImage(tutorialImage, for: .normal)
         settingsButton.setImage(settingsImage, for: .normal)
+    }
+    
+    func initPlayButtons() {
+        playButtonStack.axis = .vertical
+        playButtonStack.spacing = gridHeight
+        playButtonStack.addArrangedSubview(startGameButton)
+        playButtonStack.addArrangedSubview(joinGameButton)
         
-        startGameButton.setTitle("Start", for: .normal)
-        joinGameButton.setTitle("Join", for: .normal)
+        var attributes = [NSAttributedString.Key: AnyObject]()
+        attributes[.foregroundColor] = UIColor.white
+        
+        let startGameTitle = "Start"
+        startGameButton.setBackgroundImage(startGameImage, for: .normal)
+        let startGameAttributedString = NSMutableAttributedString(string: startGameTitle, attributes: attributes)
+        startGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+                                               value: CGFloat(10.0),
+                                               range: NSRange(location: 0, length: startGameTitle.count-1))
+        startGameButton.setAttributedTitle(startGameAttributedString, for: .normal)
+        startGameButton.titleLabel?.font = buttonsFont
+        
+        let joinGameTitle = "Join"
+        joinGameButton.setBackgroundImage(joinGameImage, for: .normal)
+        let joinGameAttributedString = NSMutableAttributedString(string: joinGameTitle, attributes: attributes)
+        joinGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+                                              value: CGFloat(10.0),
+                                              range: NSRange(location: 0, length: joinGameTitle.count-1))
+        joinGameButton.setAttributedTitle(joinGameAttributedString, for: .normal)
+        joinGameButton.titleLabel?.font = buttonsFont
     }
     
     func initConstraints() {
@@ -70,7 +92,7 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
             make.center.equalToSuperview()
         }
         gameTitleImageView.snp.makeConstraints { make in
-            make.topMargin.equalTo(2 * gridHeight)
+            make.topMargin.equalTo(1.2 * gridHeight)
             make.centerX.equalToSuperview()
         }
         playButtonStack.snp.makeConstraints { make in

@@ -38,6 +38,10 @@
 		5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346E920F0E148006FFCF8 /* CameraView.swift */; };
 		5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */; };
 		5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */; };
+		5DF68E62210B2E8300A99468 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E60210B2DE900A99468 /* Montserrat-Bold.otf */; };
+		5DF68E63210B2E8500A99468 /* coiny-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E61210B2DE900A99468 /* coiny-regular.ttf */; };
+		5DF68E64210B2E8800A99468 /* Baloo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E5E210B2DE900A99468 /* Baloo-Regular.ttf */; };
+		5DF68E65210B2E8B00A99468 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E5F210B2DE900A99468 /* Montserrat-Regular.otf */; };
 		5DF85E462100C8C20079CD18 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF85E452100C8C20079CD18 /* BackButton.swift */; };
 		BF4FF8A1F372414F91DD4946 /* Pods_scrabble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DE57D99B9E3DF8F81F4D7BF /* Pods_scrabble.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +81,10 @@
 		5DF346E920F0E148006FFCF8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraLogic.swift; sourceTree = "<group>"; };
 		5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 3DTypes.swift; sourceTree = "<group>"; };
+		5DF68E5E210B2DE900A99468 /* Baloo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo-Regular.ttf"; sourceTree = "<group>"; };
+		5DF68E5F210B2DE900A99468 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
+		5DF68E60210B2DE900A99468 /* Montserrat-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.otf"; sourceTree = "<group>"; };
+		5DF68E61210B2DE900A99468 /* coiny-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "coiny-regular.ttf"; sourceTree = "<group>"; };
 		5DF85E452100C8C20079CD18 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		9DE57D99B9E3DF8F81F4D7BF /* Pods_scrabble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scrabble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.release.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.release.xcconfig"; sourceTree = "<group>"; };
@@ -261,6 +269,10 @@
 		5DF68E5D210B2D8300A99468 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				5DF68E5E210B2DE900A99468 /* Baloo-Regular.ttf */,
+				5DF68E61210B2DE900A99468 /* coiny-regular.ttf */,
+				5DF68E60210B2DE900A99468 /* Montserrat-Bold.otf */,
+				5DF68E5F210B2DE900A99468 /* Montserrat-Regular.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -341,8 +353,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DF68E64210B2E8800A99468 /* Baloo-Regular.ttf in Resources */,
 				5D73793B20F0B6D000885CEB /* LaunchScreen.storyboard in Resources */,
 				5D73793820F0B6D000885CEB /* Assets.xcassets in Resources */,
+				5DF68E63210B2E8500A99468 /* coiny-regular.ttf in Resources */,
+				5DF68E62210B2E8300A99468 /* Montserrat-Bold.otf in Resources */,
+				5DF68E65210B2E8B00A99468 /* Montserrat-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
