@@ -15,54 +15,87 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         initConstraints()
     }
     
-    // UI elements
-    
+    // UI Elements
     let screenTitleLabel = UILabel()
     let backButton = BackButton()
+    
+    let backgroundImage = UIImageView(image: UIImage(named: "BackgroundImage"))
+    let playButtonStack = UIStackView()
     let changeNameButton = UIButton()
     let rateUsButton = UIButton()
     
+    let buttonsFont = UIFont(name: "Montserrat-Bold", size: 30)
+    let titleFont = UIFont(name: "Montserrat-Bold", size: 22)
+    
+    // UIimages for buttons
+    let changeGameImage = UIImage(named: "pinkButton")
+    let rateUsImage = UIImage(named: "purpleButton")
+    
     func initUI() {
-        self.backgroundColor = .white
+        screenTitleLabel.text = "SETTINGS"
+        screenTitleLabel.textAlignment = .center
+        screenTitleLabel.font = titleFont
+        screenTitleLabel.textColor = .white
+        
         initUIConfiguration()
+        self.addSubview(backgroundImage)
         self.addSubview(backButton)
         self.addSubview(screenTitleLabel)
-        self.addSubview(changeNameButton)
-        self.addSubview(rateUsButton)
+        self.addSubview(playButtonStack)
         self.hide{}
     }
     
     func initUIConfiguration() {
-        screenTitleLabel.text = "Settings"
-        screenTitleLabel.textAlignment = .center
-        changeNameButton.setTitle("Change Name", for: .normal)
-        changeNameButton.backgroundColor = .red
-        rateUsButton.backgroundColor = .purple
-        rateUsButton.setTitle("Rate Us", for: .normal)
+        playButtonStack.axis = .vertical
+        playButtonStack.spacing = gridHeight
+        playButtonStack.addArrangedSubview(changeNameButton)
+        playButtonStack.addArrangedSubview(rateUsButton)
+        playButtonStack.alignment = .center
+        
+        var attributes = [NSAttributedString.Key: AnyObject]()
+        attributes[.foregroundColor] = UIColor.white
+        
+        let changeNameTitle = "Username"
+        changeNameButton.setBackgroundImage(changeGameImage, for: .normal)
+        let changeNameAttributedString = NSMutableAttributedString(string: changeNameTitle, attributes: attributes)
+        changeNameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+                                               value: CGFloat(5.0),
+                                               range: NSRange(location: 0, length: changeNameTitle.count-1))
+        changeNameButton.setAttributedTitle(changeNameAttributedString, for: .normal)
+        changeNameButton.titleLabel?.font = buttonsFont
+        
+        let rateUsTitle = "Rate Us"
+        rateUsButton.setBackgroundImage(rateUsImage, for: .normal)
+        let rateUsAttributedString = NSMutableAttributedString(string: rateUsTitle, attributes: attributes)
+        rateUsAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+                                              value: CGFloat(5.0),
+                                              range: NSRange(location: 0, length: rateUsTitle.count-1))
+        rateUsButton.setAttributedTitle(rateUsAttributedString, for: .normal)
+        rateUsButton.titleLabel?.font = buttonsFont
     }
     
     func initConstraints() {
+        backgroundImage.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalToSuperview()
+            make.center.equalToSuperview()
+        }
         screenTitleLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(80)
+            make.topMargin.equalTo(0.75 * gridHeight )
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
         }
         backButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(30)
-            make.leftMargin.equalTo(30)
+            make.topMargin.equalTo(0.75 * gridHeight)
+            make.leftMargin.equalTo(0.75 * gridWidth)
+        }
+        playButtonStack.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
         changeNameButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(280)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
+            make.top.equalToSuperview()
         }
         rateUsButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(480)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
+            make.bottom.equalToSuperview()
         }
     }
     
