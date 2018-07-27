@@ -3,11 +3,7 @@ import UIKit
 class BackButton: UIButton {
     convenience init() {
         self.init(frame: .zero)
-        self.backgroundColor = .blue
+        self.setBackgroundImage(UIImage(named: "backButton"), for: .normal)
         
-        self.setTitle("B", for: .normal)
-        self.snp.makeConstraints{ make in
-            make.width.height.equalTo(50)
-        }
     }
 }
