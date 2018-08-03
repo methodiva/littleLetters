@@ -103,6 +103,7 @@ class RootViewController: UIViewController, RootProtocol {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        log.warning("MEMORY WARNING")
         self.dispose()
     }
 

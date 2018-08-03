@@ -78,6 +78,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     func goBack() {
         log.verbose("Going back to home screen")
         self.view?.hide {
+            self.cameraLogic?.hide()
             self.homeScreenLogic?.show()
             self.resetVariables()
         }
@@ -87,6 +88,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     func endGame() {
         log.verbose("Going to end game screen")
         self.view?.hide {
+            self.cameraLogic?.hide()
             self.endGameScreenLogic?.show()
             self.resetVariables()
         }
@@ -158,6 +160,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     func show() {
         log.verbose("Started Game")
         self.view?.show{
+            self.cameraLogic?.show()
         }
     }
     

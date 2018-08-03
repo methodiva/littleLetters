@@ -8,6 +8,8 @@ protocol CameraViewProtocol: FeatureViewProtocol {
 protocol CameraImageProtocol {}
 
 protocol CameraLogicProtocol: FeatureLogicProtocol {
+    func show()
+    func hide()
     func addNode(_ node: CameraViewNodeProtocol)
     func captureImage(_ imageCallBack: ((_ image: CameraImageProtocol) -> Void)?)
 }
@@ -24,6 +26,18 @@ class CameraLogic: CameraLogicProtocol {
             return
         }
         self.view = uiView
+    }
+    
+    func show() {
+        log.verbose("Showing camera screen")
+        self.view?.show{
+        }
+    }
+    
+    func hide() {
+        log.verbose("Hiding camera screen")
+        self.view?.hide{
+        }
     }
 
     func willAppear(_ animated: Bool) {
