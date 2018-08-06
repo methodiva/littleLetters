@@ -1,22 +1,11 @@
 import Foundation
 
 protocol GameScreenViewProtocol: FeatureViewProtocol {
-    func onTapBackButton(_ target: Any?, _ handler: Selector)
-    func onTapGameOverButton(_ target: Any?, _ handler: Selector)
     func onTapScreen(_ target: Any?, _ handler: Selector)
-    func updatePlayerScore(to newScore: Int)
-    func updateEnemyScore(to newScore: Int)
-    func updateCurrentStars(to stars: Int)
-    func updateCurrentTries(to tries: Int)
     func updateTimer(to time: Int)
-    
-    // Temporary functions to test
-    
-    func onTapPlayerScoreButton(_ target: Any?, _ handler: Selector)
-    func onTapEnemyScoreButton(_ target: Any?, _ handler: Selector)
-    func onTapCurrentTriesButton(_ target: Any?, _ handler: Selector)
-    func onTapCurrentStarsButton(_ target: Any?, _ handler: Selector)
-    func onTapTimerButton(_ target: Any?, _ handler: Selector)
+    func reduceOneTry()
+    func resetTries()
+    func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int)
 }
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
@@ -62,26 +51,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.objectRecognizerLogic = objectRecognizerLogic
         
         self.view = uiView
-        self.view?.onTapBackButton(self, #selector(goBack))
-        self.view?.onTapGameOverButton(self, #selector(endGame))
         self.view?.onTapScreen(self, #selector(onScreenTap))
-        
-        // Temp functions
-        self.view?.onTapPlayerScoreButton(self, #selector(increasePlayerScore))
-        self.view?.onTapEnemyScoreButton(self, #selector(increaseEnemyScore))
-        self.view?.onTapCurrentStarsButton(self, #selector(increaseCurrentStars))
-        self.view?.onTapCurrentTriesButton(self, #selector(increaseCurrentTries))
-        self.view?.onTapTimerButton(self, #selector(startTimer))
-    }
-     
-    @objc
-    func goBack() {
-        log.verbose("Going back to home screen")
-        self.view?.hide {
-            self.cameraLogic?.hide()
-            self.homeScreenLogic?.show()
-            self.resetVariables()
-        }
     }
     
     @objc
@@ -106,31 +76,6 @@ class GameScreenLogic: GameScreenLogicProtocol {
         })
     }
     
-    // Temporary functions to test
-    
-    @objc
-    func increasePlayerScore() {
-        playerScore += 1
-        self.view?.updatePlayerScore(to: playerScore)
-    }
-    
-    @objc
-    func increaseEnemyScore() {
-        enemyScore += 1
-        self.view?.updateEnemyScore(to: enemyScore)
-    }
-    
-    @objc
-    func increaseCurrentTries() {
-        currentTries += 1
-        self.view?.updateCurrentTries(to: currentTries)
-    }
-    
-    @objc
-    func increaseCurrentStars() {
-        currentStars += 1
-        self.view?.updateCurrentStars(to: currentStars)
-    }
     
     @objc
     func startTimer() {
@@ -142,6 +87,13 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func updateTimer() {
         secondsLeftOnTimer -= 1
+        if secondsLeftOnTimer == 25 {
+            self.view?.reduceOneTry()
+        }
+        if secondsLeftOnTimer == 2 {
+            self.view?.resetTries()
+            
+        }
         self.view?.updateTimer(to: secondsLeftOnTimer)
         if secondsLeftOnTimer <= 0 {
             timer.invalidate()
@@ -161,6 +113,8 @@ class GameScreenLogic: GameScreenLogicProtocol {
         log.verbose("Started Game")
         self.view?.show{
             self.cameraLogic?.show()
+            self.startTimer()
+            self.view?.updateTabs(isPlayerTurn: true, score: 5, cards: 3)
         }
     }
     
