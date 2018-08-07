@@ -22,8 +22,8 @@ class GameScreenLogic: GameScreenLogicProtocol {
     private weak var objectRecognizerLogic: ObjectRecognizerLogicProtocol?
     
     // Game's state variables
-    var playerScore = 5
-    var enemyScore = 0
+    var playerScore = 15
+    var enemyScore = 5
     var currentTries = 0
     var currentStars = 0
     
@@ -108,7 +108,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
             self.view?.resetTries()
             
         }
-        if secondsLeftOnTimer == 0 {
+        if secondsLeftOnTimer == 28 {
             self.endGame()
         }
         // Temp functions end

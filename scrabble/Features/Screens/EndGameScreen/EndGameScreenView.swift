@@ -1,16 +1,23 @@
 import UIKit
 
-fileprivate let titleFont = UIFont(name: "Baloo", size: 30)
-fileprivate let playerNameFont = UIFont(name: "Baloo", size: 30)
-fileprivate let playerScoreFont = UIFont(name: "Baloo", size: 30)
-fileprivate let endGameButtonFont = UIFont(name: "Baloo", size: 30)
+fileprivate let titleFont = UIFont(name: "Coiny", size: 50)
+fileprivate let playerNameFont = UIFont(name: "Montserrat-Bold", size: 25)
+fileprivate let playerScoreFont = UIFont(name: "Montserrat-Bold", size: 30)
+fileprivate let endGameButtonFont = UIFont(name: "Montserrat-Bold", size: 25)
 
-fileprivate let scoreTabImage = UIImage(named: "scoreTabImage")
-fileprivate let playerWonTabImage = UIImage(named: "playerWonImage")
-fileprivate let playerLostTabImage = UIImage(named: "playerLostImage")
-fileprivate let enemyWonTabImage = UIImage(named: "enemyWonImage")
-fileprivate let enemyLostTabImage = UIImage(named: "enemyLostIamge")
-fileprivate let endGameButtonImage = UIImage(named: "endGameButtonImage")
+fileprivate let scoreTabImage = UIImage(named: "scoreTabBig")
+fileprivate let playerWonTabImage = UIImage(named: "playerWonTabImage")
+fileprivate let playerLostTabImage = UIImage(named: "playerLostTabImage")
+fileprivate let enemyWonTabImage = UIImage(named: "enemyWonTabImage")
+fileprivate let enemyLostTabImage = UIImage(named: "enemyLostTabImage")
+fileprivate let endGameButtonImage = UIImage(named: "purpleButton")
+
+fileprivate let winnerNameMargin = 38
+fileprivate let loserNameMargin = 30
+fileprivate let winnerScoreMargin = 30
+fileprivate let loserScoreMargin = 20
+fileprivate let winnerCenterOffset = 2
+fileprivate let loserCenterOffset = -2
 
 
 class EndGameScreenView: UIView, EndGameScreenViewProtocol {
@@ -51,22 +58,26 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
         initTitleLabelUI()
         initTabs()
         initEndGameButton()
-        self.hide{}
+        self.isUserInteractionEnabled = false
+        self.alpha = 0
     }
 
     func initTitleLabelUI() {
         screenTitleLabel.text = "Player Wins!"
         screenTitleLabel.font = titleFont
+        screenTitleLabel.textColor = appColors.white
         screenTitleLabel.textAlignment = .center
         self.addSubview(screenTitleLabel)
     }
     
     func initTabs() {
+        tabStack.axis = .vertical
+        tabStack.spacing = gridHeight
+        tabStack.alignment = .center
+        
         initPlayerTab()
         initEnemyTab()
         
-        tabStack.axis = .vertical
-        tabStack.spacing = 3 * gridHeight
         self.addSubview(tabStack)
     }
     
@@ -116,7 +127,7 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
         let endGameTitle = "End Game"
         let endGameAttributedString = NSMutableAttributedString(string: endGameTitle, attributes: attributes)
         endGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                               value: CGFloat(10.0),
+                                               value: CGFloat(5.0),
                                                range: NSRange(location: 0, length: endGameTitle.count-1))
         endGameButton.setAttributedTitle(endGameAttributedString, for: .normal)
         endGameButton.titleLabel?.font = endGameButtonFont
@@ -130,18 +141,42 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
             make.center.equalToSuperview()
         }
         screenTitleLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(80)
+            make.topMargin.equalTo(gridHeight * 2)
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.height.equalTo(50)
         }
         tabStack.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalTo(screenTitleLabel.snp.bottom).offset(gridHeight * 2)
         }
         endGameButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(gridHeight * 5)
+            make.bottom.equalToSuperview().inset(gridHeight * 3)
+        }
+        
+        // Player Tab constraints
+        playerScoreTab.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.right.equalToSuperview().inset(loserScoreMargin)
+        }
+        playerScoreLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        playerNameLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.left.equalToSuperview().inset(loserNameMargin)
+        }
+        
+        // Enemy tab constraints
+        enemyScoreTab.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.right.equalToSuperview().inset(loserScoreMargin)
+        }
+        enemyScoreLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        enemyNameLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.left.equalToSuperview().inset(loserNameMargin)
         }
     }
     
@@ -154,6 +189,7 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
         enemyScoreLabel.text = String(enemyScore)
         screenTitleLabel.text = getScreenTitle(for: gameResult)
         setTabImages(for: gameResult)
+        setConstraintsForWinner(for: gameResult)
     }
     
     private func setTabImages(for result: GameResult) {
@@ -170,10 +206,56 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
         }
     }
     
+    private func setConstraintsForWinner(for result: GameResult) {
+        if result == .playerWon {
+            playerScoreTab.snp.updateConstraints { make in
+                make.centerY.equalToSuperview().inset(winnerCenterOffset)
+                make.right.equalToSuperview().inset(winnerScoreMargin)
+            }
+            playerNameLabel.snp.updateConstraints { make in
+                make.centerY.equalToSuperview().inset(winnerCenterOffset)
+                make.left.equalToSuperview().inset(winnerNameMargin)
+            }
+        }
+        
+        if result == .enemyWon {
+            enemyScoreTab.snp.updateConstraints { make in
+                make.centerY.equalToSuperview().inset(winnerCenterOffset)
+                make.right.equalToSuperview().inset(winnerScoreMargin)
+            }
+            enemyNameLabel.snp.updateConstraints { make in
+                make.centerY.equalToSuperview().inset(winnerCenterOffset)
+                make.left.equalToSuperview().inset(winnerScoreMargin)
+            }
+        }
+    }
+    
+    private func resetConstraints() {
+        // Player Tab constraints
+        playerScoreTab.snp.updateConstraints { make in
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.right.equalToSuperview().inset(loserScoreMargin)
+        }
+        playerNameLabel.snp.updateConstraints { make in
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.left.equalToSuperview().inset(loserNameMargin)
+        }
+        
+        // Enemy tab constraints
+        enemyScoreTab.snp.updateConstraints { make in
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.right.equalToSuperview().inset(loserScoreMargin)
+        }
+        enemyNameLabel.snp.updateConstraints { make in
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.left.equalToSuperview().inset(loserNameMargin)
+        }
+    }
+    
     private func getScreenTitle(for result: GameResult) -> String {
         switch result {
         case .draw:
-            return "It's Draw"
+            return "It's a Draw!"
         case .playerWon:
             return playerName + " Won!"
         case .enemyWon:
@@ -183,6 +265,7 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
     
     
     func hide(_ onHidden: (() -> Void)?) {
+        self.resetConstraints()
         self.isUserInteractionEnabled = false
         self.alpha = 0
         onHidden?()

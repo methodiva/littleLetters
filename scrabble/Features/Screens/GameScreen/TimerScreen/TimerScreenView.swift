@@ -8,7 +8,7 @@ fileprivate let playerNameFont = UIFont(name: "Montserrat-Bold", size: 22)
 
 fileprivate let playerTabImage = UIImage(named: "timerScreenPlayerTabImage")
 fileprivate let scoreTabImage =  UIImage(named: "timerScreenScoreTabImage")
-fileprivate let endGameButtonImage = UIImage(named: "endGameButtonImage")
+fileprivate let endGameButtonImage = UIImage(named: "purpleButton")
 
 class TimerScreenView: UIView, TimerScreenViewProtocol {
     weak var featureLogic: TimerScreenLogicProtocol!
