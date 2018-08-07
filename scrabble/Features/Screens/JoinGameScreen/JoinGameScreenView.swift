@@ -38,7 +38,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         screenTitleLabel.text = "JOIN GAME"
         screenTitleLabel.textAlignment = .center
         screenTitleLabel.font = titleFont
-        screenTitleLabel.textColor = .white
+        screenTitleLabel.textColor = appColors.white
         
         initTextField()
         initShareKeyButton()
@@ -61,7 +61,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     
     func initShareKeyButton() {
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = UIColor.white
+        attributes[.foregroundColor] = appColors.white
         joinGameButton.setBackgroundImage(UIImage(named: "pinkSmallButton"), for: .normal)
         let shareKeyTitle = "Join"
         let shareKeyAttributedString = NSMutableAttributedString(string: shareKeyTitle, attributes: attributes)
@@ -75,11 +75,11 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     func initTextField() {
         enterCodeLabel.text = "Enter Code"
         enterCodeLabel.font = enterCodeFont
-        enterCodeLabel.textColor = .white
+        enterCodeLabel.textColor = appColors.white
         
         keyTextField.delegate = self
         keyTextField.font = keyFont
-        keyTextField.textColor = #colorLiteral(red: 0.1960784314, green: 0.06274509804, blue: 0.01568627451, alpha: 1)
+        keyTextField.textColor = appColors.darkPurple
         
     }
     

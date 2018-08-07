@@ -42,7 +42,7 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         screenTitleLabel.text = "START GAME"
         screenTitleLabel.textAlignment = .center
         screenTitleLabel.font = titleFont
-        screenTitleLabel.textColor = .white
+        screenTitleLabel.textColor = appColors.white
         
         initTextField()
         initShareKeyButton()
@@ -68,12 +68,12 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     func initBottomBar() {
         waitingForPlayer.font = waitingForPlayerFont
         waitingForPlayer.text = "waiting for player"
-        waitingForPlayer.textColor = .white
+        waitingForPlayer.textColor = appColors.white
     }
     
     func initShareKeyButton() {
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = UIColor.white
+        attributes[.foregroundColor] = appColors.white
         shareKeyButton.setBackgroundImage(UIImage(named: "purpleSmallButton"), for: .normal)
         let shareKeyTitle = "Share"
         let shareKeyAttributedString = NSMutableAttributedString(string: shareKeyTitle, attributes: attributes)
@@ -87,10 +87,10 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     func initTextField() {
         gameCodeLabel.text = "Game Code"
         gameCodeLabel.font = gameCodeFont
-        gameCodeLabel.textColor = .white
+        gameCodeLabel.textColor = appColors.white
         
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = #colorLiteral(red: 0.1960784314, green: 0.06274509804, blue: 0.01568627451, alpha: 1)
+        attributes[.foregroundColor] = appColors.darkPurple
         
         let shareCodeLabelString = NSMutableAttributedString(string: shareKey, attributes: attributes)
         shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,

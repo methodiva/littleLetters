@@ -35,7 +35,7 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         screenTitleLabel.text = "SETTINGS"
         screenTitleLabel.textAlignment = .center
         screenTitleLabel.font = titleFont
-        screenTitleLabel.textColor = .white
+        screenTitleLabel.textColor = appColors.white
         
         initUIConfiguration()
         self.addSubview(backgroundImage)
@@ -53,7 +53,7 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         playButtonStack.alignment = .center
         
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = UIColor.white
+        attributes[.foregroundColor] = appColors.white
         
         let changeNameTitle = "Username"
         changeNameButton.setBackgroundImage(changeGameImage, for: .normal)

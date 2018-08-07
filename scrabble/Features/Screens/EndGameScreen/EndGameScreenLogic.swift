@@ -1,7 +1,7 @@
 import Foundation
 
 protocol EndGameScreenViewProtocol: FeatureViewProtocol {
-    func onTapBackButton(_ target: Any?, _ handler: Selector)
+    func onTapEndGameButton(_ target: Any?, _ handler: Selector)
 }
 
 protocol EndGameScreenLogicProtocol: FeatureLogicProtocol {
@@ -26,11 +26,9 @@ class EndGameScreenLogic: EndGameScreenLogicProtocol {
                 log.error("Dependency unfulfilled")
                 return
         }
-        
         self.homeScreenLogic = homeScreenLogic
-        
         self.view = uiView
-        self.view?.onTapBackButton(self, #selector(goBack))
+        self.view?.onTapEndGameButton(self, #selector(goBack))
     }
     
     @objc

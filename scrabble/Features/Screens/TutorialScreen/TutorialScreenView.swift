@@ -41,7 +41,7 @@ class TutorialScreenView: UIView, TutorialScreenViewProtocol {
         screenTitleLabel.text = "TUTORIAL"
         screenTitleLabel.textAlignment = .center
         screenTitleLabel.font = titleFont
-        screenTitleLabel.textColor = .white
+        screenTitleLabel.textColor = appColors.white
         
         self.addSubview(backgroundImage)
         self.addSubview(backButton)

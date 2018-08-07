@@ -10,16 +10,6 @@ fileprivate let activeTabImage = UIImage(named: "activePlayerTab")
 fileprivate let passiveTabImage = UIImage(named: "passivePlayerTab")
 fileprivate let scoreTabImage = UIImage(named: "scoreTab")
 
-fileprivate let colorRed = #colorLiteral(red: 1, green: 0.2862745098, blue: 0.3607843137, alpha: 1)
-
-//  Temp variables
-
-let playerName = "Divya"
-let enemyName = "Jyoti"
-let currentLetter = "T"
-let maxTries = 3
-var currentTries = 3
-
 class GameScreenView: UIView, GameScreenViewProtocol {
     weak var featureLogic: GameScreenLogicProtocol!
     
@@ -95,11 +85,11 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         if isActive {
             playerTab.image = activeTabImage
             playerNameLabel.font = activePlayerNameFont
-            playerNameLabel.textColor = .white
+            playerNameLabel.textColor = appColors.white
         } else {
             playerTab.image = passiveTabImage
             playerNameLabel.font = passivePlayerNameFont
-            playerNameLabel.textColor = colorRed
+            playerNameLabel.textColor = appColors.red
         }
     }
     
@@ -109,11 +99,11 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         if isActive {
             enemyTab.image = activeTabImage
             enemyNameLabel.font = activePlayerNameFont
-            enemyNameLabel.textColor = .white
+            enemyNameLabel.textColor = appColors.white
         } else {
             enemyTab.image = passiveTabImage
             enemyNameLabel.font = passivePlayerNameFont
-            enemyNameLabel.textColor = colorRed
+            enemyNameLabel.textColor = appColors.red
         }
     }
     
@@ -125,7 +115,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
             title = "00:0\(String(time))"
         }
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = UIColor.white
+        attributes[.foregroundColor] = appColors.white
         let timerAttributedString = NSMutableAttributedString(string: title, attributes: attributes)
         timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
                                                value: CGFloat(8.0),
@@ -182,11 +172,12 @@ extension GameScreenView {
         
         playerScoreLabel.text = String(0)
         playerScoreLabel.font = scoreFont
+        playerScoreLabel.textColor = appColors.darkPurple
         playerScoreLabel.textAlignment = .center
         
         // Initialising name tab
         playerNameLabel.font = activePlayerNameFont
-        playerNameLabel.textColor = .white
+        playerNameLabel.textColor = appColors.white
         playerNameLabel.text = playerName
         self.addSubview(playerTab)
     }
@@ -212,11 +203,12 @@ extension GameScreenView {
         
         enemyScoreLabel.text = String(0)
         enemyScoreLabel.font = scoreFont
+        enemyScoreLabel.textColor = appColors.darkPurple
         enemyScoreLabel.textAlignment = .center
         
         // Initialising name tab
         enemyNameLabel.font = activePlayerNameFont
-        enemyNameLabel.textColor = .white
+        enemyNameLabel.textColor = appColors.white
         enemyNameLabel.text = enemyName
         self.addSubview(enemyTab)
     }
@@ -225,7 +217,7 @@ extension GameScreenView {
         currentLetterBackground.image = UIImage(named: "letterTilePurple")
         currentLetterLabel.text = currentLetter
         currentLetterLabel.font = currentLetterFont
-        currentLetterLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.1843137255, blue: 0.5411764706, alpha: 1)
+        currentLetterLabel.textColor = appColors.mediumPurple
         self.currentLetterBackground.addSubview(currentLetterLabel)
         self.addSubview(currentLetterBackground)
     }
@@ -249,7 +241,7 @@ extension GameScreenView {
         shape.lineWidth = 6
         shape.opacity = 0.5
         shape.path = path.cgPath
-        shape.strokeColor = UIColor.white.cgColor
+        shape.strokeColor = appColors.white.cgColor
         shape.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(shape)
     }
@@ -266,7 +258,7 @@ extension GameScreenView {
             shape.lineWidth = 2
             shape.opacity = 1
             shape.path = path.cgPath
-            shape.strokeColor = UIColor.white.cgColor
+            shape.strokeColor = appColors.white.cgColor
             shape.fillColor = UIColor.clear.cgColor
             shape.name = String(i)
             shape.position = self.center
@@ -368,7 +360,7 @@ fileprivate func chooseCardFor(number : Int) -> UIImage? {
 fileprivate func animateArcForFailTry(for layer: CALayer) {
     // Changing the color without any animation here, for now atleast
     if let shapeLayer = layer as? CAShapeLayer {
-        shapeLayer.strokeColor = UIColor.red.cgColor
+        shapeLayer.strokeColor = appColors.red.cgColor
     }
     let animationDuration: Double = 1
     
@@ -391,7 +383,7 @@ fileprivate func animateArcForFailTry(for layer: CALayer) {
 
 fileprivate func resetArc(for layer: CALayer) {
     if let shapeLayer = layer as? CAShapeLayer {
-        shapeLayer.strokeColor = UIColor.white.cgColor
+        shapeLayer.strokeColor = appColors.white.cgColor
     }
     layer.transform = CATransform3DIdentity
     layer.opacity = 1

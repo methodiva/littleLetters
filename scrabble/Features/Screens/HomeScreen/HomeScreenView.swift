@@ -1,8 +1,26 @@
 import UIKit
 import SnapKit
 
+// The below variables are to be put in the config file, which is in another branch
 let gridWidth = UIScreen.main.bounds.width/15
 let gridHeight = UIScreen.main.bounds.height/27
+
+let playerName = "Divya"
+let enemyName = "Jyoti"
+let currentLetter = "T"
+let maxTries = 3
+var currentTries = 3
+
+struct appColors {
+    static let darkPurple = #colorLiteral(red: 0.2431372549, green: 0.06666666667, blue: 0.3176470588, alpha: 1)
+    static let mediumPurple  = #colorLiteral(red: 0.4588235294, green: 0.1843137255, blue: 0.5411764706, alpha: 1)
+    static let lightPurple = #colorLiteral(red: 0.6431372549, green: 0.4235294118, blue: 0.8784313725, alpha: 1)
+    static let white = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    static let yellow = #colorLiteral(red: 0.9098039216, green: 0.7725490196, blue: 0.1098039216, alpha: 1)
+    static let pink = #colorLiteral(red: 0.9215686275, green: 0.3647058824, blue: 0.7450980392, alpha: 1)
+    static let red = #colorLiteral(red: 1, green: 0.2862745098, blue: 0.3607843137, alpha: 1)
+}
+
 
 class HomeScreenView: UIView, HomeScreenViewProtocol {
     weak var featureLogic: HomeScreenLogicProtocol!
@@ -64,7 +82,7 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
         playButtonStack.addArrangedSubview(joinGameButton)
         
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = UIColor.white
+        attributes[.foregroundColor] = appColors.white
         
         let startGameTitle = "Start"
         startGameButton.setBackgroundImage(startGameImage, for: .normal)
