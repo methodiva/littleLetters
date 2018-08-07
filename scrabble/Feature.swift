@@ -13,6 +13,7 @@ enum FeatureName {
     case HomeScreen
     case StartGameScreen
     case EndGameScreen
+    case TimerScreen
     case GameScreen
     case TutorialScreen
     case SettingsScreen

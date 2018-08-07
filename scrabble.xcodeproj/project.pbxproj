@@ -31,6 +31,8 @@
 		5D7766972105E59F00ACEE22 /* ImageToStringConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7766962105E59F00ACEE22 /* ImageToStringConverter.swift */; };
 		5D86358E20FE446A005E7141 /* ARCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D86358D20FE446A005E7141 /* ARCameraView.swift */; };
 		5D86359020FE4483005E7141 /* AVFoundationCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */; };
+		5DD6A3BB2119A95D00E4CB3C /* TimerScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD6A3BA2119A95D00E4CB3C /* TimerScreenLogic.swift */; };
+		5DD6A3BD2119A96A00E4CB3C /* TimerScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */; };
 		5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */; };
 		5DF346DA20F0DB82006FFCF8 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D720F0DB82006FFCF8 /* Feature.swift */; };
 		5DF346DB20F0DB82006FFCF8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D820F0DB82006FFCF8 /* Logger.swift */; };
@@ -74,6 +76,8 @@
 		5D7766962105E59F00ACEE22 /* ImageToStringConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToStringConverter.swift; sourceTree = "<group>"; };
 		5D86358D20FE446A005E7141 /* ARCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCameraView.swift; sourceTree = "<group>"; };
 		5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundationCameraView.swift; sourceTree = "<group>"; };
+		5DD6A3BA2119A95D00E4CB3C /* TimerScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerScreenLogic.swift; sourceTree = "<group>"; };
+		5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerScreenView.swift; sourceTree = "<group>"; };
 		5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootProtocol.swift; sourceTree = "<group>"; };
 		5DF346D720F0DB82006FFCF8 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		5DF346D820F0DB82006FFCF8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -160,6 +164,7 @@
 		5D36EC622100AACD00DCFBE4 /* GameScreen */ = {
 			isa = PBXGroup;
 			children = (
+				5DD6A3B92119A93000E4CB3C /* TimerScreen */,
 				5D36EC652100AAEB00DCFBE4 /* GameScreenLogic.swift */,
 				5D36EC632100AAE000DCFBE4 /* GameScreenView.swift */,
 				5D189C4A21076A690005C938 /* CorrectLabelSelector.swift */,
@@ -243,6 +248,15 @@
 				5D7766962105E59F00ACEE22 /* ImageToStringConverter.swift */,
 			);
 			path = ObjectRecognizer;
+			sourceTree = "<group>";
+		};
+		5DD6A3B92119A93000E4CB3C /* TimerScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5DD6A3BA2119A95D00E4CB3C /* TimerScreenLogic.swift */,
+				5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */,
+			);
+			path = TimerScreen;
 			sourceTree = "<group>";
 		};
 		5DF346DD20F0E148006FFCF8 /* Features */ = {
@@ -414,6 +428,7 @@
 			files = (
 				5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */,
 				5D36EC572100AA0C00DCFBE4 /* StartGameScreenView.swift in Sources */,
+				5DD6A3BB2119A95D00E4CB3C /* TimerScreenLogic.swift in Sources */,
 				5D36EC642100AAE000DCFBE4 /* GameScreenView.swift in Sources */,
 				5D36EC612100AABB00DCFBE4 /* TutorialScreenView.swift in Sources */,
 				5DF85E462100C8C20079CD18 /* BackButton.swift in Sources */,
@@ -423,6 +438,7 @@
 				5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */,
 				5D7766932105E48800ACEE22 /* ObjectRecognizerLogic.swift in Sources */,
 				5D36EC662100AAEB00DCFBE4 /* GameScreenLogic.swift in Sources */,
+				5DD6A3BD2119A96A00E4CB3C /* TimerScreenView.swift in Sources */,
 				5D86359020FE4483005E7141 /* AVFoundationCameraView.swift in Sources */,
 				5DF346DC20F0DB82006FFCF8 /* RootViewController.swift in Sources */,
 				5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */,

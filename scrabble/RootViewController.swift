@@ -49,15 +49,20 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .GameScreen: Feature(
             logic: GameScreenLogic(),
-            dependencies: [.HomeScreen, .EndGameScreen, .Camera, .ObjectRecognizer],
+            dependencies: [.HomeScreen, .EndGameScreen, .TimerScreen, .Camera, .ObjectRecognizer],
             view: nil,
             viewOrder: 7
         ),
+        .TimerScreen: Feature(
+            logic: TimerScreenLogic(),
+            dependencies: [.HomeScreen, .GameScreen],
+            view: nil,
+            viewOrder: 8),
         .EndGameScreen: Feature(
             logic: EndGameScreenLogic(),
             dependencies: [.HomeScreen],
             view: nil,
-            viewOrder: 8
+            viewOrder: 9
         ),
         .ObjectRecognizer: Feature(
             logic: ObjectRecognizerLogic(),
@@ -80,7 +85,8 @@ class RootViewController: UIViewController, RootProtocol {
         .SettingsScreen: { featureLogic in SettingsScreenView(featureLogic) },
         .ChangeNameScreen: { featureLogic in ChangeNameScreenView(featureLogic) },
         .GameScreen: { featureLogic in GameScreenView(featureLogic) },
-        .EndGameScreen: { featureLogic in EndGameScreenView(featureLogic) }
+        .EndGameScreen: { featureLogic in EndGameScreenView(featureLogic) },
+        .TimerScreen: { featureLogic in TimerScreenView(featureLogic) }
     ]
 
     // MARK: - UIViewController

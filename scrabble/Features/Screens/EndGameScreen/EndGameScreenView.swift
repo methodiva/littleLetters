@@ -149,6 +149,39 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
         self.endGameButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
+    func setEndGameVariables(gameResult: GameResult, playerScore: Int, enemyScore: Int) {
+        playerScoreLabel.text = String(playerScore)
+        enemyScoreLabel.text = String(enemyScore)
+        screenTitleLabel.text = getScreenTitle(for: gameResult)
+        setTabImages(for: gameResult)
+    }
+    
+    private func setTabImages(for result: GameResult) {
+        switch result {
+        case .playerWon:
+            playerTab.image = playerWonTabImage
+            enemyTab.image = enemyLostTabImage
+        case .enemyWon:
+            playerTab.image = playerLostTabImage
+            enemyTab.image = enemyWonTabImage
+        case .draw:
+            playerTab.image = playerLostTabImage
+            enemyTab.image = enemyLostTabImage
+        }
+    }
+    
+    private func getScreenTitle(for result: GameResult) -> String {
+        switch result {
+        case .draw:
+            return "It's Draw"
+        case .playerWon:
+            return playerName + " Won!"
+        case .enemyWon:
+            return enemyName + " Won!"
+        }
+    }
+    
+    
     func hide(_ onHidden: (() -> Void)?) {
         self.isUserInteractionEnabled = false
         self.alpha = 0

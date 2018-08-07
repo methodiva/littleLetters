@@ -107,25 +107,22 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
-    func updateTimer(to time: Int) {
-        var title = ""
-        if (time > 9 ) {
-            title = "00:\(String(time))"
-        } else {
-            title = "00:0\(String(time))"
-        }
+    func updateTimer(to time: String) {
         var attributes = [NSAttributedString.Key: AnyObject]()
         attributes[.foregroundColor] = appColors.white
-        let timerAttributedString = NSMutableAttributedString(string: title, attributes: attributes)
+        let timerAttributedString = NSMutableAttributedString(string: time, attributes: attributes)
         timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
                                                value: CGFloat(8.0),
-                                               range: NSRange(location: 0, length: title.count-1))
+                                               range: NSRange(location: 0, length: time.count-1))
         timerButton.setAttributedTitle(timerAttributedString, for: .normal)
     }
     
     func onTapScreen(_ target: Any?, _ handler: Selector) {
         let gestureRecognizer = UITapGestureRecognizer(target: target, action: handler)
         self.addGestureRecognizer(gestureRecognizer)
+    }
+    func onTapTimerButton(_ target: Any?, _ handler: Selector) {
+        timerButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
     func hide(_ onHidden: (() -> Void)?) {
@@ -157,7 +154,6 @@ extension GameScreenView {
     }
     
     private func initPlayerTab() {
-        
         self.addSubview(playerCards)
         playerTab.addSubview(playerNameLabel)
         playerTab.addSubview(playerScoreTab)

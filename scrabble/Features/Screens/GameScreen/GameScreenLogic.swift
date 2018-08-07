@@ -2,7 +2,8 @@ import Foundation
 
 protocol GameScreenViewProtocol: FeatureViewProtocol {
     func onTapScreen(_ target: Any?, _ handler: Selector)
-    func updateTimer(to time: Int)
+    func onTapTimerButton(_ target: Any?, _ handler: Selector)
+    func updateTimer(to time: String)
     func reduceOneTry()
     func resetTries()
     func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int)
@@ -16,11 +17,12 @@ class GameScreenLogic: GameScreenLogicProtocol {
     private weak var view: GameScreenViewProtocol?
     private weak var homeScreenLogic: HomeScreenLogicProtocol?
     private weak var cameraLogic: CameraLogicProtocol?
+    private weak var timerScreenLogic: TimerScreenLogicProtocol?
     private weak var endGameScreenLogic: EndGameScreenLogicProtocol?
     private weak var objectRecognizerLogic: ObjectRecognizerLogicProtocol?
     
     // Game's state variables
-    var playerScore = 0
+    var playerScore = 5
     var enemyScore = 0
     var currentTries = 0
     var currentStars = 0
@@ -41,17 +43,20 @@ class GameScreenLogic: GameScreenLogicProtocol {
             let homeScreenLogic = deps[.HomeScreen] as? HomeScreenLogicProtocol,
             let endGameScreenLogic = deps[.EndGameScreen] as? EndGameScreenLogicProtocol,
             let cameraLogic = deps[.Camera] as? CameraLogicProtocol,
+            let timerScreenLogic = deps[.TimerScreen] as? TimerScreenLogicProtocol,
             let objectRecognizerLogic = deps[.ObjectRecognizer] as? ObjectRecognizerLogicProtocol else {
                 log.error("Dependency unfulfilled")
                 return
         }
         self.homeScreenLogic = homeScreenLogic
         self.endGameScreenLogic = endGameScreenLogic
+        self.timerScreenLogic = timerScreenLogic
         self.cameraLogic = cameraLogic
         self.objectRecognizerLogic = objectRecognizerLogic
         
         self.view = uiView
         self.view?.onTapScreen(self, #selector(onScreenTap))
+        self.view?.onTapTimerButton(self, #selector(onTimerTap))
     }
     
     @objc
@@ -59,7 +64,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         log.verbose("Going to end game screen")
         self.view?.hide {
             self.cameraLogic?.hide()
-            self.endGameScreenLogic?.show()
+            self.endGameScreenLogic?.showWithParameters(playerScore: self.playerScore, enemyScore: self.enemyScore)
             self.resetVariables()
         }
     }
@@ -76,6 +81,14 @@ class GameScreenLogic: GameScreenLogicProtocol {
         })
     }
     
+    @objc
+    func onTimerTap() {
+        log.verbose("Timer Tapped")
+        self.view?.hide {
+            self.timerScreenLogic?.show()
+        }
+    }
+    
     
     @objc
     func startTimer() {
@@ -87,6 +100,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func updateTimer() {
         secondsLeftOnTimer -= 1
+        // Temp lines to check functions
         if secondsLeftOnTimer == 25 {
             self.view?.reduceOneTry()
         }
@@ -94,7 +108,13 @@ class GameScreenLogic: GameScreenLogicProtocol {
             self.view?.resetTries()
             
         }
-        self.view?.updateTimer(to: secondsLeftOnTimer)
+        if secondsLeftOnTimer == 0 {
+            self.endGame()
+        }
+        // Temp functions end
+        let time = getTimeInString(from: secondsLeftOnTimer)
+        self.view?.updateTimer(to: time)
+        self.timerScreenLogic?.setTimer(to: time)
         if secondsLeftOnTimer <= 0 {
             timer.invalidate()
         }
@@ -114,9 +134,18 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.view?.show{
             self.cameraLogic?.show()
             self.startTimer()
-            self.view?.updateTabs(isPlayerTurn: true, score: 5, cards: 3)
+            self.view?.updateTabs(isPlayerTurn: true, score: self.playerScore, cards: 3)
         }
     }
     
     
+}
+
+fileprivate func getTimeInString(from seconds: Int) -> String {
+    // This assumes time is less than 60 seconds, please change if necessary
+    if (seconds > 9 ) {
+        return  "00:\(String(seconds))"
+    } else {
+        return "00:0\(String(seconds))"
+    }
 }
