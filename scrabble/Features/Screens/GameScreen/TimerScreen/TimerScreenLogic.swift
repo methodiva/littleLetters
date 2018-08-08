@@ -1,13 +1,17 @@
 import Foundation
 
 protocol TimerScreenViewProtocol: FeatureViewProtocol {
-    func setTimer(to string: String)
+    func setTimer(to time: String)
+    func setScore(to score: String)
+    func setPlayerCards(to numberOfCards: Int)
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapEndGameButton(_ target: Any?, _ handler: Selector)
 }
 
 protocol TimerScreenLogicProtocol: FeatureLogicProtocol {
-    func setTimer(to string: String)
+    func setTimer(to time: String)
+    func setScore(to score: String)
+    func setPlayerCards(to numberOfCards: Int)
     func show()
 }
 
@@ -63,7 +67,15 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
         self.view?.show{}
     }
     
-    func setTimer(to string: String) {
-        self.view?.setTimer(to: string)
+    func setTimer(to time: String) {
+        self.view?.setTimer(to: time)
+    }
+    
+    func setPlayerCards(to numberOfCards: Int) {
+        self.view?.setPlayerCards(to: numberOfCards)
+    }
+    
+    func setScore(to score: String) {
+        self.view?.setScore(to: score)
     }
 }

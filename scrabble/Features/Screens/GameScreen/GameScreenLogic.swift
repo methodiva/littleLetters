@@ -25,7 +25,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     var playerScore = 15
     var enemyScore = 5
     var currentTries = 0
-    var currentStars = 0
+    var currentStars = 3
     
     var timer = Timer()
     let timerLengthInSeconds = 30
@@ -84,6 +84,9 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func onTimerTap() {
         log.verbose("Timer Tapped")
+        
+        self.timerScreenLogic?.setPlayerCards(to: currentStars)
+        self.timerScreenLogic?.setScore(to: String(playerScore))
         self.view?.hide {
             self.cameraLogic?.hide()
             self.timerScreenLogic?.show()

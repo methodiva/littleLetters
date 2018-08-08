@@ -2,12 +2,12 @@ import UIKit
 
 fileprivate let endGameButtonFont = UIFont(name: "Montserrat-Bold", size: 30)
 fileprivate let titleFont = UIFont(name: "Montserrat-Bold", size: 22)
-fileprivate let scoreFont = UIFont(name: "Montserrat-Bold", size: 22)
-fileprivate let timerFont = UIFont(name: "Montserrat-Bold", size: 22)
+fileprivate let scoreFont = UIFont(name: "Montserrat-Bold", size: 30)
+fileprivate let timerFont = UIFont(name: "Montserrat-Bold", size: 50)
 fileprivate let playerNameFont = UIFont(name: "Montserrat-Bold", size: 22)
 
-fileprivate let playerTabImage = UIImage(named: "timerScreenPlayerTabImage")
-fileprivate let scoreTabImage =  UIImage(named: "timerScreenScoreTabImage")
+fileprivate let playerTabImage = UIImage(named: "playerLostTabImage")
+fileprivate let scoreTabImage =  UIImage(named: "scoreTabBig")
 fileprivate let endGameButtonImage = UIImage(named: "purpleButton")
 
 class TimerScreenView: UIView, TimerScreenViewProtocol {
@@ -39,7 +39,22 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     private let endGameButton = UIButton()
     
     func setTimer(to string: String) {
-        timerLabel.text = string
+        var attributes = [NSAttributedString.Key: AnyObject]()
+        attributes[.foregroundColor] = appColors.white
+        
+        let timerAttributedString = NSMutableAttributedString(string: string, attributes: attributes)
+        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+                                             value: CGFloat(20.0),
+                                             range: NSRange(location: 0, length: string.count-1))
+        timerLabel.attributedText = timerAttributedString
+    }
+    
+    func setScore(to score: String) {
+        playerScoreLabel.text = score
+    }
+    
+    func setPlayerCards(to numberOfCards: Int) {
+        getCardsView(total: numberOfCards, in: playerCards)
     }
     
     func onTapBackButton(_ target: Any?, _ handler: Selector) {
@@ -67,11 +82,11 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
 // Initialising and adding constraints to all the subviews
 extension TimerScreenView {
     func initUI() {
+        self.addSubview(backgroundImage)
         initScreenTitleUI()
         initTimerLabelUI()
         initPlayerTabUI()
         initEndGameButtonUI()
-        self.addSubview(backgroundImage)
         self.addSubview(backButton)
         self.hide{}
     }
@@ -95,6 +110,8 @@ extension TimerScreenView {
         self.addSubview(playerCards)
         playerTab.addSubview(playerNameLabel)
         playerTab.addSubview(playerScoreTab)
+        
+        playerTab.image = playerTabImage
         
         // Initialising card view
         playerCards.axis = .horizontal
@@ -124,7 +141,7 @@ extension TimerScreenView {
         let endGameTitle = "End Game"
         let endGameAttributedString = NSMutableAttributedString(string: endGameTitle, attributes: attributes)
         endGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                             value: CGFloat(10.0),
+                                             value: CGFloat(5.0),
                                              range: NSRange(location: 0, length: endGameTitle.count-1))
         endGameButton.setAttributedTitle(endGameAttributedString, for: .normal)
         endGameButton.titleLabel?.font = endGameButtonFont
@@ -138,11 +155,11 @@ extension TimerScreenView {
             make.center.equalToSuperview()
         }
         screenTitleLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(0.75 * gridHeight )
+            make.topMargin.equalTo(0.75 * gridHeight)
             make.centerX.equalToSuperview()
         }
         timerLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(3 * gridHeight )
+            make.topMargin.equalTo(3.5 * gridHeight)
             make.centerX.equalToSuperview()
         }
         backButton.snp.makeConstraints { make in
@@ -151,27 +168,27 @@ extension TimerScreenView {
         }
         endGameButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(gridHeight * 5)
+            make.bottom.equalToSuperview().inset(gridHeight * 3)
         }
         
         // Player Tab constraints
         playerTab.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview().inset(gridHeight * 10)
         }
         playerScoreTab.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(7)
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.right.equalToSuperview().inset(loserScoreMargin)
         }
         playerScoreLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         playerNameLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(10)
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
+            make.left.equalToSuperview().inset(loserNameMargin)
         }
         playerCards.snp.makeConstraints { make in
-            make.left.equalTo(playerTab.snp.left).inset(10)
+            make.left.equalTo(playerTab.snp.left).inset(30)
             make.top.equalTo(playerTab.snp.bottom).inset(10)
         }
     }

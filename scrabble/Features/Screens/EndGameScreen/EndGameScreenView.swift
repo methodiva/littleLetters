@@ -12,12 +12,12 @@ fileprivate let enemyWonTabImage = UIImage(named: "enemyWonTabImage")
 fileprivate let enemyLostTabImage = UIImage(named: "enemyLostTabImage")
 fileprivate let endGameButtonImage = UIImage(named: "purpleButton")
 
-fileprivate let winnerNameMargin = 38
-fileprivate let loserNameMargin = 30
-fileprivate let winnerScoreMargin = 30
-fileprivate let loserScoreMargin = 20
-fileprivate let winnerCenterOffset = 2
-fileprivate let loserCenterOffset = -2
+let winnerNameMargin = 38
+let loserNameMargin = 30
+let winnerScoreMargin = 30
+let loserScoreMargin = 20
+let winnerCenterOffset = 2
+let loserCenterOffset = -2
 
 
 class EndGameScreenView: UIView, EndGameScreenViewProtocol {

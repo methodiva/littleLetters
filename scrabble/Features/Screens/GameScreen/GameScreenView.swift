@@ -321,9 +321,13 @@ extension GameScreenView {
     }
 }
 
-fileprivate func getCardsView(total: Int, in stackView: UIStackView) {
+func getCardsView(total: Int, in stackView: UIStackView) {
     for card in stackView.arrangedSubviews {
         card.removeFromSuperview()
+    }
+    guard total > 0 else {
+        log.verbose("No cards to display")
+        return
     }
     for i in 1...total {
         let cardImage = chooseCardFor(number: i)
@@ -333,7 +337,7 @@ fileprivate func getCardsView(total: Int, in stackView: UIStackView) {
 }
 
 
-fileprivate func chooseCardFor(number : Int) -> UIImage? {
+func chooseCardFor(number : Int) -> UIImage? {
     // For now repeating the cards in a cyclic manner
     
     let yellowCard = UIImage(named: "wildCardYellow")
