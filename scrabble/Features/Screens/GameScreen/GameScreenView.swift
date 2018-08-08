@@ -46,7 +46,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func reduceOneTry() {
         guard let layers = self.layer.sublayers else { return }
         for layer in layers {
-            if layer.name == String(currentTries) {
+            if layer.name == String(playerTries) {
                 animateArcForFailTry(for: layer)
                 return
             }
@@ -64,6 +64,40 @@ class GameScreenView: UIView, GameScreenViewProtocol {
             }
         }
         log.verbose("Arcs for tries reseted ")
+    }
+    
+    func updateCurrentLetter(to letter: Character) {
+        currentLetterLabel.text = String(letter)
+    }
+    
+    func showSuccess(with word: String, showSuccessCallback: (() -> Void)?) {
+        let tileStack = UIStackView()
+        tileStack.axis = .horizontal
+        tileStack.spacing = 5
+        for character in word {
+            let letterBackground = UIImageView(image: UIImage(named: "letterTilePurple"))
+            let letterLabel = UILabel()
+            letterLabel.text = String(character)
+            letterLabel.font = currentLetterFont
+            letterLabel.textColor = appColors.mediumPurple
+            letterBackground.addSubview(letterLabel)
+            tileStack.addArrangedSubview(letterBackground)
+            letterLabel.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+        }
+        currentLetterBackground.alpha = 0
+        self.addSubview(tileStack)
+        tileStack.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(gridHeight * 4)
+        }
+        UIView.animate(withDuration: 5, delay: 0, options: [] , animations: {
+            tileStack.alpha = 0
+        }) { (isComplete) in
+            showSuccessCallback?()
+            self.currentLetterBackground.alpha = 1
+        }
     }
     
     func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int) {
@@ -211,7 +245,7 @@ extension GameScreenView {
     
     private func initCurrentLetterUI() {
         currentLetterBackground.image = UIImage(named: "letterTilePurple")
-        currentLetterLabel.text = currentLetter
+        currentLetterLabel.text = String(currentLetter)
         currentLetterLabel.font = currentLetterFont
         currentLetterLabel.textColor = appColors.mediumPurple
         self.currentLetterBackground.addSubview(currentLetterLabel)

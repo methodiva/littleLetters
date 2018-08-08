@@ -4,9 +4,11 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func onTapScreen(_ target: Any?, _ handler: Selector)
     func onTapTimerButton(_ target: Any?, _ handler: Selector)
     func updateTimer(to time: String)
+    func showSuccess(with word: String, showSuccessCallback: (() -> Void)?)
     func reduceOneTry()
     func resetTries()
     func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int)
+    func updateCurrentLetter(to letter: Character)
 }
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
@@ -20,12 +22,6 @@ class GameScreenLogic: GameScreenLogicProtocol {
     private weak var timerScreenLogic: TimerScreenLogicProtocol?
     private weak var endGameScreenLogic: EndGameScreenLogicProtocol?
     private weak var objectRecognizerLogic: ObjectRecognizerLogicProtocol?
-    
-    // Game's state variables
-    var playerScore = 15
-    var enemyScore = 5
-    var currentTries = 0
-    var currentStars = 3
     
     var timer = Timer()
     let timerLengthInSeconds = 30
@@ -64,7 +60,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         log.verbose("Going to end game screen")
         self.view?.hide {
             self.cameraLogic?.hide()
-            self.endGameScreenLogic?.showWithParameters(playerScore: self.playerScore, enemyScore: self.enemyScore)
+            self.endGameScreenLogic?.showWithParameters(playerScore: playerScore, enemyScore: enemyScore)
             self.resetVariables()
         }
     }
@@ -72,20 +68,117 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func onScreenTap() {
         log.verbose("Screen tapped")
+        guard isPlayerTurn else {
+            log.warning("Not the players turn, tap wouldn't work")
+            return
+        }
         cameraLogic?.captureImage({ (image) in
             self.objectRecognizerLogic?.getLabel(for: image, labelCallBack: { (imageLabels) in
                 // ASSUMPTION: starting letter would not be capital
-                let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: "b")
+                guard let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: currentLetter) else {
+                    log.warning("No word found")
+                    return
+                }
                 log.debug(label)
+                self.playTurn(with: label.uppercased())
             })
         })	
+    }
+    
+    func playTurn(with word: String) {
+        DispatchQueue.main.async {
+            let isSuccess = self.isWordPlayerCorrect(for: word)
+            if isSuccess {
+                isPlayerTurn = false
+                if !playerInWildCardMode {
+                    self.addToPlayerScore(for: word)
+                }
+                self.view?.showSuccess(with: word, showSuccessCallback: {
+                    currentLetter = word.last!
+                    self.view?.updateCurrentLetter(to: currentLetter)
+                    if playerInWildCardMode {
+                        playerInWildCardMode = false
+                        self.playerChanceComplete()
+                        return
+                    }
+                    self.playerChanceComplete()
+                })
+            } else {
+                self.manageWrongWordPlayed()
+            }
+        }
+    }
+    
+    func playerChanceComplete() {
+        self.startTimer()
+        self.view?.updateTabs(isPlayerTurn: false, score: enemyScore, cards: enemyCards)
+    }
+    
+    func addToPlayerScore(for word: String){
+        playerScore = playerScore + word.count
+        self.view?.updateTabs(isPlayerTurn: true, score: playerScore, cards: playerCards)
+    }
+    
+    func manageWrongWordPlayed() {
+        if canUseTry() {
+            useTry()
+            return
+        }
+        if canUseCard() {
+            useCard()
+            return
+        }
+        DispatchQueue.main.async {
+            self.endGame()
+        }
+    }
+    
+    func canUseTry() -> Bool{
+        return playerTries > 0
+    }
+    
+    func useTry() {
+        self.view?.reduceOneTry()
+        playerTries = playerTries - 1
+    }
+    
+    func canUseCard() -> Bool {
+        return playerCards > 0
+    }
+    
+    func useCard() {
+        playerTries = maxTries
+        playerInWildCardMode = true
+        playerCards = playerCards - 1
+        self.setTimerToWildCardMode()
+        self.view?.resetTries()
+        self.view?.updateTabs(isPlayerTurn: true, score: playerScore, cards: playerCards)
+        self.timerScreenLogic?.setPlayerCards(to: playerCards)
+    }
+    
+    func setTimerToWildCardMode() {
+        
+    }
+    
+    func isWordPlayerCorrect(for word: String) -> Bool {
+        if word.count < 1  {
+            return false
+        }
+        if playerInWildCardMode {
+            //  TODO: Add a check to not let the user repeat the word which have been done before
+            return true
+        }
+        if currentLetter == word.first {
+            return true
+        } else {
+            return false
+        }
     }
     
     @objc
     func onTimerTap() {
         log.verbose("Timer Tapped")
-        
-        self.timerScreenLogic?.setPlayerCards(to: currentStars)
+        self.timerScreenLogic?.setPlayerCards(to: playerCards)
         self.timerScreenLogic?.setScore(to: String(playerScore))
         self.view?.hide {
             self.cameraLogic?.hide()
@@ -96,7 +189,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     
     @objc
     func startTimer() {
-        if timer.isValid { return }
+        timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         secondsLeftOnTimer = timerLengthInSeconds
     }
@@ -104,18 +197,12 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func updateTimer() {
         secondsLeftOnTimer -= 1
-//        // Temp lines to check functions
-//        if secondsLeftOnTimer == 25 {
-//            self.view?.reduceOneTry()
-//        }
-//        if secondsLeftOnTimer == 2 {
-//            self.view?.resetTries()
-//            
-//        }
-//        if secondsLeftOnTimer == 28 {
-//            self.endGame()
-//        }
-        // Temp functions end
+        // Temp Function
+        if !isPlayerTurn {
+            if secondsLeftOnTimer == 15 {
+                playEnemyTurn()
+            }
+        }
         let time = getTimeInString(from: secondsLeftOnTimer)
         self.view?.updateTimer(to: time)
         self.timerScreenLogic?.setTimer(to: time)
@@ -124,9 +211,32 @@ class GameScreenLogic: GameScreenLogicProtocol {
         }
     }
     
+    // temp function
+    func playEnemyTurn() {
+        for word in tempWordsForEnemyToPlay {
+            if word.first == currentLetter {
+                enemyScore = enemyScore + word.count
+                self.view?.updateTabs(isPlayerTurn: false, score: enemyScore, cards: enemyCards)
+                self.view?.showSuccess(with: word.uppercased(), showSuccessCallback: {
+                    currentLetter = word.uppercased().last!
+                    self.view?.updateCurrentLetter(to: currentLetter)
+                    isPlayerTurn = true
+                    self.startTimer()
+                    self.view?.updateTabs(isPlayerTurn: true, score: playerScore, cards: playerCards)
+                    self.enemyTurnComplete()
+                })
+                return
+            }
+        }
+    }
+    
+    func enemyTurnComplete() {
+        
+    }
+    
     func resetVariables() {
-        currentStars = 0
-        currentTries = 0
+        playerCards = 0
+        playerTries = 0
         playerScore = 0
         enemyScore = 0
         secondsLeftOnTimer = 0
@@ -138,7 +248,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.view?.show{
             self.cameraLogic?.show()
             self.startTimer()
-            self.view?.updateTabs(isPlayerTurn: true, score: self.playerScore, cards: 3)
+            self.view?.updateTabs(isPlayerTurn: true, score: playerScore, cards: 3)
         }
     }
     

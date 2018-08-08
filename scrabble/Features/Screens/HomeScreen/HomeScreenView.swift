@@ -7,9 +7,20 @@ let gridHeight = UIScreen.main.bounds.height/27
 
 let playerName = "Divya"
 let enemyName = "Jyoti"
-let currentLetter = "T"
+
+var playerScore = 15
+var enemyScore = 5
+
+var playerTries = 3
+var enemyTires = 3
+
+var playerCards = 3
+var enemyCards = 3
+
+var currentLetter: Character = "T"
 let maxTries = 3
-var currentTries = 3
+var isPlayerTurn = true
+var playerInWildCardMode = false
 
 struct appColors {
     static let darkPurple = #colorLiteral(red: 0.2431372549, green: 0.06666666667, blue: 0.3176470588, alpha: 1)
@@ -20,6 +31,35 @@ struct appColors {
     static let pink = #colorLiteral(red: 0.9215686275, green: 0.3647058824, blue: 0.7450980392, alpha: 1)
     static let red = #colorLiteral(red: 1, green: 0.2862745098, blue: 0.3607843137, alpha: 1)
 }
+
+let tempWordsForEnemyToPlay =
+[ "Apple",
+  "Banana",
+  "Camel",
+  "Drum",
+  "Eagle",
+  "Frog",
+  "Grape",
+  "Horse",
+  "Ink",
+  "Joker",
+  "Kite",
+  "Lemon",
+  "Mango",
+  "Nest",
+  "Orange",
+  "Piano",
+  "Queen",
+  "Road",
+  "Straw",
+  "Tent",
+  "Ufo",
+  "Van",
+  "Wand",
+  "XRay",
+  "Yatch",
+  "Zero"
+]
 
 
 class HomeScreenView: UIView, HomeScreenViewProtocol {
