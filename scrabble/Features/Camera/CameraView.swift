@@ -44,13 +44,11 @@ class CameraView: UIView, CameraViewProtocol {
     }
     
     func hide(_ onHidden: (() -> Void)?) {
-        self.isUserInteractionEnabled = false
         self.alpha = 0
         onHidden?()
     }
     
     func show(_ onShowing: (() -> Void)?) {
-        self.isUserInteractionEnabled = true
         self.alpha = 1
         onShowing?()
     }

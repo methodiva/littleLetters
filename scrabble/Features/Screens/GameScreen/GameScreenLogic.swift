@@ -78,13 +78,14 @@ class GameScreenLogic: GameScreenLogicProtocol {
                 let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: "b")
                 log.debug(label)
             })
-        })
+        })	
     }
     
     @objc
     func onTimerTap() {
         log.verbose("Timer Tapped")
         self.view?.hide {
+            self.cameraLogic?.hide()
             self.timerScreenLogic?.show()
         }
     }
@@ -100,17 +101,17 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func updateTimer() {
         secondsLeftOnTimer -= 1
-        // Temp lines to check functions
-        if secondsLeftOnTimer == 25 {
-            self.view?.reduceOneTry()
-        }
-        if secondsLeftOnTimer == 2 {
-            self.view?.resetTries()
-            
-        }
-        if secondsLeftOnTimer == 28 {
-            self.endGame()
-        }
+//        // Temp lines to check functions
+//        if secondsLeftOnTimer == 25 {
+//            self.view?.reduceOneTry()
+//        }
+//        if secondsLeftOnTimer == 2 {
+//            self.view?.resetTries()
+//            
+//        }
+//        if secondsLeftOnTimer == 28 {
+//            self.endGame()
+//        }
         // Temp functions end
         let time = getTimeInString(from: secondsLeftOnTimer)
         self.view?.updateTimer(to: time)
