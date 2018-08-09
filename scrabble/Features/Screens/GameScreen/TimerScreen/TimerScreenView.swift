@@ -20,7 +20,9 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
             return
         }
         self.featureLogic = logic
+        self.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.isUserInteractionEnabled = false
+        self.alpha = 0
         initUI()
         initConstraints()
     }
@@ -67,14 +69,22 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     
     func hide(_ onHidden: (() -> Void)?) {
         self.isUserInteractionEnabled = false
-        self.alpha = 0
-        onHidden?()
+         UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
+            self.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        }) { (isComplete) in
+            self.alpha = 0
+            onHidden?()
+        }
     }
     
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
-        onShowing?()
+        UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
+            self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        }) { (isComplete) in
+            onShowing?()
+        }
     }
 }
 
@@ -88,7 +98,6 @@ extension TimerScreenView {
         initPlayerTabUI()
         initEndGameButtonUI()
         self.addSubview(backButton)
-        self.hide{}
     }
     
     func initScreenTitleUI() {

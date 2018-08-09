@@ -87,10 +87,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         
         self.timerScreenLogic?.setPlayerCards(to: currentStars)
         self.timerScreenLogic?.setScore(to: String(playerScore))
-        self.view?.hide {
-            self.cameraLogic?.hide()
-            self.timerScreenLogic?.show()
-        }
+        self.timerScreenLogic?.show()
     }
     
     
