@@ -284,18 +284,18 @@ extension GameScreenView {
             make.top.left.equalToSuperview()
         }
         playerScoreTab.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
             make.right.equalToSuperview().inset(7)
         }
         playerScoreLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         playerNameLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
             make.left.equalToSuperview().inset(10)
         }
         playerCards.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(4)
+            make.left.equalToSuperview().inset(9)
             make.top.equalTo(playerTab.snp.bottom).inset(10)
         }
         
@@ -304,18 +304,18 @@ extension GameScreenView {
             make.top.right.equalToSuperview()
         }
         enemyScoreTab.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
             make.right.equalToSuperview().inset(7)
         }
         enemyScoreLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         enemyNameLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().inset(loserCenterOffset)
             make.left.equalToSuperview().inset(10)
         }
         enemyCards.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(4)
+            make.right.equalToSuperview().inset(9)
             make.top.equalTo(enemyTab.snp.bottom).inset(10)
         }
     }
