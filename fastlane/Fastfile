@@ -1,0 +1,50 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Increment version and upload a new beta build to TestFlight"
+
+  def bump_version
+    increment_build_number(xcodeproj: "scrabble.xcodeproj")
+    commit_version_bump(xcodeproj: "scrabble.xcodeproj")
+  end
+
+  def build_upload
+    build_app(workspace: "scrabble.xcworkspace", scheme: "scrabble")
+    upload_to_testflight
+  end
+
+  def notify_slack
+    slack(
+      message: "New test version of app released!",
+      slack_url: "https://hooks.slack.com/services/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",
+      use_webhook_configured_username_and_icon: true
+    )
+  end
+
+  lane :versionbump do
+    bump_version
+  end
+
+  lane :upload do
+    build_upload
+    notify_slack
+  end
+
+  lane :beta do
+    bump_version
+    build_upload
+    notify_slack
+  end
+end
+
