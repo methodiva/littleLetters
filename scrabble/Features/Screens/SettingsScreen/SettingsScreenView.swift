@@ -107,8 +107,13 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         self.changeNameButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
-    func onTapRateUsButton(_ target: Any?, _ handler: Selector) {
-        self.rateUsButton.addTarget(target, action: handler, for: .touchUpInside)
+    func onTapRateUsButton() {
+        self.rateUsButton.addTarget(self, action: #selector(openAppstoreLinkToRate), for: .touchUpInside)
+    }
+    
+    @objc
+    func openAppstoreLinkToRate() {
+        UIApplication.shared.open(URL(string : "itms-apps://itunes.apple.com/app/id\(appId)")!)
     }
     
     func hide(_ onHidden: (() -> Void)?) {

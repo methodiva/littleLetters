@@ -3,7 +3,7 @@ import Foundation
 protocol SettingsScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapChangeNameButton(_ target: Any?, _ handler: Selector)
-    func onTapRateUsButton(_ target: Any?, _ handler: Selector)
+    func onTapRateUsButton()
 }
 
 protocol SettingsScreenLogicProtocol: FeatureLogicProtocol {
@@ -39,7 +39,7 @@ class SettingsScreenLogic: SettingsScreenLogicProtocol {
     private func addHandlersToUI() {
         self.view?.onTapBackButton(self, #selector(goBack))
         self.view?.onTapChangeNameButton(self, #selector(showChangeNameScreen))
-        self.view?.onTapRateUsButton(self, #selector(showRatingOption))
+        self.view?.onTapRateUsButton()
     }
     
     @objc
@@ -56,11 +56,6 @@ class SettingsScreenLogic: SettingsScreenLogicProtocol {
         self.view?.hide {
             self.changeNameScreenLogic?.show()
         }
-    }
-    
-    @objc
-    func showRatingOption() {
-        
     }
     
     func show() {
