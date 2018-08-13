@@ -39,11 +39,11 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     private let endGameButton = UIButton()
     
     func setTimer(to string: String) {
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         
         let timerAttributedString = NSMutableAttributedString(string: string, attributes: attributes)
-        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                              value: CGFloat(20.0),
                                              range: NSRange(location: 0, length: string.count-1))
         timerLabel.attributedText = timerAttributedString
@@ -135,12 +135,12 @@ extension TimerScreenView {
     
     func initEndGameButtonUI() {
         endGameButton.setBackgroundImage(endGameButtonImage, for: .normal)
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         
         let endGameTitle = "End Game"
         let endGameAttributedString = NSMutableAttributedString(string: endGameTitle, attributes: attributes)
-        endGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        endGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                              value: CGFloat(5.0),
                                              range: NSRange(location: 0, length: endGameTitle.count-1))
         endGameButton.setAttributedTitle(endGameAttributedString, for: .normal)

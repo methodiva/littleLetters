@@ -121,12 +121,12 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
     
     func initEndGameButton() {
         endGameButton.setBackgroundImage(endGameButtonImage, for: .normal)
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         
         let endGameTitle = "End Game"
         let endGameAttributedString = NSMutableAttributedString(string: endGameTitle, attributes: attributes)
-        endGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        endGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                                value: CGFloat(5.0),
                                                range: NSRange(location: 0, length: endGameTitle.count-1))
         endGameButton.setAttributedTitle(endGameAttributedString, for: .normal)

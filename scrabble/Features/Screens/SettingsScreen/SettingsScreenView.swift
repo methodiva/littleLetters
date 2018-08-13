@@ -52,13 +52,13 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         playButtonStack.addArrangedSubview(rateUsButton)
         playButtonStack.alignment = .center
         
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         
         let changeNameTitle = "Username"
         changeNameButton.setBackgroundImage(changeGameImage, for: .normal)
         let changeNameAttributedString = NSMutableAttributedString(string: changeNameTitle, attributes: attributes)
-        changeNameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        changeNameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                                value: CGFloat(5.0),
                                                range: NSRange(location: 0, length: changeNameTitle.count-1))
         changeNameButton.setAttributedTitle(changeNameAttributedString, for: .normal)
@@ -67,7 +67,7 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         let rateUsTitle = "Rate Us"
         rateUsButton.setBackgroundImage(rateUsImage, for: .normal)
         let rateUsAttributedString = NSMutableAttributedString(string: rateUsTitle, attributes: attributes)
-        rateUsAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        rateUsAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                               value: CGFloat(5.0),
                                               range: NSRange(location: 0, length: rateUsTitle.count-1))
         rateUsButton.setAttributedTitle(rateUsAttributedString, for: .normal)

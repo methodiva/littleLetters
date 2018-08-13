@@ -142,10 +142,10 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     }
     
     func updateTimer(to time: String) {
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         let timerAttributedString = NSMutableAttributedString(string: time, attributes: attributes)
-        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                                value: CGFloat(8.0),
                                                range: NSRange(location: 0, length: time.count-1))
         timerButton.setAttributedTitle(timerAttributedString, for: .normal)

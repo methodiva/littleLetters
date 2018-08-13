@@ -72,12 +72,12 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     }
     
     func initShareKeyButton() {
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey : AnyObject]()
         attributes[.foregroundColor] = appColors.white
         shareKeyButton.setBackgroundImage(UIImage(named: "purpleSmallButton"), for: .normal)
         let shareKeyTitle = "Share"
         let shareKeyAttributedString = NSMutableAttributedString(string: shareKeyTitle, attributes: attributes)
-        shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                                value: CGFloat(5.0),
                                                range: NSRange(location: 0, length: shareKeyTitle.count-1))
         shareKeyButton.setAttributedTitle(shareKeyAttributedString, for: .normal)
@@ -89,11 +89,11 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         gameCodeLabel.font = gameCodeFont
         gameCodeLabel.textColor = appColors.white
         
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.darkPurple
         
         let shareCodeLabelString = NSMutableAttributedString(string: shareKey, attributes: attributes)
-        shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                                value: CGFloat(5.0),
                                                range: NSRange(location: 0, length: shareKey.count-1))
         shareKeyLabel.attributedText = shareCodeLabelString

@@ -60,12 +60,12 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
     }
     
     func initShareKeyButton() {
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         changeNameButton.setBackgroundImage(UIImage(named: "pinkSmallButton"), for: .normal)
         let doneTitle = "Done"
         let doneAttributedString = NSMutableAttributedString(string: doneTitle, attributes: attributes)
-        doneAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        doneAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                               value: CGFloat(5.0),
                                               range: NSRange(location: 0, length: doneTitle.count-1))
         changeNameButton.setAttributedTitle(doneAttributedString, for: .normal)
