@@ -80,7 +80,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
                     return
                 }
                 log.debug(label)
-                self.playTurn(with: label.uppercased())
+                self.playTurn(with: label)
             })
         })	
     }
