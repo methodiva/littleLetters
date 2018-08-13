@@ -596,16 +596,18 @@
 			baseConfigurationReference = 208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZL7ZAP27F7;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = RTP2FFNB26;
 				INFOPLIST_FILE = scrabble/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.charu.scrabble;
+				PRODUCT_BUNDLE_IDENTIFIER = net.byondreal.ios.littleLetters;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "656c1d9c-7f10-4d9d-a26e-09f75c9b6cee";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development net.byondreal.ios.littleLetters";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -616,16 +618,19 @@
 			baseConfigurationReference = E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZL7ZAP27F7;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = RTP2FFNB26;
 				INFOPLIST_FILE = scrabble/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.charu.scrabble;
+				PRODUCT_BUNDLE_IDENTIFIER = net.byondreal.ios.littleLetters;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "82a27c14-1848-48f3-9845-2d78ac542a4d";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore net.byondreal.ios.littleLetters";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
