@@ -11,6 +11,7 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         }
         self.featureLogic = logic
         self.isUserInteractionEnabled = false
+        self.alpha = 0
         initUI()
         initConstraints()
     }
@@ -21,7 +22,9 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     let screenTitleLabel = UILabel()
     let backButton = BackButton()
     let shareKeyButton = UIButton()
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
     let waitingForPlayer = UILabel()
+
     
     let gameCodeLabel = UILabel()
     let shareKeyLabel = UILabel()
@@ -36,54 +39,104 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     let codeFont = UIFont(name: "Montserrat-Bold", size: 32)
     let waitingForPlayerFont = UIFont(name: "Montserrat-Regular", size: 15)
     
+    func onTapBackButton(_ target: Any?, _ handler: Selector) {
+        self.backButton.addTarget(target, action: handler, for: .touchUpInside)
+    }
     
-    func initUI() {
+    func onTapShareKeyButton() {
+        self.shareKeyButton.addTarget(self, action: #selector(shareGameKey), for: .touchUpInside)
+    }
+    
+    func hide(_ onHidden: (() -> Void)?) {
+        self.isUserInteractionEnabled = false
+        self.alpha = 0
+        self.activityIndicator.stopAnimating()
+        onHidden?()
+    }
+    
+    func show(_ onShowing: (() -> Void)?) {
+        self.isUserInteractionEnabled = true
+        self.alpha = 1
+        self.activityIndicator.startAnimating()
+        onShowing?()
+    }
+    
+    @objc
+    private func shareGameKey() {
+        let text = "6437"
+        let viewController = topViewController()
+        let textToShare = [ text ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        
+        activityViewController.popoverPresentationController?.sourceView = viewController.view // so that iPads won't crash
+        activityViewController.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .openInIBooks, .postToFlickr, .postToTencentWeibo, .postToVimeo, .postToWeibo, .print, .markupAsPDF]
+        
+        activityViewController.completionWithItemsHandler = {(activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+            if !completed {
+                log.warning("User canceled the share")
+            }
+        }
+        viewController.present(activityViewController, animated: true, completion: nil)
+    }
+}
+
+// Initialising and adding constraints to all the subviews
+extension StartGameScreenView {
+    private func initUI() {
+        self.addSubview(backgroundImage)
+        self.addSubview(backButton)
+        
+        initScreenTitleUI()
+        initButtonStackUI()
+        initBottomBarUI()
+    }
+    
+    private func initScreenTitleUI() {
         screenTitleLabel.text = "START GAME"
         screenTitleLabel.textAlignment = .center
         screenTitleLabel.font = titleFont
         screenTitleLabel.textColor = appColors.white
-        
-        initTextField()
-        initShareKeyButton()
-        initBottomBar()
-        
+        self.addSubview(screenTitleLabel)
+    }
+    
+    private func initButtonStackUI() {
         buttonStack.addArrangedSubview(textFieldBackground)
         buttonStack.addArrangedSubview(shareKeyButton)
         buttonStack.axis = .vertical
         buttonStack.spacing = gridHeight * 2.5
         buttonStack.alignment = .center
         
-        self.addSubview(backgroundImage)
-        self.addSubview(backButton)
-        self.addSubview(screenTitleLabel)
-        
         self.addSubview(buttonStack)
         self.addSubview(gameCodeLabel)
-        self.addSubview(shareKeyLabel)
-        self.addSubview(waitingForPlayer)
-        self.hide{}
+        
+        initTextFieldUI()
+        initShareKeyButtonUI()
     }
     
-    func initBottomBar() {
+    private func initBottomBarUI() {
+        activityIndicator.color = appColors.white
         waitingForPlayer.font = waitingForPlayerFont
         waitingForPlayer.text = "waiting for player"
         waitingForPlayer.textColor = appColors.white
+        self.addSubview(activityIndicator)
+        self.addSubview(waitingForPlayer)
     }
     
-    func initShareKeyButton() {
+    private func initShareKeyButtonUI() {
         var attributes = [NSAttributedString.Key: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         shareKeyButton.setBackgroundImage(UIImage(named: "purpleSmallButton"), for: .normal)
         let shareKeyTitle = "Share"
         let shareKeyAttributedString = NSMutableAttributedString(string: shareKeyTitle, attributes: attributes)
         shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                               value: CGFloat(5.0),
-                                               range: NSRange(location: 0, length: shareKeyTitle.count-1))
+                                              value: CGFloat(5.0),
+                                              range: NSRange(location: 0, length: shareKeyTitle.count-1))
         shareKeyButton.setAttributedTitle(shareKeyAttributedString, for: .normal)
         shareKeyButton.titleLabel?.font = buttonsFont
+        self.addSubview(shareKeyLabel)
     }
     
-    func initTextField() {
+    private func initTextFieldUI() {
         gameCodeLabel.text = "Game Code"
         gameCodeLabel.font = gameCodeFont
         gameCodeLabel.textColor = appColors.white
@@ -93,13 +146,13 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         
         let shareCodeLabelString = NSMutableAttributedString(string: gameJoinKey, attributes: attributes)
         shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                               value: CGFloat(5.0),
-                                               range: NSRange(location: 0, length: gameJoinKey.count-1))
+                                          value: CGFloat(5.0),
+                                          range: NSRange(location: 0, length: gameJoinKey.count-1))
         shareKeyLabel.attributedText = shareCodeLabelString
         shareKeyLabel.font = codeFont
     }
     
-    func initConstraints() {
+    private func initConstraints() {
         backgroundImage.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalToSuperview()
@@ -121,6 +174,10 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
             make.topMargin.equalTo(10.5 * gridHeight )
             make.centerX.equalToSuperview()
         }
+        activityIndicator.snp.makeConstraints { make in
+            make.bottom.equalTo(waitingForPlayer.snp.top).inset(-0.5 * gridHeight)
+            make.centerX.equalToSuperview()
+        }
         waitingForPlayer.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(1.5 * gridHeight)
             make.centerX.equalToSuperview()
@@ -128,52 +185,13 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         buttonStack.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
     }
-    
-    func onTapBackButton(_ target: Any?, _ handler: Selector) {
-        self.backButton.addTarget(target, action: handler, for: .touchUpInside)
+}
+
+func topViewController()-> UIViewController{
+    var topViewController:UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+    while ((topViewController.presentedViewController) != nil) {
+        topViewController = topViewController.presentedViewController!;
     }
-    
-    func onTapShareKeyButton() {
-        self.shareKeyButton.addTarget(self, action: #selector(shareGameKey), for: .touchUpInside)
-    }
-    
-    func hide(_ onHidden: (() -> Void)?) {
-        self.isUserInteractionEnabled = false
-        self.alpha = 0
-        onHidden?()
-    }
-    
-    func show(_ onShowing: (() -> Void)?) {
-        self.isUserInteractionEnabled = true
-        self.alpha = 1
-        onShowing?()
-    }
-    
-    @objc
-    func shareGameKey() {
-        let text = "6437"
-        let viewController = topViewController()
-        let textToShare = [ text ]
-        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-        
-        activityViewController.popoverPresentationController?.sourceView = viewController.view // so that iPads won't crash
-        activityViewController.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .openInIBooks, .postToFlickr, .postToTencentWeibo, .postToVimeo, .postToWeibo, .print, .markupAsPDF]
-        
-        activityViewController.completionWithItemsHandler = {(activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
-            if !completed {
-                log.warning("User canceled the share")
-            }
-        }
-        viewController.present(activityViewController, animated: true, completion: nil)
-    }
-    
-    func topViewController()-> UIViewController{
-        var topViewController:UIViewController = UIApplication.shared.keyWindow!.rootViewController!
-        while ((topViewController.presentedViewController) != nil) {
-            topViewController = topViewController.presentedViewController!;
-        }
-        return topViewController
-    }
+    return topViewController
 }
