@@ -4,9 +4,11 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func onTapScreen(_ target: Any?, _ handler: Selector)
     func onTapTimerButton(_ target: Any?, _ handler: Selector)
     func updateTimer(to time: String)
+    func setUserInteractionEnabled(to isUserInteractionEnabled: Bool)
     func reduceOneTry()
     func resetTries()
     func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int)
+    func showSuccess(with word: String, showSuccessCallback: (() -> Void)?)
 }
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
@@ -84,7 +86,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func onTimerTap() {
         log.verbose("Timer Tapped")
-        
+        self.view?.setUserInteractionEnabled(to: false)
         self.timerScreenLogic?.setPlayerCards(to: currentStars)
         self.timerScreenLogic?.setScore(to: String(playerScore))
         self.timerScreenLogic?.show()
@@ -101,10 +103,12 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func updateTimer() {
         secondsLeftOnTimer -= 1
-//        // Temp lines to check functions
-//        if secondsLeftOnTimer == 25 {
-//            self.view?.reduceOneTry()
-//        }
+        // Temp lines to check functions
+        if secondsLeftOnTimer == 25 {
+            self.view?.showSuccess(with: "THIS", showSuccessCallback: {
+                
+            })
+        }
 //        if secondsLeftOnTimer == 2 {
 //            self.view?.resetTries()
 //            

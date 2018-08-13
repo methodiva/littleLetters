@@ -79,6 +79,10 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
+    func setUserInteractionEnabled(to isUserInteractionEnabled: Bool) {
+        self.isUserInteractionEnabled = isUserInteractionEnabled
+    }
+    
     private func togglePlayerView(isActive: Bool) {
         playerScoreTab.isHidden = !isActive
         playerCards.isHidden = !isActive
@@ -104,6 +108,38 @@ class GameScreenView: UIView, GameScreenViewProtocol {
             enemyTab.image = passiveTabImage
             enemyNameLabel.font = passivePlayerNameFont
             enemyNameLabel.textColor = appColors.red
+        }
+    }
+    
+    func showSuccess(with word: String, showSuccessCallback: (() -> Void)?) {
+        let tileStack = UIStackView()
+        tileStack.axis = .horizontal
+        tileStack.spacing = 5
+        for character in word.dropFirst() {
+            let letterBackground = UIImageView(image: UIImage(named: "letterTilePurple"))
+            let letterLabel = UILabel()
+            letterLabel.text = String(character)
+            letterLabel.font = currentLetterFont
+            letterLabel.textColor = appColors.mediumPurple
+            letterBackground.addSubview(letterLabel)
+            tileStack.addArrangedSubview(letterBackground)
+            letterLabel.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+        }
+        self.addSubview(tileStack)
+        tileStack.snp.makeConstraints { make in
+            make.leading.equalTo(self.snp.trailing)
+            make.top.equalToSuperview().inset(4 * gridHeight)
+        }
+        UIView.animate(withDuration: 3, delay: 0, options: UIView.AnimationOptions.curveEaseOut , animations: {
+            tileStack.snp.makeConstraints { make in
+                make.leading.equalTo(self.currentLetterBackground.snp.trailing)
+                make.top.equalToSuperview().inset(4 * gridHeight)
+            }
+        }) { (isComplete) in
+            showSuccessCallback?()
+            self.currentLetterBackground.alpha = 1
         }
     }
     
@@ -211,6 +247,7 @@ extension GameScreenView {
     
     private func initCurrentLetterUI() {
         currentLetterBackground.image = UIImage(named: "letterTilePurple")
+        currentLetterBackground.contentMode = .center
         currentLetterLabel.text = currentLetter
         currentLetterLabel.font = currentLetterFont
         currentLetterLabel.textColor = appColors.mediumPurple
