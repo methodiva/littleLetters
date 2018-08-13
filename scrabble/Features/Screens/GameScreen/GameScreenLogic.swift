@@ -104,18 +104,18 @@ class GameScreenLogic: GameScreenLogicProtocol {
     func updateTimer() {
         secondsLeftOnTimer -= 1
         // Temp lines to check functions
-        if secondsLeftOnTimer == 25 {
-            self.view?.showSuccess(with: "THIS", showSuccessCallback: {
-                
-            })
-        }
+//        if secondsLeftOnTimer == 25 {
+//            self.view?.showSuccess(with: "THIS", showSuccessCallback: {
+//
+//            })
+//        }
 //        if secondsLeftOnTimer == 2 {
 //            self.view?.resetTries()
 //            
 //        }
-//        if secondsLeftOnTimer == 28 {
-//            self.endGame()
-//        }
+        if secondsLeftOnTimer == 28 {
+            self.endGame()
+        }
         // Temp functions end
         let time = getTimeInString(from: secondsLeftOnTimer)
         self.view?.updateTimer(to: time)
