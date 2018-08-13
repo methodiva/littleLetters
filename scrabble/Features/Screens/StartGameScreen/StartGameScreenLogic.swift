@@ -2,7 +2,7 @@ import Foundation
 
 protocol StartGameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
-    func onTapShareKeyButton(_ target: Any?, _ handler: Selector)
+    func onTapShareKeyButton()
 }
 
 protocol StartGameScreenLogicProtocol: FeatureLogicProtocol {
@@ -35,7 +35,7 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
         
         self.view = uiView
         self.view?.onTapBackButton(self, #selector(goBack))
-        self.view?.onTapShareKeyButton(self, #selector(startGame))
+        self.view?.onTapShareKeyButton()
     }
     
     @objc

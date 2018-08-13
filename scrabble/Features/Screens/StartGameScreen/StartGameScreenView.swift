@@ -25,7 +25,6 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     
     let gameCodeLabel = UILabel()
     let shareKeyLabel = UILabel()
-    let shareKey = "GX34"
     
     let buttonStack = UIStackView()
     let textFieldBackground = UIImageView(image: UIImage(named: "startGameTextFieldBackground"))
@@ -92,10 +91,10 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         var attributes = [NSAttributedString.Key: AnyObject]()
         attributes[.foregroundColor] = appColors.darkPurple
         
-        let shareCodeLabelString = NSMutableAttributedString(string: shareKey, attributes: attributes)
+        let shareCodeLabelString = NSMutableAttributedString(string: gameJoinKey, attributes: attributes)
         shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
                                                value: CGFloat(5.0),
-                                               range: NSRange(location: 0, length: shareKey.count-1))
+                                               range: NSRange(location: 0, length: gameJoinKey.count-1))
         shareKeyLabel.attributedText = shareCodeLabelString
         shareKeyLabel.font = codeFont
     }
@@ -136,8 +135,8 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         self.backButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
-    func onTapShareKeyButton(_ target: Any?, _ handler: Selector) {
-        self.shareKeyButton.addTarget(target, action: handler, for: .touchUpInside)
+    func onTapShareKeyButton() {
+        self.shareKeyButton.addTarget(self, action: #selector(shareGameKey), for: .touchUpInside)
     }
     
     func hide(_ onHidden: (() -> Void)?) {
@@ -150,5 +149,31 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         self.isUserInteractionEnabled = true
         self.alpha = 1
         onShowing?()
+    }
+    
+    @objc
+    func shareGameKey() {
+        let text = "6437"
+        let viewController = topViewController()
+        let textToShare = [ text ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        
+        activityViewController.popoverPresentationController?.sourceView = viewController.view // so that iPads won't crash
+        activityViewController.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .openInIBooks, .postToFlickr, .postToTencentWeibo, .postToVimeo, .postToWeibo, .print, .markupAsPDF]
+        
+        activityViewController.completionWithItemsHandler = {(activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+            if !completed {
+                log.warning("User canceled the share")
+            }
+        }
+        viewController.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func topViewController()-> UIViewController{
+        var topViewController:UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+        while ((topViewController.presentedViewController) != nil) {
+            topViewController = topViewController.presentedViewController!;
+        }
+        return topViewController
     }
 }
