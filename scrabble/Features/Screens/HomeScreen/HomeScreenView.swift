@@ -7,6 +7,7 @@ let gridHeight = UIScreen.main.bounds.height/27
 
 let appId = "1316361894"
 let gameJoinKey = "6437"
+let deviceId = UIDevice.current.identifierForVendor?.uuidString
 
 let playerName = "Divya"
 let enemyName = "Jyoti"
