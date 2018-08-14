@@ -7,6 +7,8 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func setUserInteractionEnabled(to isUserInteractionEnabled: Bool)
     func reduceOneTry()
     func resetTries()
+    func showLoadingWordAnimation()
+    func hideLoadingWordAnimation()
     func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int)
     func showSuccess(with word: String, showSuccessCallback: (() -> Void)?)
 }
@@ -75,9 +77,13 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func onScreenTap() {
         log.verbose("Screen tapped")
+        self.view?.showLoadingWordAnimation()
         cameraLogic?.captureImage({ (image) in
             self.objectRecognizerLogic?.getLabel(for: image, labelCallBack: { (imageLabels) in
                 // ASSUMPTION: starting letter would not be capital
+                DispatchQueue.main.async {
+                    self.view?.hideLoadingWordAnimation()
+                }
                 let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: "b")
                 log.debug(label)
             })

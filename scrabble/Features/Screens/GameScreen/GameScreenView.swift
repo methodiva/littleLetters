@@ -9,6 +9,7 @@ fileprivate let currentLetterFont = UIFont(name: "Baloo", size: 30)
 fileprivate let activeTabImage = UIImage(named: "activePlayerTab")
 fileprivate let passiveTabImage = UIImage(named: "passivePlayerTab")
 fileprivate let scoreTabImage = UIImage(named: "scoreTab")
+fileprivate let tileBack = UIImage(named: "letterTileBack")
 
 class GameScreenView: UIView, GameScreenViewProtocol {
     weak var featureLogic: GameScreenLogicProtocol!
@@ -18,6 +19,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     private let triesArcs = [UIBezierPath()]
     private let currentLetterBackground = UIImageView()
     private let currentLetterLabel = UILabel()
+    private let loadingTile = UIImageView(image: tileBack)
 
     private let playerTab = UIImageView()
     private let playerScoreTab = UIImageView()
@@ -116,7 +118,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         tileStack.axis = .horizontal
         tileStack.spacing = 5
         for character in word.dropFirst() {
-            let letterBackground = UIImageView(image: UIImage(named: "letterTilePurple"))
+            let letterBackground = UIImageView(image: UIImage(named: "letterTileLightPurple"))
             let letterLabel = UILabel()
             letterLabel.text = String(character)
             letterLabel.font = currentLetterFont
@@ -161,6 +163,25 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         timerButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
+    let loadingWordRotationAnimationKey = "rotation"
+    
+    func showLoadingWordAnimation() {
+        loadingTile.isHidden = false
+        let animate = CABasicAnimation(keyPath: "transform.rotation")
+        animate.fromValue = 0.0
+        animate.toValue = Float.pi * 2
+        animate.repeatCount = Float.infinity
+        animate.duration = 0.75
+        loadingTile.layer.add(animate, forKey: loadingWordRotationAnimationKey)
+    }
+    
+    func hideLoadingWordAnimation() {
+        if loadingTile.layer.animation(forKey: loadingWordRotationAnimationKey) != nil {
+            layer.removeAnimation(forKey: loadingWordRotationAnimationKey)
+        }
+        loadingTile.isHidden = true
+    }
+    
     func hide(_ onHidden: (() -> Void)?) {
         self.isUserInteractionEnabled = false
         self.alpha = 0
@@ -181,6 +202,7 @@ extension GameScreenView {
         initTabsUI()
         initCurrentLetterUI()
         initTimerUI()
+        initLoadingWordAnimation()
         self.hide{}
     }
     
@@ -246,7 +268,7 @@ extension GameScreenView {
     }
     
     private func initCurrentLetterUI() {
-        currentLetterBackground.image = UIImage(named: "letterTilePurple")
+        currentLetterBackground.image = UIImage(named: "letterTileLightPurple")
         currentLetterBackground.contentMode = .center
         currentLetterLabel.text = currentLetter
         currentLetterLabel.font = currentLetterFont
@@ -266,6 +288,11 @@ extension GameScreenView {
         drawCenterCircle()
         drawTries(for: maxTries)
         self.addSubview(crossHair)
+    }
+    
+    private func initLoadingWordAnimation() {
+        loadingTile.isHidden = true
+        self.addSubview(loadingTile)
     }
     
     private func drawCenterCircle() {
@@ -314,6 +341,10 @@ extension GameScreenView {
         }
         crossHair.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        loadingTile.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(loadingTile.frame.width * 0.25)
+            make.top.equalToSuperview().inset(gridHeight * 4)
         }
         
         // Player Tab constraints

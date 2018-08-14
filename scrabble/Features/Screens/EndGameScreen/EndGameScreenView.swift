@@ -18,7 +18,7 @@ fileprivate let playerWonTabImage = UIImage(named: "playerWonTabImage")
 fileprivate let playerLostTabImage = UIImage(named: "playerLostTabImage")
 fileprivate let enemyWonTabImage = UIImage(named: "enemyWonTabImage")
 fileprivate let enemyLostTabImage = UIImage(named: "enemyLostTabImage")
-fileprivate let endGameButtonImage = UIImage(named: "purpleButton")
+fileprivate let endGameButtonImage = UIImage(named: "endGameButton")
 fileprivate let starImage = UIImage(named: "star")
 
 let winnerNameMargin = 38

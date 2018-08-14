@@ -1,6 +1,6 @@
 import UIKit
 
-fileprivate let endGameButtonFont = UIFont(name: "Montserrat-Bold", size: 30)
+fileprivate let endGameButtonFont = UIFont(name: "Montserrat-Bold", size: 25)
 fileprivate let titleFont = UIFont(name: "Montserrat-Bold", size: 22)
 fileprivate let scoreFont = UIFont(name: "Montserrat-Bold", size: 30)
 fileprivate let timerFont = UIFont(name: "Montserrat-Bold", size: 50)
@@ -8,7 +8,7 @@ fileprivate let playerNameFont = UIFont(name: "Montserrat-Bold", size: 22)
 
 fileprivate let playerTabImage = UIImage(named: "playerLostTabImage")
 fileprivate let scoreTabImage =  UIImage(named: "scoreTabBig")
-fileprivate let endGameButtonImage = UIImage(named: "purpleButton")
+fileprivate let endGameButtonImage = UIImage(named: "endGameButton")
 
 class TimerScreenView: UIView, TimerScreenViewProtocol {
     weak var featureLogic: TimerScreenLogicProtocol!
