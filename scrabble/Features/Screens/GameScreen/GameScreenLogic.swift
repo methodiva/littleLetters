@@ -13,6 +13,7 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
+    func endGame() 
 }
 
 class GameScreenLogic: GameScreenLogicProtocol {
@@ -113,9 +114,9 @@ class GameScreenLogic: GameScreenLogicProtocol {
 //            self.view?.resetTries()
 //            
 //        }
-        if secondsLeftOnTimer == 28 {
-            self.endGame()
-        }
+//        if secondsLeftOnTimer == 28 {
+//            self.endGame()
+//        }
         // Temp functions end
         let time = getTimeInString(from: secondsLeftOnTimer)
         self.view?.updateTimer(to: time)

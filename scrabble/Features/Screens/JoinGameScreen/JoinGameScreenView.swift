@@ -56,6 +56,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         self.addSubview(buttonStack)
         self.addSubview(enterCodeLabel)
         self.addSubview(keyTextField)
+        addTapGesture()
         self.hide{}
     }
     
@@ -72,6 +73,16 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         joinGameButton.titleLabel?.font = buttonsFont
     }
     
+    func addTapGesture() {
+        let keyboardResignGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDismiss))
+        self.addGestureRecognizer(keyboardResignGesture)
+    }
+    
+    @objc
+    func keyboardDismiss() {
+        keyTextField.resignFirstResponder()
+    }
+    
     func initTextField() {
         enterCodeLabel.text = "Enter Code"
         enterCodeLabel.font = enterCodeFont
@@ -80,6 +91,9 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         keyTextField.delegate = self
         keyTextField.font = keyFont
         keyTextField.textColor = appColors.darkPurple
+        keyTextField.tintColor = appColors.lightPurple
+        keyTextField.keyboardType = .asciiCapableNumberPad
+        keyTextField.textAlignment = .center
         
     }
     
@@ -102,7 +116,8 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
             make.centerX.equalToSuperview()
         }
         keyTextField.snp.makeConstraints { make in
-            make.topMargin.equalTo(10.5 * gridHeight )
+            make.topMargin.equalTo(10.5 * gridHeight)
+            make.width.equalTo(gridWidth * 4)
             make.centerX.equalToSuperview()
         }
         buttonStack.snp.makeConstraints { make in
@@ -120,6 +135,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     }
     
     func hide(_ onHidden: (() -> Void)?) {
+        self.keyboardDismiss()
         self.isUserInteractionEnabled = false
         self.alpha = 0
         onHidden?()
@@ -127,6 +143,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
+        self.keyTextField.text = ""
         self.alpha = 1
         onShowing?()
     }
@@ -137,4 +154,12 @@ extension JoinGameScreenView: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentString: NSString = textField.text! as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= gameJoinKeyLength
+    }
+    
 }
