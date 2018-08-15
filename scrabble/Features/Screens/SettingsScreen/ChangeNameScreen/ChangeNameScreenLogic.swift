@@ -3,10 +3,12 @@ import Foundation
 protocol ChangeNameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapChangeNameButton(_ target: Any?, _ handler: Selector)
+    func keyboardDismiss()
 }
 
 protocol ChangeNameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
+    func changeName()
 }
 
 class ChangeNameScreenLogic: ChangeNameScreenLogicProtocol {
@@ -32,7 +34,7 @@ class ChangeNameScreenLogic: ChangeNameScreenLogicProtocol {
     
     private func addHandlersToUI() {
         self.view?.onTapBackButton(self, #selector(goBack))
-        self.view?.onTapChangeNameButton(self, #selector(showChangeNameScreen))
+        self.view?.onTapChangeNameButton(self, #selector(changeName))
     }
     
     @objc
@@ -44,8 +46,10 @@ class ChangeNameScreenLogic: ChangeNameScreenLogicProtocol {
     }
     
     @objc
-    func showChangeNameScreen(){
-        
+    func changeName(){
+        log.verbose("Changed name")
+        self.view?.keyboardDismiss()
+        goBack()
     }
     
     func show() {

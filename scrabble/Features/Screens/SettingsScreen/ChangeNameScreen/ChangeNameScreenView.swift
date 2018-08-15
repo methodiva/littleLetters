@@ -1,5 +1,7 @@
 import UIKit
 
+fileprivate let maxNameLength = 8
+
 class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
     
     weak var featureLogic: ChangeNameScreenLogicProtocol!
@@ -22,7 +24,7 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
     let screenTitleLabel = UILabel()
     let backButton = BackButton()
     let changeNameButton = UIButton()
-    let keyTextField = UITextField()
+    let userNameTextField = UITextField()
     
     let userName = UILabel()
     let buttonStack = UIStackView()
@@ -41,7 +43,7 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
         screenTitleLabel.textColor = appColors.white
         
         initTextField()
-        initShareKeyButton()
+        initChangeNameButton()
         
         buttonStack.addArrangedSubview(textFieldBackground)
         buttonStack.addArrangedSubview(changeNameButton)
@@ -55,11 +57,12 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
         
         self.addSubview(buttonStack)
         self.addSubview(userName)
-        self.addSubview(keyTextField)
+        self.addSubview(userNameTextField)
+        addTapGesture()
         self.hide{}
     }
     
-    func initShareKeyButton() {
+    func initChangeNameButton() {
         var attributes = [NSAttributedString.Key: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         changeNameButton.setBackgroundImage(UIImage(named: "pinkSmallButton"), for: .normal)
@@ -72,14 +75,27 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
         changeNameButton.titleLabel?.font = buttonsFont
     }
     
+    func addTapGesture() {
+        let keyboardResignGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDismiss))
+        self.addGestureRecognizer(keyboardResignGesture)
+    }
+    
+    @objc
+    func keyboardDismiss() {
+        userNameTextField.resignFirstResponder()
+    }
+    
     func initTextField() {
         userName.text = "Username"
         userName.font = enterNameFont
         userName.textColor = appColors.white
         
-        keyTextField.delegate = self
-        keyTextField.font = keyFont
-        keyTextField.textColor = appColors.darkPurple
+        userNameTextField.delegate = self
+        userNameTextField.font = keyFont
+        userNameTextField.textAlignment = .center
+        userNameTextField.textColor = appColors.darkPurple
+        userNameTextField.tintColor = appColors.lightPurple
+        userNameTextField.keyboardType = .namePhonePad
     }
     
     func initConstraints() {
@@ -100,8 +116,9 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
             make.topMargin.equalTo(8.1 * gridHeight )
             make.centerX.equalToSuperview()
         }
-        keyTextField.snp.makeConstraints { make in
+        userNameTextField.snp.makeConstraints { make in
             make.topMargin.equalTo(10.5 * gridHeight )
+            make.width.equalTo(200)
             make.centerX.equalToSuperview()
         }
         buttonStack.snp.makeConstraints { make in
@@ -134,7 +151,18 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
 extension ChangeNameScreenView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        self.featureLogic.changeName()
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == " " || string == "+"{
+            return false
+        }
+        let currentString: NSString = textField.text! as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxNameLength
     }
 }
 
