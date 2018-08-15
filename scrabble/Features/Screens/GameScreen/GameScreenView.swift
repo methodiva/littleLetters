@@ -10,6 +10,17 @@ fileprivate let activeTabImage = UIImage(named: "activePlayerTab")
 fileprivate let passiveTabImage = UIImage(named: "passivePlayerTab")
 fileprivate let scoreTabImage = UIImage(named: "scoreTab")
 fileprivate let tileBack = UIImage(named: "letterTileBack")
+fileprivate let tileMediumPurple = UIImage(named: "letterTileMediumPurple")
+fileprivate let tileDarkPurple = UIImage(named: "letterTileDarkPurple")
+
+fileprivate let letterTileSpacing: CGFloat = 10
+// Tiles animation parameters
+fileprivate let animatingInDuration: Double = 1
+fileprivate let wordWaitDuration: Double = 2.5
+fileprivate let animatingOutDuration: Double = 1
+fileprivate let loadingWordRotationAnimationKey = "rotation"
+
+
 
 class GameScreenView: UIView, GameScreenViewProtocol {
     weak var featureLogic: GameScreenLogicProtocol!
@@ -17,8 +28,8 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     private let timerButton = UIButton()
     private let crossHair = UIImageView()
     private let triesArcs = [UIBezierPath()]
-    private let currentLetterBackground = UIImageView()
-    private let currentLetterLabel = UILabel()
+    private var currentLetterBackground = UIImageView()
+    private var currentTileColor = appColors.mediumPurple
     private let loadingTile = UIImageView(image: tileBack)
 
     private let playerTab = UIImageView()
@@ -114,35 +125,19 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     }
     
     func showSuccess(with word: String, showSuccessCallback: (() -> Void)?) {
-        let tileStack = UIStackView()
-        tileStack.axis = .horizontal
-        tileStack.spacing = 5
-        for character in word.dropFirst() {
-            let letterBackground = UIImageView(image: UIImage(named: "letterTileLightPurple"))
-            let letterLabel = UILabel()
-            letterLabel.text = String(character)
-            letterLabel.font = currentLetterFont
-            letterLabel.textColor = appColors.mediumPurple
-            letterBackground.addSubview(letterLabel)
-            tileStack.addArrangedSubview(letterBackground)
-            letterLabel.snp.makeConstraints { make in
-                make.center.equalToSuperview()
-            }
+        let wordWithoutFirstLetter = String(word.dropFirst())
+        let tilesToShow = getTiles(for: wordWithoutFirstLetter)
+        
+        guard let lastTile = tilesToShow.last else {
+            log.error("No last letter found")
+            return
         }
-        self.addSubview(tileStack)
-        tileStack.snp.makeConstraints { make in
-            make.leading.equalTo(self.snp.trailing)
-            make.top.equalToSuperview().inset(4 * gridHeight)
-        }
-        UIView.animate(withDuration: 3, delay: 0, options: UIView.AnimationOptions.curveEaseOut , animations: {
-            tileStack.snp.makeConstraints { make in
-                make.leading.equalTo(self.currentLetterBackground.snp.trailing)
-                make.top.equalToSuperview().inset(4 * gridHeight)
-            }
-        }) { (isComplete) in
+        positionOnScene(for: tilesToShow)
+        animateWordIn(from: tilesToShow) {}
+        self.animateWordOut(from: tilesToShow, wordAnimatedOutCallBack: {
+            self.currentLetterBackground = lastTile
             showSuccessCallback?()
-            self.currentLetterBackground.alpha = 1
-        }
+        })
     }
     
     func updateTimer(to time: String) {
@@ -163,8 +158,22 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         timerButton.addTarget(target, action: handler, for: .touchUpInside)
     }
     
-    let loadingWordRotationAnimationKey = "rotation"
+    func hide(_ onHidden: (() -> Void)?) {
+        self.isUserInteractionEnabled = false
+        self.alpha = 0
+        onHidden?()
+    }
     
+    func show(_ onShowing: (() -> Void)?) {
+        self.isUserInteractionEnabled = true
+        self.alpha = 1
+        onShowing?()
+    }
+}
+
+
+// Word Animations
+extension GameScreenView {
     func showLoadingWordAnimation() {
         loadingTile.isHidden = false
         let animate = CABasicAnimation(keyPath: "transform.rotation")
@@ -182,18 +191,125 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         loadingTile.isHidden = true
     }
     
-    func hide(_ onHidden: (() -> Void)?) {
-        self.isUserInteractionEnabled = false
-        self.alpha = 0
-        onHidden?()
+    func animateWordOut(from tiles: [UIImageView], wordAnimatedOutCallBack: (() -> Void)?) {
+        guard let lastTile = tiles.last else {
+            log.error("No last letter found")
+            return
+        }
+        var tileXPosition = -3 * gridWidth * CGFloat(tiles.count)
+        let animateWord = [currentLetterBackground] + tiles
+        
+        for tile in animateWord.dropLast() {
+            UIView.animate(withDuration: animatingOutDuration,
+                           delay: animatingInDuration + wordWaitDuration,
+                           options: UIView.AnimationOptions.curveEaseInOut,
+                           animations: {
+                            tile.center = CGPoint(x: tileXPosition, y: tile.center.y)
+            }, completion: { (isComplete) in
+                if !isComplete {
+                    log.warning("Word animating in animation couldnt complete")
+                } else {
+                    tile.removeFromSuperview()
+                }
+            })
+            tileXPosition = tileXPosition + 3 * gridWidth
+        }
+        UIView.animate(withDuration: animatingOutDuration,
+                       delay: animatingInDuration + wordWaitDuration,
+                       options: UIView.AnimationOptions.curveEaseInOut,
+                       animations: {
+                        lastTile.center = CGPoint(x: UIScreen.main.bounds.width/2, y: lastTile.center.y)
+        }, completion: { (isComplete) in
+            if !isComplete {
+                log.warning("Word animating in animation couldnt complete")
+            } else {
+                
+                wordAnimatedOutCallBack?()
+            }
+        })
     }
     
-    func show(_ onShowing: (() -> Void)?) {
-        self.isUserInteractionEnabled = true
-        self.alpha = 1
-        onShowing?()
+    func animateWordIn(from tiles: [UIImageView], wordAnimatedInCallback: (() -> Void)?) {
+        guard let tileWidth = currentLetterBackground.image?.size.width  else {
+            log.error("Image for current letter not found")
+            return
+        }
+        let wordWidth = calculateWordWidth(for: tiles.count + 1)
+        
+        let currentLetterFinalXPosition = (UIScreen.main.bounds.width - wordWidth + tileWidth)/2
+        
+        UIView.animate(withDuration: animatingInDuration,
+                       delay: 0,
+                       options: UIView.AnimationOptions.curveEaseInOut,
+                       animations: {
+                        self.currentLetterBackground.center = CGPoint(x: currentLetterFinalXPosition, y: self.currentLetterBackground.center.y)
+        })
+        
+        var tileXPosition = currentLetterFinalXPosition
+        tiles.forEach { (tile) in
+            tileXPosition = tileXPosition + tileWidth + letterTileSpacing
+            UIView.animate(withDuration: animatingInDuration,
+                           delay: 0,
+                           options: UIView.AnimationOptions.curveEaseInOut,
+                           animations: {
+                            tile.center = CGPoint(x: tileXPosition, y: tile.center.y)
+            }, completion: { (isComplete) in
+                if !isComplete {
+                    log.warning("Word animating in animation couldnt complete")
+                }
+                wordAnimatedInCallback?()
+            })
+        }
+    }
+    
+    func positionOnScene(for tiles: [UIImageView]) {
+        guard let imageHeight = currentLetterBackground.image?.size.height  else {
+            log.error("Image for current letter not found")
+            return
+        }
+        for (index, view) in tiles.enumerated() {
+            self.addSubview(view)
+            view.center = CGPoint(x: UIScreen.main.bounds.width + CGFloat(index + 1) * 3 * gridWidth, y: gridHeight * 4 + imageHeight/2)
+        }
+    }
+    func calculateWordWidth(for letterCount: Int) -> CGFloat {
+        guard let imageWidth = currentLetterBackground.image?.size.width  else {
+            log.error("Image for current letter not found")
+            return 0
+        }
+        return imageWidth * CGFloat(letterCount) + CGFloat(letterCount - 1) *  letterTileSpacing
+    }
+    
+    
+    func getTiles(for word: String) -> [UIImageView] {
+        var imageTiles = [UIImageView]()
+        for character in word {
+            let letterBackground = UIImageView(image: tileMediumPurple)
+            let letterLabel = UILabel()
+            letterLabel.text = String(character)
+            letterLabel.font = currentLetterFont
+            
+            // Set colors
+            currentTileColor = currentTileColor == appColors.mediumPurple ? appColors.darkPurple : appColors.mediumPurple
+            if currentTileColor == appColors.mediumPurple {
+                letterBackground.image = tileMediumPurple
+            } else {
+                letterBackground.image = tileDarkPurple
+            }
+            letterLabel.textColor = currentTileColor
+            
+            letterBackground.addSubview(letterLabel)
+            imageTiles.append(letterBackground)
+            
+            letterLabel.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+        }
+        return imageTiles
     }
 }
+
+
 
 // Initialising and adding constraints to all the subviews
 extension GameScreenView {
@@ -268,13 +384,23 @@ extension GameScreenView {
     }
     
     private func initCurrentLetterUI() {
-        currentLetterBackground.image = UIImage(named: "letterTileLightPurple")
+        let currentLetterLabel = UILabel()
+        currentLetterBackground.image = tileMediumPurple
         currentLetterBackground.contentMode = .center
         currentLetterLabel.text = currentLetter
         currentLetterLabel.font = currentLetterFont
         currentLetterLabel.textColor = appColors.mediumPurple
+        
+        if let imageHeight = currentLetterBackground.image?.size.height  {
+            self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width/2, y: gridHeight * 4 + imageHeight/2 )
+        }
         self.currentLetterBackground.addSubview(currentLetterLabel)
         self.addSubview(currentLetterBackground)
+        
+        currentLetterLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
     }
     
     private func initTimerUI() {
@@ -328,13 +454,6 @@ extension GameScreenView {
     }
     
     private func initConstraints() {
-        currentLetterBackground.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(gridHeight * 4)
-        }
-        currentLetterLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
         timerButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.centerX.equalToSuperview()

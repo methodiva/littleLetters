@@ -83,9 +83,13 @@ class GameScreenLogic: GameScreenLogicProtocol {
                 // ASSUMPTION: starting letter would not be capital
                 DispatchQueue.main.async {
                     self.view?.hideLoadingWordAnimation()
+                    
+                    let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: "b")
+                    self.view?.showSuccess(with: "THIS", showSuccessCallback: {
+                        //
+                    })
                 }
-                let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: "b")
-                log.debug(label)
+              //  log.debug(label)
             })
         })	
     }
