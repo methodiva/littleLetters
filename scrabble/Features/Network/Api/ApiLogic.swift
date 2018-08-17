@@ -32,19 +32,16 @@ protocol ApiLogicProtocol: FeatureLogicProtocol {
 class ApiLogic: ApiLogicProtocol {
     private weak var gameScreenLogic: GameScreenLogicProtocol?
     private weak var requestsLogic: RequestsLogicProtocol?
-    private weak var apiLogic: ApiLogicProtocol?
     
     func initialize(root: RootProtocol, view: FeatureViewProtocol?, dependencies: [FeatureName : FeatureLogicProtocol]?) {
         guard let deps = dependencies,
             let gameScreenLogic = deps[.GameScreen] as? GameScreenLogicProtocol,
-            let requestsLogic = deps[.Requests] as? RequestsLogicProtocol,
-            let apiLogic = deps[.Api] as? ApiLogicProtocol else {
+            let requestsLogic = deps[.Requests] as? RequestsLogicProtocol else {
                 log.error("Dependency unfulfilled")
                 return
         }
         self.gameScreenLogic = gameScreenLogic
         self.requestsLogic = requestsLogic
-        self.apiLogic = apiLogic
     }
     
     // Requests

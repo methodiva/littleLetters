@@ -69,25 +69,25 @@ class RootViewController: UIViewController, RootProtocol {
             dependencies: nil,
             view: nil,
             viewOrder: 0
+        ),
+        .Api: Feature(
+            logic: ApiLogic(),
+            dependencies: [.GameScreen, .Requests],
+            view: nil,
+            viewOrder: 0
+        ),
+        .Requests: Feature(
+            logic: RequestsLogic(),
+            dependencies: nil,
+            view: nil,
+            viewOrder: 0
+        ),
+        .Events: Feature(
+            logic: EventsLogic(),
+            dependencies: [.Api],
+            view: nil,
+            viewOrder: 0
         )
-//        .Api: Feature(
-//            logic: ApiLogicProtocol(),
-//            dependencies: nil,
-//            view: nil,
-//            viewOrder: 0
-//        ),
-//        .Requests: Feature(
-//            logic: RequestsLogicProtocol(),
-//            dependencies: nil,
-//            view: nil,
-//            viewOrder: 0
-//        ),
-//        .Events: Feature(
-//            logic: EventsLogicProtocol(),
-//            dependencies: nil,
-//            view: nil,
-//            viewOrder: 0
-//        )
      ]
 
     // views are separated from feature initialization above because we destroy views
