@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5D189C4B21076A690005C938 /* CorrectLabelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D189C4A21076A690005C938 /* CorrectLabelSelector.swift */; };
+		5D3107212126F18800ABD427 /* ApiLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3107202126F18800ABD427 /* ApiLogic.swift */; };
+		5D3107242126FCF900ABD427 /* EventsLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3107232126FCF900ABD427 /* EventsLogic.swift */; };
+		5D310727212705AF00ABD427 /* RequestsLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D310726212705AF00ABD427 /* RequestsLogic.swift */; };
 		5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */; };
 		5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */; };
 		5D36EC502100A98700DCFBE4 /* JoinGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */; };
@@ -51,6 +54,9 @@
 /* Begin PBXFileReference section */
 		208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.debug.xcconfig"; sourceTree = "<group>"; };
 		5D189C4A21076A690005C938 /* CorrectLabelSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectLabelSelector.swift; sourceTree = "<group>"; };
+		5D3107202126F18800ABD427 /* ApiLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLogic.swift; sourceTree = "<group>"; };
+		5D3107232126FCF900ABD427 /* EventsLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsLogic.swift; sourceTree = "<group>"; };
+		5D310726212705AF00ABD427 /* RequestsLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsLogic.swift; sourceTree = "<group>"; };
 		5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenLogic.swift; sourceTree = "<group>"; };
 		5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGameScreenLogic.swift; sourceTree = "<group>"; };
@@ -113,6 +119,40 @@
 				E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		5D31071E2126F11000ABD427 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				5D3107252127059D00ABD427 /* Requests */,
+				5D3107222126FCD400ABD427 /* Events */,
+				5D31071F2126F15500ABD427 /* Api */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		5D31071F2126F15500ABD427 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				5D3107202126F18800ABD427 /* ApiLogic.swift */,
+			);
+			path = Api;
+			sourceTree = "<group>";
+		};
+		5D3107222126FCD400ABD427 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				5D3107232126FCF900ABD427 /* EventsLogic.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		5D3107252127059D00ABD427 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				5D310726212705AF00ABD427 /* RequestsLogic.swift */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		5D36EC492100A88300DCFBE4 /* HomeScreen */ = {
@@ -262,6 +302,7 @@
 		5DF346DD20F0E148006FFCF8 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				5D31071E2126F11000ABD427 /* Network */,
 				5D7766912105E2F100ACEE22 /* ObjectRecognizer */,
 				5D36EC6C2100B00500DCFBE4 /* Screens */,
 				5DF346E820F0E148006FFCF8 /* Camera */,
@@ -431,10 +472,12 @@
 				5DD6A3BB2119A95D00E4CB3C /* TimerScreenLogic.swift in Sources */,
 				5D36EC642100AAE000DCFBE4 /* GameScreenView.swift in Sources */,
 				5D36EC612100AABB00DCFBE4 /* TutorialScreenView.swift in Sources */,
+				5D310727212705AF00ABD427 /* RequestsLogic.swift in Sources */,
 				5DF85E462100C8C20079CD18 /* BackButton.swift in Sources */,
 				5DF346DB20F0DB82006FFCF8 /* Logger.swift in Sources */,
 				5D36EC5C2100AA8300DCFBE4 /* SettingsScreenView.swift in Sources */,
 				5DF346DA20F0DB82006FFCF8 /* Feature.swift in Sources */,
+				5D3107212126F18800ABD427 /* ApiLogic.swift in Sources */,
 				5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */,
 				5D7766932105E48800ACEE22 /* ObjectRecognizerLogic.swift in Sources */,
 				5D36EC662100AAEB00DCFBE4 /* GameScreenLogic.swift in Sources */,
@@ -446,6 +489,7 @@
 				5D7766972105E59F00ACEE22 /* ImageToStringConverter.swift in Sources */,
 				5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */,
 				5D36EC6B2100AB3D00DCFBE4 /* EndGameScreenView.swift in Sources */,
+				5D3107242126FCF900ABD427 /* EventsLogic.swift in Sources */,
 				5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */,
 				5D36EC692100AB2F00DCFBE4 /* EndGameScreenLogic.swift in Sources */,
 				5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */,

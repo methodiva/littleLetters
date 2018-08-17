@@ -10,6 +10,9 @@ struct Feature {
 // swiftlint:disable identifier_name
 enum FeatureName {
     case Camera
+    case Api
+    case Events
+    case Requests
     case HomeScreen
     case StartGameScreen
     case EndGameScreen
