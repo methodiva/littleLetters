@@ -10,7 +10,7 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func showLoadingWordAnimation()
     func hideLoadingWordAnimation()
     func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int)
-    func showSuccess(with word: String, showSuccessCallback: (() -> Void)?)
+    func showSuccess(with word: String, cardPosition: Int?, showSuccessCallback: (() -> Void)?)
 }
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
@@ -83,15 +83,22 @@ class GameScreenLogic: GameScreenLogicProtocol {
                 // ASSUMPTION: starting letter would not be capital
                 DispatchQueue.main.async {
                     self.view?.hideLoadingWordAnimation()
-                    
-                    let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: "b")
-                    self.view?.showSuccess(with: "THIS", showSuccessCallback: {
-                        //
-                    })
+                    if let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: "b"){
+                        let wildCardPosition = self.getWildCardPosition(for: label)
+                        self.view?.showSuccess(with: "THIS", cardPosition: wildCardPosition, showSuccessCallback: {
+                            //
+                        })
+                    } else {
+                        log.warning("Word for image not found")
+                    }
                 }
               //  log.debug(label)
             })
         })	
+    }
+    
+    func getWildCardPosition(for word: String) -> Int? {
+        return 1
     }
     
     @objc

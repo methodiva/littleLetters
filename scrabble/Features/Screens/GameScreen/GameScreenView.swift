@@ -13,6 +13,10 @@ fileprivate let tileBack = UIImage(named: "letterTileBack")
 fileprivate let tileMediumPurple = UIImage(named: "letterTileMediumPurple")
 fileprivate let tileDarkPurple = UIImage(named: "letterTileDarkPurple")
 
+fileprivate let yellowCard = UIImage(named: "wildCardYellow")
+fileprivate let pinkCard = UIImage(named: "wildCardPink")
+fileprivate let darkPurpleCard = UIImage(named: "wildCardPurple")
+
 fileprivate let letterTileSpacing: CGFloat = 10
 // Tiles animation parameters
 fileprivate let animatingInDuration: Double = 1
@@ -23,6 +27,7 @@ fileprivate let loadingWordRotationAnimationKey = "rotation"
 
 
 class GameScreenView: UIView, GameScreenViewProtocol {
+    
     weak var featureLogic: GameScreenLogicProtocol!
     
     private let timerButton = UIButton()
@@ -124,21 +129,44 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
-    func showSuccess(with word: String, showSuccessCallback: (() -> Void)?) {
+    func showSuccess(with word: String, cardPosition: Int?, showSuccessCallback: (() -> Void)?) {
         let wordWithoutFirstLetter = String(word.dropFirst())
         let tilesToShow = getTiles(for: wordWithoutFirstLetter)
-        
         guard let lastTile = tilesToShow.last else {
             log.error("No last letter found")
             return
         }
         positionOnScene(for: tilesToShow)
+        if let wildCardPosition = cardPosition {
+            showWildCard(on: tilesToShow[wildCardPosition], color: appColors.yellow)
+        }
         animateWordIn(from: tilesToShow) {}
         self.animateWordOut(from: tilesToShow, wordAnimatedOutCallBack: {
             self.currentLetterBackground = lastTile
             showSuccessCallback?()
         })
     }
+    
+    func showWildCard(on imageView: UIImageView, color: UIColor) {
+        let cardImage = UIImageView()
+        cardImage.transform = cardImage.transform.rotated(by: 0.15 * CGFloat.pi)
+        switch color {
+        case appColors.yellow:
+            cardImage.image = yellowCard
+        case appColors.darkPurple:
+            cardImage.image = darkPurpleCard
+        case appColors.pink:
+            cardImage.image = pinkCard
+        default:
+            log.warning("Wild card image for color not found")
+        }
+        imageView.addSubview(cardImage)
+        self.bringSubviewToFront(imageView)
+        cardImage.snp.makeConstraints { make in
+            make.center.equalToSuperview().offset(20)
+        }
+    }
+    
     
     func updateTimer(to time: String) {
         var attributes = [NSAttributedString.Key: AnyObject]()
@@ -526,14 +554,9 @@ func getCardsView(total: Int, in stackView: UIStackView) {
 
 func chooseCardFor(number : Int) -> UIImage? {
     // For now repeating the cards in a cyclic manner
-    
-    let yellowCard = UIImage(named: "wildCardYellow")
-    let pinkCard = UIImage(named: "wildCardPink")
-    let purpleCard = UIImage(named: "wildCardPurple")
-    
     switch number % 3 {
     case 0:
-        return purpleCard
+        return darkPurpleCard
     case 1:
         return yellowCard
     case 2:
