@@ -17,7 +17,7 @@ class EventsLogic: EventsLogicProtocol {
     }
     
     func gameStarted() {
- //      self.apiLogic?.gameStarted(gameID: <#T##String#>, deviceID: <#T##String#>, enemyName: <#T##String#>, isPlayerTurn: <#T##Bool#>, onCompleteCallBack: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
+        
     }
     
     func chancePlayed() {

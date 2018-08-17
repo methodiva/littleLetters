@@ -124,8 +124,6 @@
 		5D31071E2126F11000ABD427 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				5D3107252127059D00ABD427 /* Requests */,
-				5D3107222126FCD400ABD427 /* Events */,
 				5D31071F2126F15500ABD427 /* Api */,
 			);
 			path = Network;
@@ -135,6 +133,8 @@
 			isa = PBXGroup;
 			children = (
 				5D3107202126F18800ABD427 /* ApiLogic.swift */,
+				5D3107222126FCD400ABD427 /* Events */,
+				5D3107252127059D00ABD427 /* Requests */,
 			);
 			path = Api;
 			sourceTree = "<group>";
