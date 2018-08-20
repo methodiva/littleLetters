@@ -15,7 +15,7 @@ protocol CameraTypeProtocol {
 
 class CameraView: UIView, CameraViewProtocol {
     weak var featureLogic: CameraLogicProtocol!
-    let gameCameraType = CameraType.ARCamera
+    let gameCameraType = CameraType.AVFoundationCamera
     var cameraView: CameraTypeProtocol?
    
     convenience init(_ featureLogic: FeatureLogicProtocol) {
@@ -32,7 +32,8 @@ class CameraView: UIView, CameraViewProtocol {
     private func initUI() {
         switch gameCameraType {
         case .ARCamera:
-            cameraView = ARCameraView()
+           // cameraView = ARCameraView()
+            break
         case .AVFoundationCamera:
             cameraView = ARFoundationCameraView()
         }
@@ -45,10 +46,12 @@ class CameraView: UIView, CameraViewProtocol {
     
     func hide(_ onHidden: (() -> Void)?) {
         self.alpha = 0
+        self.cameraView?.stopCameraSession()
         onHidden?()
     }
     
     func show(_ onShowing: (() -> Void)?) {
+        self.startCameraSession()
         self.alpha = 1
         onShowing?()
     }
@@ -66,10 +69,10 @@ class CameraView: UIView, CameraViewProtocol {
     }
 
     func addNode(_ node: CameraViewNodeProtocol) {
-        if let arCamera = cameraView as? ARCameraView {
-            arCamera.addNode(node)
-        } else {
-            log.warning("Not Using ARCamera Currently")
-        }
+//        if let arCamera = cameraView as? ARCameraView {
+//            arCamera.addNode(node)
+//        } else {
+//            log.warning("Not Using ARCamera Currently")
+//        }
     }
 }
