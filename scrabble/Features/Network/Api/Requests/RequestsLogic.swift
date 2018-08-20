@@ -7,7 +7,7 @@ protocol RequestsLogicProtocol: FeatureLogicProtocol {
     func didPlayChance(deviceID: String, gameID: String, chances: Int, onCompleteCallBack: ((Data)->Void)?)
     func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data)->Void)?)
     func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data)->Void)?)
-    func didGameGetOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data)->Void)?)
+    func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data)->Void)?)
     func getGameState(deviceID: String, gameID: String, onCompleteCallBack: ((Data)->Void)?)
 }
 
@@ -20,21 +20,14 @@ class RequestsLogic: RequestsLogicProtocol {
     }
     
     func didStartGame(deviceID: String, playerName: String, onCompleteCallBack: ((Data) -> Void)?) {
-        let jsonRequest = [
-            "requests": [
-                "deviceID": [
-                    "content": deviceID
-                ],
-                "playerName": [
-                    "content": playerName
-                ],
-                "eventType": [
-                    "content": RequestType.startGame.rawValue
-                ],
-            ]
+        let json: JSON = [
+                "deviceId": deviceID,
+                "playerName": playerName,
+                "token": "a827089yd2y093ys8",
+                "eventType": RequestType.startGame.rawValue,
         ]
         
-        let jsonObject = JSON(jsonRequest)
+        let jsonObject = JSON(json)
         guard let request = makeRequest(jsonObject: jsonObject) else {
             log.error("Couldn't create a request for start game")
             return
@@ -43,24 +36,15 @@ class RequestsLogic: RequestsLogicProtocol {
     }
     
     func didJoinGame(deviceID: String, playerName: String, gameKey: String, onCompleteCallBack: ((Data) -> Void)?) {
-        let jsonRequest = [
-            "requests": [
-                "deviceID": [
-                    "content": deviceID
-                ],
-                "playerName": [
-                    "content": playerName
-                ],
-                "gameKey": [
-                    "content": gameKey
-                ],
-                "eventType": [
-                    "content": RequestType.joinGame.rawValue
-                ],
+        let json: JSON = [
+            "deviceId": deviceID,
+            "playerName": playerName,
+            "token": "u093j1u09du489032u",
+            "gameKey": gameKey,
+            "eventType": RequestType.joinGame.rawValue
             ]
-        ]
         
-        let jsonObject = JSON(jsonRequest)
+        let jsonObject = JSON(json)
         guard let request = makeRequest(jsonObject: jsonObject) else {
             log.error("Couldn't create a request for join game")
             return
@@ -69,24 +53,14 @@ class RequestsLogic: RequestsLogicProtocol {
     }
     
     func didPlayChance(deviceID: String, gameID: String, chances: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        let jsonRequest = [
-            "requests": [
-                "deviceID": [
-                    "content": deviceID
-                ],
-                "gameID": [
-                    "content": gameID
-                ],
-                "chances": [
-                    "content": chances
-                ],
-                "eventType": [
-                    "content": RequestType.playChance.rawValue
-                ],
-            ]
+        let json: JSON = [
+            "deviceId": deviceID,
+            "gameId": gameID,
+            "chances": chances,
+            "eventType": RequestType.playChance.rawValue
         ]
         
-        let jsonObject = JSON(jsonRequest)
+        let jsonObject = JSON(json)
         guard let request = makeRequest(jsonObject: jsonObject) else {
             log.error("Couldn't create a request for play chance")
             return
@@ -95,33 +69,17 @@ class RequestsLogic: RequestsLogicProtocol {
     }
     
     func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        let jsonRequest = [
-            "requests": [
-                "deviceID": [
-                    "content": deviceID
-                ],
-                "gameID": [
-                    "content": gameID
-                ],
-                "score": [
-                    "content": String(score)
-                ],
-                "word": [
-                    "content": word
-                ],
-                "wildCards": [
-                    "content": String(wildCards)
-                ],
-                "wildCardPosition": [
-                    "content": String(wildCardPosition)
-                ],
-                "eventType": [
-                    "content": RequestType.playWord.rawValue
-                ],
-            ]
+        let json: JSON = [
+            "deviceId": deviceID,
+            "gameId": gameID,
+            "score": score,
+            "word": word,
+            "wildcards": wildCards,
+            "wildcardPosition": wildCardPosition,
+            "eventType": RequestType.playWord.rawValue
         ]
         
-        let jsonObject = JSON(jsonRequest)
+        let jsonObject = JSON(json)
         guard let request = makeRequest(jsonObject: jsonObject) else {
             log.error("Couldn't create a request for play word")
             return
@@ -129,25 +87,16 @@ class RequestsLogic: RequestsLogicProtocol {
         runRequest(request, onCompleteCallBack: onCompleteCallBack)
     }
     
+    // Request not made on the server side yet, recheck the parameters after it is made
     func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        let jsonRequest = [
-            "requests": [
-                "deviceID": [
-                    "content": deviceID
-                ],
-                "gameID": [
-                    "content": gameID
-                ],
-                "wildCards": [
-                    "content": String(wildCards)
-                ],
-                "eventType": [
-                    "content": RequestType.useWildCard.rawValue
-                ],
-            ]
+        let json: JSON = [
+            "deviceId": deviceID,
+            "gameId": gameID,
+            "wildcards": wildCards,
+            "eventType": RequestType.useWildCard.rawValue
         ]
         
-        let jsonObject = JSON(jsonRequest)
+        let jsonObject = JSON(json)
         guard let request = makeRequest(jsonObject: jsonObject) else {
             log.error("Couldn't create a request for use wild card")
             return
@@ -155,48 +104,30 @@ class RequestsLogic: RequestsLogicProtocol {
         runRequest(request, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func didGameGetOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        let jsonRequest = [
-            "requests": [
-                "deviceID": [
-                    "content": deviceID
-                ],
-                "gameID": [
-                    "content": gameID
-                ],
-                "score": [
-                    "content": String(score)
-                ],
-                "eventType": [
-                    "content": RequestType.gameover.rawValue
-                ],
-            ]
+    func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data) -> Void)?) {
+        let json: JSON = [
+            "deviceId": deviceID,
+            "gameId": gameID,
+//            "score": score,
+            "eventType": RequestType.gameover.rawValue
         ]
-        
-        let jsonObject = JSON(jsonRequest)
+
+        let jsonObject = JSON(json)
         guard let request = makeRequest(jsonObject: jsonObject) else {
-            log.error("Couldn't create a request for use game over")
+            log.error("Couldn't create a request for use wild card")
             return
         }
         runRequest(request, onCompleteCallBack: onCompleteCallBack)
     }
     
     func getGameState(deviceID: String, gameID: String, onCompleteCallBack: ((Data) -> Void)?) {
-        let jsonRequest = [
-            "requests": [
-                "deviceID": [
-                    "content": deviceID
-                ],
-                "gameID": [
-                    "content": gameID
-                ],
-                "eventType": [
-                    "content": RequestType.getGameState.rawValue
-                ],
-            ]
+        let json: JSON = [
+            "deviceId": deviceID,
+            "gameId": gameID,
+            "eventType": RequestType.getGameState.rawValue
         ]
         
-        let jsonObject = JSON(jsonRequest)
+        let jsonObject = JSON(json)
         guard let request = makeRequest(jsonObject: jsonObject) else {
             log.error("Couldn't create a request for getting game state")
             return
@@ -223,6 +154,12 @@ class RequestsLogic: RequestsLogicProtocol {
                 log.error(error?.localizedDescription ?? "")
                 return
             }
+            
+            guard let response = response else {
+                log.error("no response")
+                return
+            }
+            log.debug(response)
             onCompleteCallBack?(data)
         }
         task.resume()

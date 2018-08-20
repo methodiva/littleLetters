@@ -43,6 +43,7 @@
 		5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346E920F0E148006FFCF8 /* CameraView.swift */; };
 		5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */; };
 		5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */; };
+		5DF38864212B347E0075EC84 /* gameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF38863212B347E0075EC84 /* gameState.swift */; };
 		5DF68E62210B2E8300A99468 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E60210B2DE900A99468 /* Montserrat-Bold.otf */; };
 		5DF68E63210B2E8500A99468 /* coiny-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E61210B2DE900A99468 /* coiny-regular.ttf */; };
 		5DF68E64210B2E8800A99468 /* Baloo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E5E210B2DE900A99468 /* Baloo-Regular.ttf */; };
@@ -92,6 +93,7 @@
 		5DF346E920F0E148006FFCF8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraLogic.swift; sourceTree = "<group>"; };
 		5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 3DTypes.swift; sourceTree = "<group>"; };
+		5DF38863212B347E0075EC84 /* gameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameState.swift; sourceTree = "<group>"; };
 		5DF68E5E210B2DE900A99468 /* Baloo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo-Regular.ttf"; sourceTree = "<group>"; };
 		5DF68E5F210B2DE900A99468 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		5DF68E60210B2DE900A99468 /* Montserrat-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.otf"; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				5D7766912105E2F100ACEE22 /* ObjectRecognizer */,
 				5D36EC6C2100B00500DCFBE4 /* Screens */,
 				5DF346E820F0E148006FFCF8 /* Camera */,
+				5DF38863212B347E0075EC84 /* gameState.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				5D3107242126FCF900ABD427 /* EventsLogic.swift in Sources */,
 				5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */,
 				5D36EC692100AB2F00DCFBE4 /* EndGameScreenLogic.swift in Sources */,
+				5DF38864212B347E0075EC84 /* gameState.swift in Sources */,
 				5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */,
 				5D48F7DE210B1AD200737814 /* ChangeNameScreenView.swift in Sources */,
 				5D189C4B21076A690005C938 /* CorrectLabelSelector.swift in Sources */,

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftyJSON
 
 enum RequestType: String {
     case startGame = "start"
@@ -6,7 +7,7 @@ enum RequestType: String {
     case playChance = "playchance"
     case playWord = "playword"
     case useWildCard = "usewildcard"
-    case gameover = "gameover"
+    case gameover = "over"
     case getGameState = "getgamestate"
 }
 
@@ -18,7 +19,7 @@ protocol ApiLogicProtocol: FeatureLogicProtocol {
     func didPlayChance(deviceID: String, gameID: String, chances: Int, onCompleteCallBack: ((Data)->Void)?)
     func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data)->Void)?)
     func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data)->Void)?)
-    func didGameGetOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data)->Void)?)
+    func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data)->Void)?)
     func getGameState(deviceID: String, gameID: String, onCompleteCallBack: ((Data)->Void)?)
     
     // Events
@@ -42,6 +43,31 @@ class ApiLogic: ApiLogicProtocol {
         }
         self.gameScreenLogic = gameScreenLogic
         self.requestsLogic = requestsLogic
+        
+        
+        // Test code -------------
+        self.requestsLogic?.didStartGame(deviceID: "1235646436346346", playerName: "12324242", onCompleteCallBack: { (data) in
+            do {
+                let jsonResponse = try JSON(data: data)
+                log.debug(jsonResponse)
+                log.debug(jsonResponse["gameKey"])
+                let key = jsonResponse["gameKey"].stringValue
+                    self.requestsLogic?.didJoinGame(deviceID: "112323", playerName: "12345", gameKey: key, onCompleteCallBack: { (data) in
+                        do {
+                            let jsonResponse = try JSON(data: data)
+                            log.debug(jsonResponse)
+                        } catch {
+                            log.error("Could not parse json")
+                        }
+                    })
+                
+                
+            } catch {
+                log.error("Could not parse json")
+            }
+        })
+        // ---------------
+        
     }
     
     // Requests
@@ -65,8 +91,8 @@ class ApiLogic: ApiLogicProtocol {
         self.requestsLogic?.didUseWildCard(deviceID: deviceID, gameID: gameID, wildCards: wildCards, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func didGameGetOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        self.requestsLogic?.didGameGetOver(deviceID: deviceID, gameID: gameID, score: score, onCompleteCallBack: onCompleteCallBack)
+    func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data) -> Void)?) {
+        self.requestsLogic?.didGameOver(deviceID: deviceID, gameID: gameID, score: score, onCompleteCallBack: onCompleteCallBack)
     }
     
     func getGameState(deviceID: String, gameID: String, onCompleteCallBack: ((Data) -> Void)?) {
