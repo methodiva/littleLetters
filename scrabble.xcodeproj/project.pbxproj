@@ -84,6 +84,7 @@
 		5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundationCameraView.swift; sourceTree = "<group>"; };
 		5DD6A3BA2119A95D00E4CB3C /* TimerScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerScreenLogic.swift; sourceTree = "<group>"; };
 		5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerScreenView.swift; sourceTree = "<group>"; };
+		5DDD0000212A84A000AAC60F /* scrabble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = scrabble.entitlements; sourceTree = "<group>"; };
 		5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootProtocol.swift; sourceTree = "<group>"; };
 		5DF346D720F0DB82006FFCF8 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		5DF346D820F0DB82006FFCF8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -265,6 +266,7 @@
 		5D73792D20F0B6CF00885CEB /* scrabble */ = {
 			isa = PBXGroup;
 			children = (
+				5DDD0000212A84A000AAC60F /* scrabble.entitlements */,
 				5DF68E5D210B2D8300A99468 /* Fonts */,
 				5DF85E442100C8B10079CD18 /* Components */,
 				5D73792E20F0B6CF00885CEB /* AppDelegate.swift */,
@@ -382,6 +384,11 @@
 				TargetAttributes = {
 					5D73792A20F0B6CF00885CEB = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -638,6 +645,7 @@
 			baseConfigurationReference = 208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = scrabble/scrabble.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZL7ZAP27F7;
 				INFOPLIST_FILE = scrabble/Info.plist;
@@ -658,6 +666,7 @@
 			baseConfigurationReference = E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = scrabble/scrabble.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZL7ZAP27F7;
 				INFOPLIST_FILE = scrabble/Info.plist;
