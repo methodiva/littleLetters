@@ -51,17 +51,18 @@ class HomeScreenLogic: HomeScreenLogicProtocol {
         self.view?.onTapTutorialButton(self, #selector(showTutorialScreen))
     }
     
+    func show() {
+        log.verbose("Showing home screen")
+        self.view?.show{
+        }
+    }
+    
+    
     @objc
     func showStartGameScreen() {
         log.verbose("Showing start game screen")
         self.view?.hide{
             self.startGameScreenLogic?.show()
-        }
-    }
-    
-    func show() {
-        log.verbose("Showing home screen")
-        self.view?.show{
         }
     }
     

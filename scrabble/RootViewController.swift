@@ -19,13 +19,13 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .StartGameScreen: Feature(
             logic: StartGameScreenLogic(),
-            dependencies: [.HomeScreen, .GameScreen],
+            dependencies: [.HomeScreen, .GameScreen, .Api],
             view: nil,
             viewOrder: 3
         ),
         .JoinGameScreen: Feature(
             logic: JoinGameScreenLogic(),
-            dependencies: [.HomeScreen, .GameScreen],
+            dependencies: [.HomeScreen, .GameScreen, .Api],
             view: nil,
             viewOrder: 4
         ),

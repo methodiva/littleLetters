@@ -14,9 +14,9 @@ enum RequestType: String {
 protocol ApiLogicProtocol: FeatureLogicProtocol {
     
     // Requests
-    func didStartGame(deviceID: String, playerName: String, onCompleteCallBack: ((Data)->Void)?)
-    func didJoinGame(deviceID: String, playerName: String, gameKey: String, onCompleteCallBack: ((Data)->Void)?)
-    func didPlayChance(deviceID: String, gameID: String, chances: Int, onCompleteCallBack: ((Data)->Void)?)
+    func didStartGame(onCompleteCallBack: ((Data?, URLResponse?, Error?) ->Void)?)
+    func didJoinGame(gameKey: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
+    func didPlayChance(chances: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data)->Void)?)
     func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data)->Void)?)
     func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data)->Void)?)
@@ -46,56 +46,64 @@ class ApiLogic: ApiLogicProtocol {
         
         
         // Test code -------------
-        self.requestsLogic?.didStartGame(deviceID: "1235646436346346", playerName: "12324242", onCompleteCallBack: { (data) in
-            do {
-                let jsonResponse = try JSON(data: data)
-                let key = jsonResponse["gameKey"].stringValue
-                log.debug(key)
-                    self.requestsLogic?.didJoinGame(deviceID: "112323", playerName: "12345", gameKey: key, onCompleteCallBack: { (data) in
-                        do {
-                            let jsonResponse = try JSON(data: data)
-                            log.debug(jsonResponse)
-                        } catch {
-                            let error = String(data: data, encoding: .utf8)
-                            log.error(error)
-                        }
-                    })
-            } catch {
-                let error = String(data: data, encoding: .utf8)
-                log.error(error)
-            }
-        })
+//        self.requestsLogic?.didStartGame(deviceID: "1235646436346346", playerName: "12324242", onCompleteCallBack: { (data, response, error) in
+//            guard let data = data else{
+//                log.error("nonono")
+//                return
+//            }
+//            do {
+//                let jsonResponse = try JSON(data: data)
+//                let key = jsonResponse["gameKey"].stringValue
+//                log.debug(key)
+//                    self.requestsLogic?.didJoinGame(deviceID: "112323", playerName: "12345", gameKey: key, onCompleteCallBack: { (data, response, error) in
+//                        guard let data = data else{
+//                            log.error("nonono")
+//                            return
+//                        }
+//                        do {
+//                            let jsonResponse = try JSON(data: data)
+//                            log.debug(jsonResponse)
+//                        } catch {
+//                            let error = String(data: data, encoding: .utf8)
+//                            log.error(error)
+//                        }
+//                    })
+//            } catch {
+//                let error = String(data: data, encoding: .utf8)
+//                log.error(error)
+//            }
+//        })
         // ---------------
         
     }
     
     // Requests
-    func didStartGame(deviceID: String, playerName: String, onCompleteCallBack: ((Data) -> Void)?) {
-        self.requestsLogic?.didStartGame(deviceID: deviceID, playerName: playerName, onCompleteCallBack: onCompleteCallBack)
+    func didStartGame(onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+        self.requestsLogic?.didStartGame(deviceID: gameState.deviceId, playerName: gameState.player.name, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func didJoinGame(deviceID: String, playerName: String, gameKey: String, onCompleteCallBack: ((Data) -> Void)?) {
-        self.requestsLogic?.didJoinGame(deviceID: deviceID, playerName: playerName, gameKey: gameKey, onCompleteCallBack: onCompleteCallBack)
+    func didJoinGame(gameKey: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+         self.requestsLogic?.didJoinGame(deviceID: gameState.deviceId, playerName: gameState.player.name, gameKey: gameKey, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func didPlayChance(deviceID: String, gameID: String, chances: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        self.requestsLogic?.didPlayChance(deviceID: deviceID, gameID: gameID, chances: chances, onCompleteCallBack: onCompleteCallBack)
+    func didPlayChance(chances: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)-> Void)?) {
+    //    self.requestsLogic?.didPlayChance(deviceID: gameState.deviceId, gameID: gameState.player.name, chances: chances, onCompleteCallBack: onCompleteCallBack)
     }
     
     func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        self.requestsLogic?.didPlayWord(deviceID: deviceID, gameID: gameID, score: score, word: word, wildCards: wildCards, wildCardPosition: wildCardPosition, onCompleteCallBack: onCompleteCallBack)
+//        self.requestsLogic?.didPlayWord(deviceID: deviceID, gameID: gameID, score: score, word: word, wildCards: wildCards, wildCardPosition: wildCardPosition, onCompleteCallBack: onCompleteCallBack)
     }
     
     func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        self.requestsLogic?.didUseWildCard(deviceID: deviceID, gameID: gameID, wildCards: wildCards, onCompleteCallBack: onCompleteCallBack)
+//        self.requestsLogic?.didUseWildCard(deviceID: deviceID, gameID: gameID, wildCards: wildCards, onCompleteCallBack: onCompleteCallBack)
     }
     
     func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data) -> Void)?) {
-        self.requestsLogic?.didGameOver(deviceID: deviceID, gameID: gameID, score: score, onCompleteCallBack: onCompleteCallBack)
+//        self.requestsLogic?.didGameOver(deviceID: deviceID, gameID: gameID, score: score, onCompleteCallBack: onCompleteCallBack)
     }
     
     func getGameState(deviceID: String, gameID: String, onCompleteCallBack: ((Data) -> Void)?) {
-        self.requestsLogic?.getGameState(deviceID: deviceID, gameID: gameID, onCompleteCallBack: onCompleteCallBack)
+//        self.requestsLogic?.getGameState(deviceID: deviceID, gameID: gameID, onCompleteCallBack: onCompleteCallBack)
     }
     
     // Events

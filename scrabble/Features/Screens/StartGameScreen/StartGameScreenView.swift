@@ -22,7 +22,8 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     let screenTitleLabel = UILabel()
     let backButton = BackButton()
     let shareKeyButton = UIButton()
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
+    let startGameActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
+    let waitingForPlayerActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
     let waitingForPlayer = UILabel()
 
     
@@ -50,15 +51,64 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     func hide(_ onHidden: (() -> Void)?) {
         self.isUserInteractionEnabled = false
         self.alpha = 0
-        self.activityIndicator.stopAnimating()
+        self.waitingForPlayerActivityIndicator.stopAnimating()
         onHidden?()
     }
     
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
-        self.activityIndicator.startAnimating()
         onShowing?()
+    }
+    
+    func showGameStartingLoading(_ onShowing: (() -> Void)?) {
+        self.isUserInteractionEnabled = true
+        self.alpha = 1
+        hideStartGameElements()
+        startGameActivityIndicator.startAnimating()
+        onShowing?()
+    }
+    
+    func showWith(key: String, onShowing: (() -> Void)?) {
+        self.isUserInteractionEnabled = true
+        self.alpha = 1
+        showStartGameElements()
+        startGameActivityIndicator.stopAnimating()
+        startGameActivityIndicator.isHidden = true
+        self.waitingForPlayerActivityIndicator.startAnimating()
+        setKey(to: key)
+        onShowing?()
+    }
+    
+    private func showStartGameElements() {
+        screenTitleLabel.isHidden = false
+        waitingForPlayerActivityIndicator.isHidden = false
+        waitingForPlayer.isHidden = false
+        gameCodeLabel.isHidden = false
+        shareKeyLabel.isHidden = false
+        buttonStack.isHidden = false
+    }
+    
+    private func hideStartGameElements() {
+        screenTitleLabel.isHidden = true
+        self.waitingForPlayerActivityIndicator.stopAnimating()
+        waitingForPlayerActivityIndicator.isHidden = true
+        waitingForPlayer.isHidden = true
+        gameCodeLabel.isHidden = true
+        shareKeyLabel.isHidden = true
+        buttonStack.isHidden = true
+    }
+    
+    private func setKey(to key: String) {
+        var attributes = [NSAttributedString.Key: AnyObject]()
+        attributes[.foregroundColor] = appColors.darkPurple
+        
+        let shareCodeLabelString = NSMutableAttributedString(string: key, attributes: attributes)
+        shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+                                          value: CGFloat(5.0),
+                                          range: NSRange(location: 0, length: key.count-1))
+        shareKeyLabel.attributedText = shareCodeLabelString
+        shareKeyLabel.font = codeFont
     }
     
     @objc
@@ -85,10 +135,14 @@ extension StartGameScreenView {
     private func initUI() {
         self.addSubview(backgroundImage)
         self.addSubview(backButton)
-        
+        initLoadingView()
         initScreenTitleUI()
         initButtonStackUI()
         initBottomBarUI()
+    }
+    
+    private func initLoadingView() {
+        self.addSubview(startGameActivityIndicator)
     }
     
     private func initScreenTitleUI() {
@@ -114,11 +168,11 @@ extension StartGameScreenView {
     }
     
     private func initBottomBarUI() {
-        activityIndicator.color = appColors.white
+        waitingForPlayerActivityIndicator.color = appColors.white
         waitingForPlayer.font = waitingForPlayerFont
         waitingForPlayer.text = "waiting for player"
         waitingForPlayer.textColor = appColors.white
-        self.addSubview(activityIndicator)
+        self.addSubview(waitingForPlayerActivityIndicator)
         self.addSubview(waitingForPlayer)
     }
     
@@ -140,22 +194,15 @@ extension StartGameScreenView {
         gameCodeLabel.text = "Game Code"
         gameCodeLabel.font = gameCodeFont
         gameCodeLabel.textColor = appColors.white
-        
-        var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = appColors.darkPurple
-        
-        let shareCodeLabelString = NSMutableAttributedString(string: gameJoinKey, attributes: attributes)
-        shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                          value: CGFloat(5.0),
-                                          range: NSRange(location: 0, length: gameJoinKey.count-1))
-        shareKeyLabel.attributedText = shareCodeLabelString
-        shareKeyLabel.font = codeFont
     }
     
     private func initConstraints() {
         backgroundImage.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalToSuperview()
+            make.center.equalToSuperview()
+        }
+        startGameActivityIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         screenTitleLabel.snp.makeConstraints { make in
@@ -174,7 +221,7 @@ extension StartGameScreenView {
             make.topMargin.equalTo(10.5 * gridHeight )
             make.centerX.equalToSuperview()
         }
-        activityIndicator.snp.makeConstraints { make in
+        waitingForPlayerActivityIndicator.snp.makeConstraints { make in
             make.bottom.equalTo(waitingForPlayer.snp.top).inset(-0.5 * gridHeight)
             make.centerX.equalToSuperview()
         }
