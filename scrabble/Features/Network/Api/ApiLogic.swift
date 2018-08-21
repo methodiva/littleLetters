@@ -49,21 +49,20 @@ class ApiLogic: ApiLogicProtocol {
         self.requestsLogic?.didStartGame(deviceID: "1235646436346346", playerName: "12324242", onCompleteCallBack: { (data) in
             do {
                 let jsonResponse = try JSON(data: data)
-                log.debug(jsonResponse)
-                log.debug(jsonResponse["gameKey"])
                 let key = jsonResponse["gameKey"].stringValue
+                log.debug(key)
                     self.requestsLogic?.didJoinGame(deviceID: "112323", playerName: "12345", gameKey: key, onCompleteCallBack: { (data) in
                         do {
                             let jsonResponse = try JSON(data: data)
                             log.debug(jsonResponse)
                         } catch {
-                            log.error("Could not parse json")
+                            let error = String(data: data, encoding: .utf8)
+                            log.error(error)
                         }
                     })
-                
-                
             } catch {
-                log.error("Could not parse json")
+                let error = String(data: data, encoding: .utf8)
+                log.error(error)
             }
         })
         // ---------------
