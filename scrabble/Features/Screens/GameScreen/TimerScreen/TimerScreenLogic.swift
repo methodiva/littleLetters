@@ -58,7 +58,7 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
     @objc
     func endGame() {
         log.verbose("Going back to home screen")
-        self.gameScreenLogic?.endGame()
+        self.gameScreenLogic?.didGameOverRequestHandler()
         self.view?.hide {
         }
     }

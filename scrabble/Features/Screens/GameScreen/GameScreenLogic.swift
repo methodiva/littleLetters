@@ -20,6 +20,7 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
     func endGame()
+    func didGameOverRequestHandler()
     func playChanceEventHandler()
     func useWildCardEventHandler()
     func didGameOverEventHandler()
