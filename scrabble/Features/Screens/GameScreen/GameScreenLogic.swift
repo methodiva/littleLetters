@@ -19,7 +19,11 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
-    func endGame() 
+    func endGame()
+    func playChanceEventHandler()
+    func useWildCardEventHandler()
+    func didGameOverEventHandler()
+    func playWordEventHandler(word: String, wildCardPosition: Int)
 }
 
 class GameScreenLogic: GameScreenLogicProtocol {
@@ -70,10 +74,12 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func endGame() {
         log.verbose("Going to end game screen")
-        self.view?.hide {
-            self.cameraLogic?.hide()
-            self.endGameScreenLogic?.showWithParameters(playerScore: gameState.player.score, enemyScore: gameState.enemy.score)
-            self.resetVariables()
+        DispatchQueue.main.async {
+            self.view?.hide {
+                self.cameraLogic?.hide()
+                self.endGameScreenLogic?.showWithParameters(playerScore: gameState.player.score, enemyScore: gameState.enemy.score)
+                self.resetVariables()
+            }
         }
     }
     
@@ -166,6 +172,9 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.view?.updateTimer(to: time)
         self.timerScreenLogic?.setTimer(to: time)
         if secondsLeftOnTimer <= 0 {
+            if gameState.isTurn {
+                self.didGameOverRequestHandler()
+            }
             timer.invalidate()
         }
     }
@@ -246,6 +255,7 @@ extension GameScreenLogic {
     }
     
     func useWildCardEventHandler() {
+        self.timerScreenLogic?.hide()
         self.updateViewTabs()
         self.view?.startWildCardMode {
             self.isProcessingTap = false
@@ -253,6 +263,7 @@ extension GameScreenLogic {
     }
     
     func didGameOverRequestHandler() {
+        self.endGame()
         apiLogic?.didGameOver(onCompleteCallBack: { (data, response, error) in
             guard let data = data, error == nil else {
                 log.error("Couldnt send the request to end game, \(String(describing: error))")
@@ -260,7 +271,6 @@ extension GameScreenLogic {
             }
             do {
                 let json = try JSON(data: data)
-                self.endGame()
                 log.debug(json)
             } catch {
                 let error = String(data: data, encoding: .utf8)

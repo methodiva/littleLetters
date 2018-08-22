@@ -25,11 +25,11 @@ protocol ApiLogicProtocol: FeatureLogicProtocol {
     func getGameState(onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     
     // Events
-    func gameStarted(gameID: String, deviceID: String, enemyName: String, isPlayerTurn: Bool, onCompleteCallBack: (()->Void)?)
-    func chancePlayed(gameID: String, deviceID: String, didPlayerPlayChance: Bool, chances: Int, onCompleteCallBack: (()->Void)?)
-    func wordPlayed(gameID: String, deviceID: String, didPlayerPlayWord: Bool, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: (()->Void)?)
-    func wildCardUsed(gameID: String, deviceID: String, didPlayerUseWildCard: Bool, wildCards: Int, onCompleteCallBack: (()->Void)?)
-    func gameOver(deviceID: String, gameID: String, enemyScore: Int, playerScore: Int, onCompleteCallBack: (()->Void)?)
+    func gameStarted(json: JSON)
+    func chancePlayed(json: JSON)
+    func wordPlayed(json: JSON)
+    func wildCardUsed(json: JSON)
+    func gameOver(json: JSON)
 }
 
 class ApiLogic: ApiLogicProtocol {
@@ -81,18 +81,31 @@ class ApiLogic: ApiLogicProtocol {
     }
     
     // Events
-    func gameStarted(gameID: String, deviceID: String, enemyName: String, isPlayerTurn: Bool, onCompleteCallBack: (() -> Void)?) {
+    func gameStarted(json: JSON) {
+        gameState.updateStateFrom(json: json)
+        
     }
     
-    func chancePlayed(gameID: String, deviceID: String, didPlayerPlayChance: Bool, chances: Int, onCompleteCallBack: (() -> Void)?) {
+    func chancePlayed(json: JSON) {
+        gameState.updateStateFrom(json: json)
+        self.gameScreenLogic?.playChanceEventHandler()
     }
     
-    func wordPlayed(gameID: String, deviceID: String, didPlayerPlayWord: Bool, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: (() -> Void)?) {
+    func wordPlayed(json: JSON) {
+        gameState.updateStateFrom(json: json)
+        if let word = json["word"].string, let wildCardPosition = json["wildCardPosition"].number?.intValue {
+            self.gameScreenLogic?.playWordEventHandler(word: word, wildCardPosition: wildCardPosition)
+        }
     }
     
-    func wildCardUsed(gameID: String, deviceID: String, didPlayerUseWildCard: Bool, wildCards: Int, onCompleteCallBack: (() -> Void)?) {
+    func wildCardUsed(json: JSON) {
+        gameState.updateStateFrom(json: json)
+        self.gameScreenLogic?.useWildCardEventHandler()
     }
-    func gameOver(deviceID: String, gameID: String, enemyScore: Int, playerScore: Int, onCompleteCallBack: (()->Void)?) {
+    
+    func gameOver(json: JSON) {
+        gameState.updateStateFrom(json: json)
+        self.gameScreenLogic?.didGameOverEventHandler()
         
     }
     

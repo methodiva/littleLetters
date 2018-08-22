@@ -13,6 +13,7 @@ protocol TimerScreenLogicProtocol: FeatureLogicProtocol {
     func setScore(to score: String)
     func setPlayerCards(to numberOfCards: Int)
     func show()
+    func hide()
 }
 
 class TimerScreenLogic: TimerScreenLogicProtocol {
@@ -65,6 +66,11 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
     func show() {
         log.verbose("Started timer screen")
         self.view?.show{}
+    }
+    
+    func hide() {
+        log.verbose("Hiding timer screen")
+        self.view?.hide{}
     }
     
     func setTimer(to time: String) {

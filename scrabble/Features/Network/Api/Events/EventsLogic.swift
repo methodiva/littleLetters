@@ -1,7 +1,8 @@
 import Foundation
+import SwiftyJSON
 
 protocol EventsLogicProtocol: FeatureLogicProtocol {
-    
+    func handleEvent()
 }
 
 class EventsLogic: EventsLogicProtocol {
@@ -16,23 +17,24 @@ class EventsLogic: EventsLogicProtocol {
         self.apiLogic = apiLogic
     }
     
-    func gameStarted() {
-        
-    }
-    
-    func chancePlayed() {
-        
-    }
-    
-    func wordPlayed() {
-        
-    }
-    
-    func wildCardUsed() {
-        
-    }
-    
-    func gameOver() {
-        
+    func handleEvent() {
+        // Temp variables ---
+        let json = JSON()
+        let eventType = ""
+        // -----------------
+        switch eventType {
+        case "start":
+            apiLogic?.gameStarted(json: json)
+        case "playchance":
+            apiLogic?.chancePlayed(json: json)
+        case "playword":
+            apiLogic?.wordPlayed(json: json)
+        case "usewildcard":
+            apiLogic?.wildCardUsed(json: json)
+        case "over":
+            apiLogic?.gameOver(json: json)
+        default:
+            log.error("Unknown event found")
+        }
     }
 }
