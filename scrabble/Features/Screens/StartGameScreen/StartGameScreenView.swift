@@ -69,14 +69,14 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         onShowing?()
     }
     
-    func showWith(key: String, onShowing: (() -> Void)?) {
+    func showWith(key: Int, onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
         showStartGameElements()
         startGameActivityIndicator.stopAnimating()
         startGameActivityIndicator.isHidden = true
         self.waitingForPlayerActivityIndicator.startAnimating()
-        setKey(to: key)
+        setKey(to: String(key))
         onShowing?()
     }
     

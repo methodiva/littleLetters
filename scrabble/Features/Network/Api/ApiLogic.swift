@@ -3,6 +3,7 @@ import SwiftyJSON
 
 enum RequestType: String {
     case startGame = "start"
+    case endStartGame = "endstart"
     case joinGame = "join"
     case playChance = "playchance"
     case playWord = "playword"
@@ -15,6 +16,7 @@ protocol ApiLogicProtocol: FeatureLogicProtocol {
     
     // Requests
     func didStartGame(onCompleteCallBack: ((Data?, URLResponse?, Error?) ->Void)?)
+    func didEndStartGame(onCompleteCallBack: ((Data?, URLResponse?, Error?) ->Void)?)
     func didJoinGame(gameKey: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didPlayChance(chances: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data)->Void)?)
@@ -43,43 +45,15 @@ class ApiLogic: ApiLogicProtocol {
         }
         self.gameScreenLogic = gameScreenLogic
         self.requestsLogic = requestsLogic
-        
-        
-        // Test code -------------
-//        self.requestsLogic?.didStartGame(deviceID: "1235646436346346", playerName: "12324242", onCompleteCallBack: { (data, response, error) in
-//            guard let data = data else{
-//                log.error("nonono")
-//                return
-//            }
-//            do {
-//                let jsonResponse = try JSON(data: data)
-//                let key = jsonResponse["gameKey"].stringValue
-//                log.debug(key)
-//                    self.requestsLogic?.didJoinGame(deviceID: "112323", playerName: "12345", gameKey: key, onCompleteCallBack: { (data, response, error) in
-//                        guard let data = data else{
-//                            log.error("nonono")
-//                            return
-//                        }
-//                        do {
-//                            let jsonResponse = try JSON(data: data)
-//                            log.debug(jsonResponse)
-//                        } catch {
-//                            let error = String(data: data, encoding: .utf8)
-//                            log.error(error)
-//                        }
-//                    })
-//            } catch {
-//                let error = String(data: data, encoding: .utf8)
-//                log.error(error)
-//            }
-//        })
-        // ---------------
-        
     }
     
     // Requests
     func didStartGame(onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
         self.requestsLogic?.didStartGame(deviceID: gameState.deviceId, playerName: gameState.player.name, onCompleteCallBack: onCompleteCallBack)
+    }
+    
+    func didEndStartGame(onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+        self.requestsLogic?.didEndStartGame(deviceID: gameState.deviceId, gameID: gameState.gameId, onCompleteCallBack: onCompleteCallBack)
     }
     
     func didJoinGame(gameKey: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {

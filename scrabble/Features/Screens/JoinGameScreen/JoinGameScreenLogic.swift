@@ -70,20 +70,20 @@ class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
         self.view?.showWaitingForGame()
         self.apiLogic?.didJoinGame(gameKey: key, onCompleteCallBack: { (data, response, error) in
             guard let data = data, error == nil else {
-                log.error("Couldnt send the request to start game, \(error)")
+                log.error("Couldnt send the request to start game, \(String(describing: error))")
                 return
             }
             DispatchQueue.main.async {
                 self.view?.stopWaitingForGame()
             }
             do {
-                let jsonResponse = try JSON(data: data)
+                let _ = try JSON(data: data)
                 DispatchQueue.main.async {
                     self.startGame()
                 }
             } catch {
                 let error = String(data: data, encoding: .utf8)
-                log.error(error)
+                log.error("Bad request to start game, \(String(describing: error))")
                 DispatchQueue.main.async {
                     self.view?.showFail(with: "Sorry! Incorrect Key")
                 }

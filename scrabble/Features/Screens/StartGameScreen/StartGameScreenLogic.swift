@@ -5,7 +5,7 @@ protocol StartGameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapShareKeyButton()
     func showGameStartingLoading(_ onShowing: (() -> Void)?)
-    func showWith(key: String, onShowing: (() -> Void)?)
+    func showWith(key: Int, onShowing: (() -> Void)?)
 }
 
 protocol StartGameScreenLogicProtocol: FeatureLogicProtocol {
@@ -49,6 +49,15 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     @objc
     func goBack() {
         log.verbose("Going back to home screen")
+        self.apiLogic?.didEndStartGame(onCompleteCallBack: { (data, response, error) in
+            guard let data = data, let response = response, error == nil else {
+                log.error("Couldnt send the request to end start game, \(String(describing: error))")
+                return
+            }
+            gameState.gameKey = 0
+            gameState.gameId = ""
+            // TODO: If the network isnt working
+        })
         self.view?.hide {
             self.homeScreenLogic?.show()
         }
@@ -59,28 +68,44 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
         self.view?.showGameStartingLoading({
             self.apiLogic?.didStartGame(onCompleteCallBack: { (data, response, error) in
                 guard let data = data, error == nil else {
-                    log.error("Couldnt send the request to start game, \(error)")
+                    log.error("Couldnt send the request to start game, \(String(describing: error))")
                     return
                 }
                 if let key = self.getKey(from: data) {
+                    gameState.gameKey = key
                     DispatchQueue.main.async {
                         self.view?.showWith(key: key, onShowing: {
                          //
                         })
                     }
                 }
+                if let gameId = self.getGameId(from: data) {
+                    gameState.gameId = gameId
+                }
             })
         })
         self.view?.show{}
     }
     
-    func getKey(from data: Data) -> String? {
+    func getKey(from data: Data) -> Int? {
         do {
             let jsonResponse = try JSON(data: data)
-            return jsonResponse["gameKey"].stringValue
+            let key = jsonResponse["gameKey"].stringValue
+            return Int(key)
         } catch {
             let error = String(data: data, encoding: .utf8)
-            log.error(error)
+            log.error(error ?? "Unknown error occurred")
+            return nil
+        }
+    }
+    
+    func getGameId(from data: Data) -> String? {
+        do {
+            let jsonResponse = try JSON(data: data)
+            return jsonResponse["gameId"].stringValue
+        } catch {
+            let error = String(data: data, encoding: .utf8)
+            log.error(error ?? "Unknown error occurred")
             return nil
         }
     }
