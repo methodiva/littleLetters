@@ -80,6 +80,7 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
+        playerNameLabel.text = gameState.player.name
         UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
             self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }) { (isComplete) in
@@ -138,7 +139,6 @@ extension TimerScreenView {
         // Initialising name tab
         playerNameLabel.font = playerNameFont
         playerNameLabel.textColor = appColors.white
-        playerNameLabel.text = playerName
         self.addSubview(playerTab)
     }
     

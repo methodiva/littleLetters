@@ -30,6 +30,8 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     let buttonStack = UIStackView()
     let textFieldBackground = UIImageView(image: UIImage(named: "joinGameTextFieldBackground"))
     
+    let gameJoinKeyLength = 4
+    
     // Loading font
     let titleFont = UIFont(name: "Montserrat-Bold", size: 22)
     let buttonsFont = UIFont(name: "Montserrat-Bold", size: 25)

@@ -49,6 +49,10 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     private let enemyNameLabel = UILabel()
     private let enemyCards = UIStackView()
     
+    private let currentLetterLabel = UILabel()
+    
+    private var currentTries = 3
+    
     convenience init(_ featureLogic: FeatureLogicProtocol) {
         self.init(frame: UIScreen.main.bounds)
         guard let logic = featureLogic as? GameScreenLogicProtocol else {
@@ -66,6 +70,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         for layer in layers {
             if layer.name == String(currentTries) {
                 animateArcForFailTry(for: layer)
+                currentTries -= 1
                 return
             }
         }
@@ -73,8 +78,9 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     }
     
     func resetTries() {
+        currentTries = 3
         guard let layers = self.layer.sublayers else { return }
-        for i in 1...maxTries {
+        for i in 1...3 {
             for layer in layers {
                 if layer.name == String(i) {
                     resetArc(for: layer)
@@ -129,7 +135,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
-    func showSuccess(with word: String, cardPosition: Int?, showSuccessCallback: (() -> Void)?) {
+    func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, showSuccessCallback: (() -> Void)?) {
         let wordWithoutFirstLetter = String(word.dropFirst())
         let tilesToShow = getTiles(for: wordWithoutFirstLetter)
         guard let lastTile = tilesToShow.last else {
@@ -167,6 +173,13 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
+    func startWildCardMode(_ callback: (() -> Void)?) {
+        callback?()
+    }
+    
+    func stopWildCardMode(_ callback: (() -> Void)?) {
+        callback?()
+    }
     
     func updateTimer(to time: String) {
         var attributes = [NSAttributedString.Key: AnyObject]()
@@ -195,6 +208,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
+        currentLetterLabel.text = String(gameState.currentLetter)
         onShowing?()
     }
     
@@ -256,7 +270,6 @@ extension GameScreenView {
             if !isComplete {
                 log.warning("Word animating in animation couldnt complete")
             } else {
-                
                 wordAnimatedOutCallBack?()
             }
         })
@@ -415,10 +428,8 @@ extension GameScreenView {
     }
     
     private func initCurrentLetterUI() {
-        let currentLetterLabel = UILabel()
         currentLetterBackground.image = tileMediumPurple
         currentLetterBackground.contentMode = .center
-        currentLetterLabel.text = currentLetter
         currentLetterLabel.font = currentLetterFont
         currentLetterLabel.textColor = appColors.mediumPurple
         
@@ -443,7 +454,7 @@ extension GameScreenView {
     private func initTriesUI() {
         crossHair.image = UIImage(named: "crosshair")
         drawCenterCircle()
-        drawTries(for: maxTries)
+        drawTries(for: 3)
         self.addSubview(crossHair)
     }
     

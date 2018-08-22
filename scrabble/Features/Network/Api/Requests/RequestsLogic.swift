@@ -8,7 +8,7 @@ protocol RequestsLogicProtocol: FeatureLogicProtocol {
     func didPlayChance(deviceID: String, gameID: String, chances: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
-    func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
+    func didGameOver(deviceID: String, gameID: String, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func getGameState(deviceID: String, gameID: String, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
 }
 
@@ -120,11 +120,10 @@ class RequestsLogic: RequestsLogicProtocol {
         runRequest(request, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+    func didGameOver(deviceID: String, gameID: String, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
         let json: JSON = [
             "deviceId": deviceID,
             "gameId": gameID,
-//            "score": score,
             "eventType": RequestType.gameover.rawValue
         ]
 

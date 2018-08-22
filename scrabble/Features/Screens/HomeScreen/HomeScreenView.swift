@@ -5,17 +5,6 @@ import SnapKit
 let gridWidth = UIScreen.main.bounds.width/15
 let gridHeight = UIScreen.main.bounds.height/27
 
-let appId = "1316361894"
-let gameJoinKeyLength = 4
-let gameJoinKey = "6437"
-let deviceId = UIDevice.current.identifierForVendor?.uuidString
-
-let playerName = "Divya"
-let enemyName = "Jyoti"
-let currentLetter = "T"
-let maxTries = 3
-var currentTries = 3
-
 struct appColors {
     static let darkPurple = #colorLiteral(red: 0.2431372549, green: 0.06666666667, blue: 0.3176470588, alpha: 1)
     static let mediumPurple  = #colorLiteral(red: 0.4588235294, green: 0.1843137255, blue: 0.5411764706, alpha: 1)

@@ -91,7 +91,7 @@ struct Player {
     var wildCards: Int
     
     init() {
-        name = ""
+        name = "asd"
         chances = 0
         score = 0
         wildCards = 0

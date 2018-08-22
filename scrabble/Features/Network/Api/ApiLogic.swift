@@ -19,10 +19,10 @@ protocol ApiLogicProtocol: FeatureLogicProtocol {
     func didEndStartGame(onCompleteCallBack: ((Data?, URLResponse?, Error?) ->Void)?)
     func didJoinGame(gameKey: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didPlayChance(chances: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
-    func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data)->Void)?)
-    func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data)->Void)?)
-    func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data)->Void)?)
-    func getGameState(deviceID: String, gameID: String, onCompleteCallBack: ((Data)->Void)?)
+    func didPlayWord(score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
+    func didUseWildCard(wildCards: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
+    func didGameOver(onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
+    func getGameState(onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     
     // Events
     func gameStarted(gameID: String, deviceID: String, enemyName: String, isPlayerTurn: Bool, onCompleteCallBack: (()->Void)?)
@@ -61,23 +61,23 @@ class ApiLogic: ApiLogicProtocol {
     }
     
     func didPlayChance(chances: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)-> Void)?) {
-    //    self.requestsLogic?.didPlayChance(deviceID: gameState.deviceId, gameID: gameState.player.name, chances: chances, onCompleteCallBack: onCompleteCallBack)
+          self.requestsLogic?.didPlayChance(deviceID: gameState.deviceId, gameID: gameState.gameId, chances: chances, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data) -> Void)?) {
-//        self.requestsLogic?.didPlayWord(deviceID: deviceID, gameID: gameID, score: score, word: word, wildCards: wildCards, wildCardPosition: wildCardPosition, onCompleteCallBack: onCompleteCallBack)
+    func didPlayWord(score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+        self.requestsLogic?.didPlayWord(deviceID: gameState.deviceId, gameID: gameState.gameId, score: score, word: word, wildCards: wildCards, wildCardPosition: wildCardPosition, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data) -> Void)?) {
-//        self.requestsLogic?.didUseWildCard(deviceID: deviceID, gameID: gameID, wildCards: wildCards, onCompleteCallBack: onCompleteCallBack)
+    func didUseWildCard(wildCards: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+       self.requestsLogic?.didUseWildCard(deviceID: gameState.deviceId, gameID: gameState.gameId, wildCards: wildCards, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func didGameOver(deviceID: String, gameID: String, score: Int, onCompleteCallBack: ((Data) -> Void)?) {
-//        self.requestsLogic?.didGameOver(deviceID: deviceID, gameID: gameID, score: score, onCompleteCallBack: onCompleteCallBack)
+    func didGameOver(onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+       self.requestsLogic?.didGameOver(deviceID: gameState.deviceId, gameID: gameState.gameId, onCompleteCallBack: onCompleteCallBack)
     }
     
-    func getGameState(deviceID: String, gameID: String, onCompleteCallBack: ((Data) -> Void)?) {
-//        self.requestsLogic?.getGameState(deviceID: deviceID, gameID: gameID, onCompleteCallBack: onCompleteCallBack)
+    func getGameState(onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+       self.requestsLogic?.getGameState(deviceID: gameState.deviceId, gameID: gameState.gameId, onCompleteCallBack: onCompleteCallBack)
     }
     
     // Events

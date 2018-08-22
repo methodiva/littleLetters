@@ -49,7 +49,7 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .GameScreen: Feature(
             logic: GameScreenLogic(),
-            dependencies: [.HomeScreen, .EndGameScreen, .TimerScreen, .Camera, .ObjectRecognizer],
+            dependencies: [.HomeScreen, .EndGameScreen, .TimerScreen, .Camera, .ObjectRecognizer, .Api],
             view: nil,
             viewOrder: 7
         ),
