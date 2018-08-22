@@ -77,7 +77,9 @@ class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
                 self.view?.stopWaitingForGame()
             }
             do {
-                let _ = try JSON(data: data)
+                let json = try JSON(data: data)
+                log.debug(json)
+                gameState.updateStateFrom(json: json)
                 DispatchQueue.main.async {
                     self.startGame()
                 }
@@ -90,7 +92,6 @@ class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
             }
         })
     }
-    
     
     
     @objc

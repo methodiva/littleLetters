@@ -84,16 +84,16 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         log.verbose("Arcs for tries reseted ")
     }
     
-    func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int) {
+    func updateTabs(isPlayerTurn: Bool, playerScore: Int, playerWildCards: Int, enemyScore: Int, enemyWildCards: Int) {
         togglePlayerView(isActive: isPlayerTurn)
         toggleEnemyView(isActive: !isPlayerTurn)
         
         if isPlayerTurn {
-            playerScoreLabel.text = String(score)
-            getCardsView(total: cards, in: playerCards)
+            playerScoreLabel.text = String(playerScore)
+            getCardsView(total: playerWildCards, in: playerCards)
         } else {
-            enemyScoreLabel.text = String(score)
-            getCardsView(total: cards, in: enemyCards)
+            enemyScoreLabel.text = String(enemyScore)
+            getCardsView(total: enemyWildCards, in: enemyCards)
         }
     }
     
@@ -196,6 +196,11 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         self.isUserInteractionEnabled = true
         self.alpha = 1
         onShowing?()
+    }
+    
+    func setNames(playerName: String, enemyName: String) {
+        self.playerNameLabel.text = playerName
+        self.enemyNameLabel.text = enemyName
     }
 }
 
@@ -376,7 +381,6 @@ extension GameScreenView {
         // Initialising name tab
         playerNameLabel.font = activePlayerNameFont
         playerNameLabel.textColor = appColors.white
-        playerNameLabel.text = playerName
         self.addSubview(playerTab)
     }
     
@@ -407,7 +411,6 @@ extension GameScreenView {
         // Initialising name tab
         enemyNameLabel.font = activePlayerNameFont
         enemyNameLabel.textColor = appColors.white
-        enemyNameLabel.text = enemyName
         self.addSubview(enemyTab)
     }
     

@@ -54,8 +54,7 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
                 log.error("Couldnt send the request to end start game, \(String(describing: error))")
                 return
             }
-            gameState.gameKey = 0
-            gameState.gameId = ""
+            gameState = GameState()
             // TODO: If the network isnt working
         })
         self.view?.hide {
@@ -71,43 +70,21 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
                     log.error("Couldnt send the request to start game, \(String(describing: error))")
                     return
                 }
-                if let key = self.getKey(from: data) {
-                    gameState.gameKey = key
+                do {
+                    let jsonResponse = try JSON(data: data)
+                    gameState.updateStateFrom(json: jsonResponse)
                     DispatchQueue.main.async {
-                        self.view?.showWith(key: key, onShowing: {
-                         //
+                        self.view?.showWith(key: gameState.gameKey, onShowing: {
+                            //
                         })
                     }
-                }
-                if let gameId = self.getGameId(from: data) {
-                    gameState.gameId = gameId
+                } catch {
+                    let error = String(data: data, encoding: .utf8)
+                    log.error(error ?? "Unknown error occurred")
                 }
             })
         })
         self.view?.show{}
-    }
-    
-    func getKey(from data: Data) -> Int? {
-        do {
-            let jsonResponse = try JSON(data: data)
-            let key = jsonResponse["gameKey"].stringValue
-            return Int(key)
-        } catch {
-            let error = String(data: data, encoding: .utf8)
-            log.error(error ?? "Unknown error occurred")
-            return nil
-        }
-    }
-    
-    func getGameId(from data: Data) -> String? {
-        do {
-            let jsonResponse = try JSON(data: data)
-            return jsonResponse["gameId"].stringValue
-        } catch {
-            let error = String(data: data, encoding: .utf8)
-            log.error(error ?? "Unknown error occurred")
-            return nil
-        }
     }
     
     @objc

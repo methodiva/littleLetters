@@ -9,7 +9,8 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func resetTries()
     func showLoadingWordAnimation()
     func hideLoadingWordAnimation()
-    func updateTabs(isPlayerTurn: Bool, score: Int, cards: Int)
+    func updateTabs(isPlayerTurn: Bool, playerScore: Int, playerWildCards: Int, enemyScore: Int, enemyWildCards: Int)
+    func setNames(playerName: String, enemyName: String) 
     func showSuccess(with word: String, cardPosition: Int?, showSuccessCallback: (() -> Void)?)
 }
 
@@ -105,8 +106,8 @@ class GameScreenLogic: GameScreenLogicProtocol {
     func onTimerTap() {
         log.verbose("Timer Tapped")
         self.view?.setUserInteractionEnabled(to: false)
-        self.timerScreenLogic?.setPlayerCards(to: currentStars)
-        self.timerScreenLogic?.setScore(to: String(playerScore))
+        self.timerScreenLogic?.setPlayerCards(to: gameState.player.wildCards)
+        self.timerScreenLogic?.setScore(to: String(gameState.player.score))
         self.timerScreenLogic?.show()
     }
     
@@ -154,14 +155,17 @@ class GameScreenLogic: GameScreenLogicProtocol {
     
     func show() {
         log.verbose("Started Game")
+        self.view?.setNames(playerName: gameState.player.name, enemyName: gameState.enemy.name)
         self.view?.show{
             self.cameraLogic?.show()
             self.startTimer()
-            self.view?.updateTabs(isPlayerTurn: true, score: self.playerScore, cards: 3)
+            self.view?.updateTabs(isPlayerTurn: gameState.isTurn,
+                                  playerScore: gameState.player.score,
+                                  playerWildCards: gameState.player.wildCards,
+                                  enemyScore: gameState.enemy.score,
+                                  enemyWildCards: gameState.enemy.wildCards)
         }
     }
-    
-    
 }
 
 fileprivate func getTimeInString(from seconds: Int) -> String {
