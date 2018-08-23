@@ -4,7 +4,7 @@ import SwiftyJSON
 protocol GameScreenViewProtocol: FeatureViewProtocol {
     func onTapScreen(_ target: Any?, _ handler: Selector)
     func onTapTimerButton(_ target: Any?, _ handler: Selector)
-    func updateTimer(to time: String)
+    func updateTimer(to seconds: Int)
     func setUserInteractionEnabled(to isUserInteractionEnabled: Bool)
     func reduceOneTry()
     func resetTries()
@@ -169,9 +169,8 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func updateTimer() {
         secondsLeftOnTimer -= 1
-        let time = getTimeInString(from: secondsLeftOnTimer)
-        self.view?.updateTimer(to: time)
-        self.timerScreenLogic?.setTimer(to: time)
+        self.view?.updateTimer(to: secondsLeftOnTimer)
+        self.timerScreenLogic?.setTimer(to: secondsLeftOnTimer)
         if secondsLeftOnTimer <= 0 {
             if gameState.isTurn {
                 self.didGameOverRequestHandler()
@@ -318,7 +317,7 @@ extension GameScreenLogic {
     }
 }
 
-fileprivate func getTimeInString(from seconds: Int) -> String {
+func getTimeInString(from seconds: Int) -> String {
     // This assumes time is less than 60 seconds, please change if necessary
     if (seconds > 9 ) {
         return  "00:\(String(seconds))"
@@ -326,3 +325,4 @@ fileprivate func getTimeInString(from seconds: Int) -> String {
         return "00:0\(String(seconds))"
     }
 }
+

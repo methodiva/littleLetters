@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         log.debug(deviceToken.hexString())
-        gameState.deviceId = deviceToken.hexString()
+        deviceId = deviceToken.hexString()
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

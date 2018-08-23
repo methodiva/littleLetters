@@ -1,7 +1,7 @@
 import Foundation
 
 protocol TimerScreenViewProtocol: FeatureViewProtocol {
-    func setTimer(to time: String)
+    func setTimer(to time: Int)
     func setScore(to score: String)
     func setPlayerCards(to numberOfCards: Int)
     func onTapBackButton(_ target: Any?, _ handler: Selector)
@@ -9,7 +9,7 @@ protocol TimerScreenViewProtocol: FeatureViewProtocol {
 }
 
 protocol TimerScreenLogicProtocol: FeatureLogicProtocol {
-    func setTimer(to time: String)
+    func setTimer(to seconds: Int)
     func setScore(to score: String)
     func setPlayerCards(to numberOfCards: Int)
     func show()
@@ -22,7 +22,7 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
     private weak var homeScreenLogic: HomeScreenLogicProtocol?
     private weak var gameScreenLogic: GameScreenLogicProtocol?
     
-    // MARK: - FeatureProtocol conformance
+    // MARK: - FeatureProtocol conforman ce
     func initialize(root: RootProtocol,
                     view: FeatureViewProtocol?,
                     dependencies: [FeatureName: FeatureLogicProtocol]?) {
@@ -73,7 +73,7 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
         self.view?.hide{}
     }
     
-    func setTimer(to time: String) {
+    func setTimer(to time: Int) {
         self.view?.setTimer(to: time)
     }
     

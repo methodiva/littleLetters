@@ -181,9 +181,10 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         callback?()
     }
     
-    func updateTimer(to time: String) {
+    func updateTimer(to seconds: Int) {
+        let time = getTimeInString(from: seconds)
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = appColors.white
+        attributes[.foregroundColor] = getTimerColor(from: seconds)
         let timerAttributedString = NSMutableAttributedString(string: time, attributes: attributes)
         timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
                                                value: CGFloat(8.0),
@@ -611,4 +612,11 @@ fileprivate func resetArc(for layer: CALayer) {
     }
     layer.transform = CATransform3DIdentity
     layer.opacity = 1
+}
+
+func getTimerColor(from seconds: Int) -> UIColor {
+    if seconds > 5 {
+        return appColors.white
+    }
+    return appColors.red
 }

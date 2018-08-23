@@ -40,9 +40,10 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     private let playerCards = UIStackView()
     private let endGameButton = UIButton()
     
-    func setTimer(to string: String) {
+    func setTimer(to seconds: Int) {
+        let string = getTimeInString(from: seconds)
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = appColors.white
+        attributes[.foregroundColor] = getTimerColor(from: seconds)
         
         let timerAttributedString = NSMutableAttributedString(string: string, attributes: attributes)
         timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,

@@ -1,7 +1,8 @@
 import SwiftyJSON
 
+var deviceId: String = ""
+
 class GameState {
-    var deviceId: String
     var gameId: String
     var gameKey: Int
     
@@ -19,7 +20,6 @@ class GameState {
     var enemy: Player
     
     init() {
-         deviceId = ""
          gameId = ""
          gameKey = 0
          currentLetter = "A"
@@ -48,7 +48,7 @@ class GameState {
         var enemyKey = ""
         
         if let deviceId = json["playerOne"]["deviceId"].string {
-            if deviceId == self.deviceId {
+            if deviceId == deviceId {
                 playerKey = "playerOne"
                 enemyKey = "playerTwo"
             } else {
