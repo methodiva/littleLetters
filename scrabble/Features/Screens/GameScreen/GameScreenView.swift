@@ -203,6 +203,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func hide(_ onHidden: (() -> Void)?) {
         self.isUserInteractionEnabled = false
         self.alpha = 0
+        mainView?.backgroundColor = .clear
         onHidden?()
     }
     
@@ -210,6 +211,8 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         self.isUserInteractionEnabled = true
         self.alpha = 1
         currentLetterLabel.text = String(gameState.currentLetter)
+        setViewConstraintsUnderStatusBar(for: self)
+        mainView?.backgroundColor = appColors.white
         onShowing?()
     }
     
@@ -511,7 +514,8 @@ extension GameScreenView {
         
         // Player Tab constraints
         playerTab.snp.makeConstraints { make in
-            make.top.left.equalToSuperview()
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
         }
         playerScoreTab.snp.makeConstraints { make in
             make.centerY.equalToSuperview().inset(loserCenterOffset)
@@ -531,7 +535,8 @@ extension GameScreenView {
         
         // Enemy tab constraints
         enemyTab.snp.makeConstraints { make in
-            make.top.right.equalToSuperview()
+            make.top.equalToSuperview()
+            make.right.equalToSuperview()
         }
         enemyScoreTab.snp.makeConstraints { make in
             make.centerY.equalToSuperview().inset(loserCenterOffset)

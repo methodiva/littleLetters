@@ -1,5 +1,7 @@
 import UIKit
 
+var mainView: UIView?
+
 class RootViewController: UIViewController, RootProtocol {
     // MARK: - Features
 
@@ -110,6 +112,7 @@ class RootViewController: UIViewController, RootProtocol {
     // MARK: - UIViewController
 
     override func viewDidLoad() {
+        mainView = self.view
         super.viewDidLoad()
         self.initialize()
     }
@@ -210,6 +213,27 @@ class RootViewController: UIViewController, RootProtocol {
             f?.view?.removeFromSuperview()
             // cannot do: f?.view = nil (that does nothing to features)
             features[featureName]?.view = nil
+        }
+    }
+}
+
+
+func setViewConstraintsUnderStatusBar(for view: UIView) {
+    if let mainView = mainView {
+        view.snp.makeConstraints { (make) in
+            if #available(iOS 11.0, *) {
+                //Bottom guide
+                make.bottom.equalTo(mainView.safeAreaLayoutGuide.snp.bottomMargin)
+                //Top guide
+                make.top.equalTo(mainView.safeAreaLayoutGuide.snp.topMargin)
+                //Leading guide
+                make.leading.equalTo(mainView.safeAreaLayoutGuide.snp.leadingMargin)
+                //Trailing guide
+                make.trailing.equalTo(mainView.safeAreaLayoutGuide.snp.trailingMargin)
+                
+            } else {
+                make.edges.equalToSuperview()
+            }
         }
     }
 }

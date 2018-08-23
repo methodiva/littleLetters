@@ -53,6 +53,7 @@ class CameraView: UIView, CameraViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.startCameraSession()
         self.alpha = 1
+        setViewConstraintsUnderStatusBar(for: self)
         onShowing?()
     }
    
