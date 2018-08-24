@@ -167,6 +167,8 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.keyTextField.text = ""
+        self.errorMessageLabel.text = ""
+        self.joinGameButton.isEnabled = false
         self.alpha = 1
         onShowing?()
     }

@@ -50,13 +50,13 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     @objc
     func goBack() {
         log.verbose("Going back to home screen")
+        self.didCancelStartGameRequest = true
         self.apiLogic?.didEndStartGame(onCompleteCallBack: { (data, response, error) in
             guard let data = data, let response = response, error == nil else {
                 log.error("Couldnt send the request to end start game, \(String(describing: error))")
                 return
             }
             gameState = GameState()
-            self.didCancelStartGameRequest = true
             // TODO: If the network isnt working
         })
         self.view?.hide {
@@ -76,13 +76,12 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
                 do {
                     let jsonResponse = try JSON(data: data)
                     gameState.updateStateFrom(json: jsonResponse)
-                    guard !self.didCancelStartGameRequest else {
-                        return
-                    }
                     DispatchQueue.main.async {
-                        self.view?.showWith(key: gameState.gameKey, onShowing: {
-                            //
-                        })
+                        if !self.didCancelStartGameRequest {
+                            self.view?.showWith(key: gameState.gameKey, onShowing: {
+                                //
+                            })
+                        }
                     }
                 } catch {
                     let error = String(data: data, encoding: .utf8)
