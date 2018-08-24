@@ -19,6 +19,7 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     private weak var gameScreenLogic: GameScreenLogicProtocol?
     private weak var apiLogic: ApiLogicProtocol?
     
+    private var didCancelStartGameRequest = false
     
     // MARK: - FeatureProtocol conformance
     func initialize(root: RootProtocol,
@@ -55,6 +56,7 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
                 return
             }
             gameState = GameState()
+            self.didCancelStartGameRequest = true
             // TODO: If the network isnt working
         })
         self.view?.hide {
@@ -64,6 +66,7 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     
     func show() {
         log.verbose("Started game menu")
+        self.didCancelStartGameRequest = false
         self.view?.showGameStartingLoading({
             self.apiLogic?.didStartGame(onCompleteCallBack: { (data, response, error) in
                 guard let data = data, error == nil else {
@@ -73,6 +76,9 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
                 do {
                     let jsonResponse = try JSON(data: data)
                     gameState.updateStateFrom(json: jsonResponse)
+                    guard !self.didCancelStartGameRequest else {
+                        return
+                    }
                     DispatchQueue.main.async {
                         self.view?.showWith(key: gameState.gameKey, onShowing: {
                             //

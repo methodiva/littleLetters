@@ -215,6 +215,10 @@ class RootViewController: UIViewController, RootProtocol {
             features[featureName]?.view = nil
         }
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 }
 
 

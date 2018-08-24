@@ -33,6 +33,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     private let timerButton = UIButton()
     private let crossHair = UIImageView()
     private let triesArcs = [UIBezierPath()]
+    private let triesView = UIView()
     private var currentLetterBackground = UIImageView()
     private var currentTileColor = appColors.mediumPurple
     private let loadingTile = UIImageView(image: tileBack)
@@ -459,7 +460,8 @@ extension GameScreenView {
         crossHair.image = UIImage(named: "crosshair")
         drawCenterCircle()
         drawTries(for: 3)
-        self.addSubview(crossHair)
+        self.addSubview(triesView)
+        triesView.addSubview(crossHair)
     }
     
     private func initLoadingWordAnimation() {
@@ -469,13 +471,13 @@ extension GameScreenView {
     
     private func drawCenterCircle() {
         let shape = CAShapeLayer()
-        let path = UIBezierPath(arcCenter: self.center, radius: gridHeight * 5, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        let path = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: gridHeight * 5, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
         shape.lineWidth = 6
         shape.opacity = 0.5
         shape.path = path.cgPath
         shape.strokeColor = appColors.white.cgColor
         shape.fillColor = UIColor.clear.cgColor
-        self.layer.addSublayer(shape)
+        triesView.layer.addSublayer(shape)
     }
     
     private func drawTries(for maxTries: Int) {
@@ -493,8 +495,8 @@ extension GameScreenView {
             shape.strokeColor = appColors.white.cgColor
             shape.fillColor = UIColor.clear.cgColor
             shape.name = String(i)
-            shape.position = self.center
-            self.layer.addSublayer(shape)
+            shape.position = CGPoint(x: 0, y: 0)
+            triesView.layer.addSublayer(shape)
             startAngle = startAngle + gapAngle + anglePerArc
         }
     }
@@ -503,6 +505,9 @@ extension GameScreenView {
         timerButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.centerX.equalToSuperview()
+        }
+        triesView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
         crossHair.snp.makeConstraints { make in
             make.center.equalToSuperview()
