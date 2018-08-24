@@ -82,7 +82,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     
     func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int, onCompelteCallback: (() -> Void)?) {
         let cardsView = isPlayerTurn ? playerCards : enemyCards
-        self.scanAnythingLabel.isHidden = false
         for card in cardsView.arrangedSubviews {
             if card.tag == currentWildCardCount {
                 animateWildCardOut(card: card)  {
@@ -90,6 +89,9 @@ class GameScreenView: UIView, GameScreenViewProtocol {
                         self.currentLetterLabel.text = ""
                         self.currentLetterBackground.image = chooseCardFor(number: card.tag)
                         self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width + 3 * gridWidth, y: self.currentLetterBackground.center.y)
+                        for subview in self.currentLetterBackground.subviews {
+                            subview.removeFromSuperview()
+                        }
                         self.animateCurrentLetterIn {
                             onCompelteCallback?()
                         }
@@ -109,6 +111,10 @@ class GameScreenView: UIView, GameScreenViewProtocol {
             card.removeFromSuperview()
             onCompelteCallback?()
         }
+    }
+    
+    func setScanLabelTo(isHidden: Bool) {
+        scanAnythingLabel.isHidden = isHidden
     }
     
     func animateCurrentLetterIn(onCompelteCallback: (() -> Void)?) {
@@ -199,9 +205,9 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
-    func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, showSuccessCallback: (() -> Void)?) {
-        let wordWithoutFirstLetter = String(word.dropFirst())
-        let tilesToShow = getTiles(for: wordWithoutFirstLetter)
+    func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, isWildCardModeOn: Bool, showSuccessCallback: (() -> Void)?) {
+        let wordToShow = isWildCardModeOn ? word : String(word.dropFirst())
+        let tilesToShow = getTiles(for: wordToShow)
         guard let lastTile = tilesToShow.last else {
             log.error("No last letter found")
             return
@@ -210,7 +216,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         if let wildCardPosition = cardPosition {
             showWildCard(on: tilesToShow[wildCardPosition], color: appColors.yellow)
         }
-        animateWordIn(from: tilesToShow) {}
+        animateWordIn(from: tilesToShow, isWildCardMode: isWildCardModeOn) {}
         self.animateWordOut(from: tilesToShow, wordAnimatedOutCallBack: {
             self.currentLetterBackground = lastTile
             showSuccessCallback?()
@@ -237,10 +243,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
-    func stopWildCardMode(_ callback: (() -> Void)?) {
-        self.scanAnythingLabel.isHidden = true
-        callback?()
-    }
     
     func updateTimer(to seconds: Int) {
         let time = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
@@ -341,14 +343,15 @@ extension GameScreenView {
         })
     }
     
-    func animateWordIn(from tiles: [UIImageView], wordAnimatedInCallback: (() -> Void)?) {
+    func animateWordIn(from tiles: [UIImageView], isWildCardMode: Bool, wordAnimatedInCallback: (() -> Void)?) {
         guard let tileWidth = currentLetterBackground.image?.size.width  else {
             log.error("Image for current letter not found")
             return
         }
-        let wordWidth = calculateWordWidth(for: tiles.count + 1)
+        let tilesCount = isWildCardMode ? tiles.count + 2: tiles.count + 1
+        let wordWidth = calculateWordWidth(for: tilesCount)
         
-        let currentLetterFinalXPosition = (UIScreen.main.bounds.width - wordWidth + tileWidth)/2
+        let currentLetterFinalXPosition = isWildCardMode ? -gridWidth : (UIScreen.main.bounds.width - wordWidth + tileWidth)/2
         
         UIView.animate(withDuration: animatingInDuration,
                        delay: 0,
@@ -357,7 +360,7 @@ extension GameScreenView {
                         self.currentLetterBackground.center = CGPoint(x: currentLetterFinalXPosition, y: self.currentLetterBackground.center.y)
         })
         
-        var tileXPosition = currentLetterFinalXPosition
+        var tileXPosition = (UIScreen.main.bounds.width - wordWidth + tileWidth)/2
         tiles.forEach { (tile) in
             tileXPosition = tileXPosition + tileWidth + letterTileSpacing
             UIView.animate(withDuration: animatingInDuration,
@@ -397,6 +400,7 @@ extension GameScreenView {
         var imageTiles = [UIImageView]()
         for character in word {
             let letterBackground = UIImageView(image: tileMediumPurple)
+            letterBackground.contentMode = .center
             let letterLabel = UILabel()
             letterLabel.text = String(character)
             letterLabel.font = currentLetterFont

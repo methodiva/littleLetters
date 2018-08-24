@@ -11,10 +11,10 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int, onCompelteCallback: (() -> Void)?)
     func showLoadingWordAnimation()
     func hideLoadingWordAnimation()
-    func stopWildCardMode(_ callback: (() -> Void)?)
+    func setScanLabelTo(isHidden: Bool)
     func updateTabs(isPlayerTurn: Bool, playerScore: Int, playerWildCards: Int, enemyScore: Int, enemyWildCards: Int)
     func setNames(playerName: String, enemyName: String) 
-    func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, showSuccessCallback: (() -> Void)?)
+    func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, isWildCardModeOn: Bool, showSuccessCallback: (() -> Void)?)
 }
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
@@ -37,6 +37,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     private weak var endGameScreenLogic: EndGameScreenLogicProtocol?
     private weak var objectRecognizerLogic: ObjectRecognizerLogicProtocol?
     
+    var isWildCardModeOn = false
     var isProcessingTap = false
     
     var timer = Timer()
@@ -165,6 +166,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         if timer.isValid { return }
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
         secondsLeftOnTimer = timerLengthInSeconds
+        updateTimer()
     }
     
     func stopTimer() {
@@ -278,6 +280,8 @@ extension GameScreenLogic {
         self.timerScreenLogic?.hide()
         self.stopTimer()
         self.updateViewTabs()
+        isWildCardModeOn = true
+        self.view?.setScanLabelTo(isHidden: false)
         let currentWildCards = gameState.isTurn ? gameState.player.wildCards : gameState.enemy.wildCards
         self.view?.reduceOneWildCard(isPlayerTurn: gameState.isTurn, from: currentWildCards) {
             self.isProcessingTap = false
@@ -309,7 +313,9 @@ extension GameScreenLogic {
         let cardPosition = wildCardPosition != -1 ? wildCardPosition : nil
         let score = gameState.isTurn ? gameState.player.score : gameState.enemy.score
         self.view?.hideLoadingWordAnimation()
-        self.view?.showSuccess(with: word, isTurn: gameState.isTurn, score: score, cardPosition: cardPosition, showSuccessCallback: {
+        self.view?.showSuccess(with: word, isTurn: gameState.isTurn, score: score, cardPosition: cardPosition, isWildCardModeOn: isWildCardModeOn, showSuccessCallback: {
+            self.view?.setScanLabelTo(isHidden: true)
+            self.isWildCardModeOn = false
             self.isProcessingTap = false
             self.startTurn()
         })
