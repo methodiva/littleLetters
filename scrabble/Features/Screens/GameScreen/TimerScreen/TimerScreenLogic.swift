@@ -50,8 +50,8 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
     @objc
     func goBack() {
         log.verbose("Going back to game screen")
+        self.gameScreenLogic?.show()
         self.view?.hide {
-           self.gameScreenLogic?.show()
         }
     }
     
@@ -65,7 +65,9 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
     
     func show() {
         log.verbose("Started timer screen")
-        self.view?.show{}
+        self.view?.show{
+            self.gameScreenLogic?.hide()
+        }
     }
     
     func hide() {

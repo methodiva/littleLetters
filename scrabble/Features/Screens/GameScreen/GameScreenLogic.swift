@@ -19,6 +19,7 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
+    func hide() 
     func endGame()
     func didGameOverRequestHandler()
     func playChanceEventHandler()
@@ -191,6 +192,13 @@ class GameScreenLogic: GameScreenLogicProtocol {
             self.cameraLogic?.show()
             self.startTimer()
             self.updateViewTabs()
+        }
+    }
+    
+    func hide() {
+        log.verbose("Hiding game screen")
+        self.view?.hide {
+            self.cameraLogic?.hide()
         }
     }
     
