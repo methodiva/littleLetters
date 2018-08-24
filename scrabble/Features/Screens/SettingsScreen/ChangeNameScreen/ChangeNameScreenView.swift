@@ -112,11 +112,11 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
             make.leftMargin.equalTo(0.75 * gridWidth)
         }
         userName.snp.makeConstraints { make in
-            make.topMargin.equalTo(8.1 * gridHeight )
+            make.top.equalTo(textFieldBackground.snp.top).inset(15)
             make.centerX.equalToSuperview()
         }
         userNameTextField.snp.makeConstraints { make in
-            make.topMargin.equalTo(10.5 * gridHeight )
+            make.bottom.equalTo(textFieldBackground.snp.bottom).inset(20)
             make.width.equalTo(200)
             make.centerX.equalToSuperview()
         }

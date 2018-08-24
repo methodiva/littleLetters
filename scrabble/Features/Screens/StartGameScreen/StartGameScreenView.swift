@@ -214,11 +214,11 @@ extension StartGameScreenView {
             make.leftMargin.equalTo(0.75 * gridWidth)
         }
         gameCodeLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(8.2 * gridHeight )
+            make.top.equalTo(textFieldBackground.snp.top).inset(15)
             make.centerX.equalToSuperview()
         }
         shareKeyLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(10.5 * gridHeight )
+            make.bottom.equalTo(textFieldBackground.snp.bottom).inset(20)
             make.centerX.equalToSuperview()
         }
         waitingForPlayerActivityIndicator.snp.makeConstraints { make in
@@ -232,6 +232,8 @@ extension StartGameScreenView {
         buttonStack.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
+        
+        log.warning(textFieldBackground.frame)
     }
 }
 
