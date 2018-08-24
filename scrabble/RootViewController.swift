@@ -13,58 +13,65 @@ class RootViewController: UIViewController, RootProtocol {
             view: nil,
             viewOrder: 1
         ),
+        .UsernameScreen: Feature(
+            logic: UsernameScreenLogic(),
+            dependencies: [.HomeScreen],
+            view: nil,
+            viewOrder: 2
+        ),
         .HomeScreen: Feature(
             logic: HomeScreenLogic(),
             dependencies: [.StartGameScreen, .JoinGameScreen, .TutorialScreen, .SettingsScreen],
             view: nil,
-            viewOrder: 2
+            viewOrder: 3
         ),
         .StartGameScreen: Feature(
             logic: StartGameScreenLogic(),
             dependencies: [.HomeScreen, .GameScreen, .Api],
             view: nil,
-            viewOrder: 3
+            viewOrder: 4
         ),
         .JoinGameScreen: Feature(
             logic: JoinGameScreenLogic(),
             dependencies: [.HomeScreen, .GameScreen, .Api],
             view: nil,
-            viewOrder: 4
+            viewOrder: 5
         ),
         .TutorialScreen: Feature(
             logic: TutorialScreenLogic(),
             dependencies: [.HomeScreen],
             view: nil,
-            viewOrder: 5
+            viewOrder: 6
         ),
         .SettingsScreen: Feature(
             logic: SettingsScreenLogic(),
             dependencies: [.HomeScreen, .ChangeNameScreen],
             view: nil,
-            viewOrder: 6
+            viewOrder: 7
         ),
         .ChangeNameScreen: Feature(
             logic: ChangeNameScreenLogic(),
             dependencies: [.SettingsScreen],
             view: nil,
-            viewOrder: 6
+            viewOrder: 8
         ),
         .GameScreen: Feature(
             logic: GameScreenLogic(),
             dependencies: [.HomeScreen, .EndGameScreen, .TimerScreen, .Camera, .ObjectRecognizer, .Api],
             view: nil,
-            viewOrder: 7
+            viewOrder: 9
         ),
         .TimerScreen: Feature(
             logic: TimerScreenLogic(),
             dependencies: [.HomeScreen, .GameScreen],
             view: nil,
-            viewOrder: 8),
+            viewOrder: 10
+        ),
         .EndGameScreen: Feature(
             logic: EndGameScreenLogic(),
             dependencies: [.HomeScreen],
             view: nil,
-            viewOrder: 9
+            viewOrder: 11
         ),
         .ObjectRecognizer: Feature(
             logic: ObjectRecognizerLogic(),
@@ -98,6 +105,7 @@ class RootViewController: UIViewController, RootProtocol {
 
     private let views: [FeatureName: (FeatureLogicProtocol) -> FeatureViewProtocol] = [
         .Camera: { featureLogic in CameraView(featureLogic) },
+        .UsernameScreen: { featureLogic in UsernameScreenView(featureLogic) },
         .HomeScreen: { featureLogic in HomeScreenView(featureLogic) },
         .StartGameScreen: { featureLogic in StartGameScreenView(featureLogic) },
         .JoinGameScreen: { featureLogic in JoinGameScreenView(featureLogic) },

@@ -27,6 +27,9 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
         }
         self.featureLogic = logic
         self.isUserInteractionEnabled = true
+        if UserDefaults.standard.string(forKey: "playerName") == nil {
+            self.alpha = 0
+        }
         initUI()
         initConstraints()
     }

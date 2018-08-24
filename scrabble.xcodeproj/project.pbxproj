@@ -36,6 +36,8 @@
 		5D86359020FE4483005E7141 /* AVFoundationCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */; };
 		5DD6A3BB2119A95D00E4CB3C /* TimerScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD6A3BA2119A95D00E4CB3C /* TimerScreenLogic.swift */; };
 		5DD6A3BD2119A96A00E4CB3C /* TimerScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */; };
+		5DDFEBC4212FE8BD00CC99D7 /* UsernameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFEBC3212FE8BD00CC99D7 /* UsernameScreenLogic.swift */; };
+		5DDFEBC6212FE8CA00CC99D7 /* UsernameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFEBC5212FE8CA00CC99D7 /* UsernameScreenView.swift */; };
 		5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */; };
 		5DF346DA20F0DB82006FFCF8 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D720F0DB82006FFCF8 /* Feature.swift */; };
 		5DF346DB20F0DB82006FFCF8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D820F0DB82006FFCF8 /* Logger.swift */; };
@@ -86,6 +88,8 @@
 		5DD6A3BA2119A95D00E4CB3C /* TimerScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerScreenLogic.swift; sourceTree = "<group>"; };
 		5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerScreenView.swift; sourceTree = "<group>"; };
 		5DDD0000212A84A000AAC60F /* scrabble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = scrabble.entitlements; sourceTree = "<group>"; };
+		5DDFEBC3212FE8BD00CC99D7 /* UsernameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameScreenLogic.swift; sourceTree = "<group>"; };
+		5DDFEBC5212FE8CA00CC99D7 /* UsernameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameScreenView.swift; sourceTree = "<group>"; };
 		5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootProtocol.swift; sourceTree = "<group>"; };
 		5DF346D720F0DB82006FFCF8 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		5DF346D820F0DB82006FFCF8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 		5D36EC6C2100B00500DCFBE4 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				5DDFEBC2212FE86E00CC99D7 /* UsernameScreen */,
 				5D36EC492100A88300DCFBE4 /* HomeScreen */,
 				5D36EC512100A9BC00DCFBE4 /* StartGameScreen */,
 				5D36EC4E2100A96800DCFBE4 /* JoinGameScreen */,
@@ -302,6 +307,15 @@
 				5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */,
 			);
 			path = TimerScreen;
+			sourceTree = "<group>";
+		};
+		5DDFEBC2212FE86E00CC99D7 /* UsernameScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5DDFEBC3212FE8BD00CC99D7 /* UsernameScreenLogic.swift */,
+				5DDFEBC5212FE8CA00CC99D7 /* UsernameScreenView.swift */,
+			);
+			path = UsernameScreen;
 			sourceTree = "<group>";
 		};
 		5DF346DD20F0E148006FFCF8 /* Features */ = {
@@ -478,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */,
+				5DDFEBC4212FE8BD00CC99D7 /* UsernameScreenLogic.swift in Sources */,
 				5D36EC572100AA0C00DCFBE4 /* StartGameScreenView.swift in Sources */,
 				5DD6A3BB2119A95D00E4CB3C /* TimerScreenLogic.swift in Sources */,
 				5D36EC642100AAE000DCFBE4 /* GameScreenView.swift in Sources */,
@@ -506,6 +521,7 @@
 				5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */,
 				5D48F7DE210B1AD200737814 /* ChangeNameScreenView.swift in Sources */,
 				5D189C4B21076A690005C938 /* CorrectLabelSelector.swift in Sources */,
+				5DDFEBC6212FE8CA00CC99D7 /* UsernameScreenView.swift in Sources */,
 				5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */,
 				5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */,
 				5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */,

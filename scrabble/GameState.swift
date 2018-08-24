@@ -1,6 +1,8 @@
 import SwiftyJSON
 
 var deviceId: String = ""
+let maxNameLength = 6
+
 
 class GameState {
     var gameId: String
@@ -26,6 +28,9 @@ class GameState {
          timeStamp = ""
          currentTurn = "x"
          player = Player()
+         if let savedValue = UserDefaults.standard.string(forKey: "playerName") {
+            player.name = savedValue
+         }
          enemy = Player()
     }
     

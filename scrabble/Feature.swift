@@ -13,6 +13,7 @@ enum FeatureName {
     case Api
     case Events
     case Requests
+    case UsernameScreen
     case HomeScreen
     case StartGameScreen
     case EndGameScreen
