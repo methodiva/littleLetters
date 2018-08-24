@@ -8,10 +8,9 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func setUserInteractionEnabled(to isUserInteractionEnabled: Bool)
     func reduceOneTry()
     func resetTries()
-    func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int)
+    func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int, onCompelteCallback: (() -> Void)?)
     func showLoadingWordAnimation()
     func hideLoadingWordAnimation()
-    func startWildCardMode(_ callback: (() -> Void)?)
     func stopWildCardMode(_ callback: (() -> Void)?)
     func updateTabs(isPlayerTurn: Bool, playerScore: Int, playerWildCards: Int, enemyScore: Int, enemyWildCards: Int)
     func setNames(playerName: String, enemyName: String) 
@@ -168,6 +167,14 @@ class GameScreenLogic: GameScreenLogicProtocol {
         secondsLeftOnTimer = timerLengthInSeconds
     }
     
+    func stopTimer() {
+        timer.invalidate()
+        secondsLeftOnTimer = -1
+        
+        self.view?.updateTimer(to: secondsLeftOnTimer)
+        self.timerScreenLogic?.setTimer(to: secondsLeftOnTimer)
+    }
+    
     @objc
     func updateTimer() {
         secondsLeftOnTimer -= 1
@@ -269,8 +276,10 @@ extension GameScreenLogic {
     
     func useWildCardEventHandler() {
         self.timerScreenLogic?.hide()
+        self.stopTimer()
         self.updateViewTabs()
-        self.view?.startWildCardMode {
+        let currentWildCards = gameState.isTurn ? gameState.player.wildCards : gameState.enemy.wildCards
+        self.view?.reduceOneWildCard(isPlayerTurn: gameState.isTurn, from: currentWildCards) {
             self.isProcessingTap = false
         }
     }

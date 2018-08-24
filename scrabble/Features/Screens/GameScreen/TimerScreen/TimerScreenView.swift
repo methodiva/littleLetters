@@ -41,13 +41,14 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     private let endGameButton = UIButton()
     
     func setTimer(to seconds: Int) {
-        let string = getTimeInString(from: seconds)
+        let string = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
+        let spacing = seconds == -1 ? CGFloat(8) : CGFloat(20.0)
         var attributes = [NSAttributedString.Key: AnyObject]()
         attributes[.foregroundColor] = getTimerColor(from: seconds)
         
         let timerAttributedString = NSMutableAttributedString(string: string, attributes: attributes)
         timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                             value: CGFloat(20.0),
+                                             value: spacing,
                                              range: NSRange(location: 0, length: string.count-1))
         timerLabel.attributedText = timerAttributedString
     }

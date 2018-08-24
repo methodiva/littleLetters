@@ -4,6 +4,7 @@ fileprivate let activePlayerNameFont = UIFont(name: "Montserrat-Bold", size: 22)
 fileprivate let passivePlayerNameFont = UIFont(name: "Montserrat-Bold", size: 20)
 fileprivate let scoreFont = UIFont(name: "Montserrat-Bold", size: 25)
 fileprivate let timerFont = UIFont(name: "Montserrat-Bold", size: 30)
+fileprivate let scanAnythingFont = UIFont(name: "Montserrat-regular", size: 15)
 fileprivate let currentLetterFont = UIFont(name: "Baloo", size: 30)
 
 fileprivate let activeTabImage = UIImage(named: "activePlayerTab")
@@ -31,6 +32,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     weak var featureLogic: GameScreenLogicProtocol!
     
     private let timerButton = UIButton()
+    private let scanAnythingLabel = UILabel()
     private let crossHair = UIImageView()
     private let triesArcs = [UIBezierPath()]
     private let triesView = UIView()
@@ -78,8 +80,9 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         log.error("Arc for animation not found")
     }
     
-    func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int) {
+    func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int, onCompelteCallback: (() -> Void)?) {
         let cardsView = isPlayerTurn ? playerCards : enemyCards
+        self.scanAnythingLabel.isHidden = false
         for card in cardsView.arrangedSubviews {
             if card.tag == currentWildCardCount {
                 animateWildCardOut(card: card)  {
@@ -88,7 +91,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
                         self.currentLetterBackground.image = chooseCardFor(number: card.tag)
                         self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width + 3 * gridWidth, y: self.currentLetterBackground.center.y)
                         self.animateCurrentLetterIn {
-                            
+                            onCompelteCallback?()
                         }
                     }
                 }
@@ -234,21 +237,19 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
-    func startWildCardMode(_ callback: (() -> Void)?) {
-        callback?()
-    }
-    
     func stopWildCardMode(_ callback: (() -> Void)?) {
+        self.scanAnythingLabel.isHidden = true
         callback?()
     }
     
     func updateTimer(to seconds: Int) {
-        let time = getTimeInString(from: seconds)
+        let time = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
+        let spacing = seconds == -1 ? CGFloat(3) : CGFloat(8)
         var attributes = [NSAttributedString.Key: AnyObject]()
         attributes[.foregroundColor] = getTimerColor(from: seconds)
         let timerAttributedString = NSMutableAttributedString(string: time, attributes: attributes)
         timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                               value: CGFloat(8.0),
+                                               value: spacing,
                                                range: NSRange(location: 0, length: time.count-1))
         timerButton.setAttributedTitle(timerAttributedString, for: .normal)
     }
@@ -513,7 +514,13 @@ extension GameScreenView {
     private func initTimerUI() {
         timerButton.setBackgroundImage(UIImage(named: "timerTab"), for: .normal)
         timerButton.titleLabel?.font = timerFont
+        timerButton.titleEdgeInsets = UIEdgeInsets(top: 15,left: 0,bottom: 0,right: 0)
+        scanAnythingLabel.text = "Scan anything"
+        scanAnythingLabel.font = scanAnythingFont
+        scanAnythingLabel.textColor = appColors.lightPurple
+        scanAnythingLabel.isHidden = true
         self.addSubview(timerButton)
+        self.addSubview(scanAnythingLabel)
     }
     
     private func initTriesUI() {
@@ -564,6 +571,10 @@ extension GameScreenView {
     private func initConstraints() {
         timerButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        scanAnythingLabel.snp.makeConstraints { make in
+            make.top.equalTo(timerButton.snp.top).inset(6)
             make.centerX.equalToSuperview()
         }
         triesView.snp.makeConstraints { make in
@@ -687,7 +698,7 @@ fileprivate func resetArc(for layer: CALayer) {
 }
 
 func getTimerColor(from seconds: Int) -> UIColor {
-    if seconds > 5 {
+    if seconds > 5 || seconds == -1 {
         return appColors.white
     }
     return appColors.red
