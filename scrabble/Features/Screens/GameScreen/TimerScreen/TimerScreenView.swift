@@ -57,7 +57,7 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     }
     
     func setPlayerCards(to numberOfCards: Int) {
-        getCardsView(total: numberOfCards, in: playerCards)
+        getCardsView(total: numberOfCards, in: playerCards, isReverse: false)
     }
     
     func onTapBackButton(_ target: Any?, _ handler: Selector) {

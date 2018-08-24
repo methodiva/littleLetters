@@ -8,6 +8,7 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func setUserInteractionEnabled(to isUserInteractionEnabled: Bool)
     func reduceOneTry()
     func resetTries()
+    func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int)
     func showLoadingWordAnimation()
     func hideLoadingWordAnimation()
     func startWildCardMode(_ callback: (() -> Void)?)

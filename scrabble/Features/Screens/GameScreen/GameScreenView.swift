@@ -78,6 +78,66 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         log.error("Arc for animation not found")
     }
     
+    func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int) {
+        let cardsView = isPlayerTurn ? playerCards : enemyCards
+        for card in cardsView.arrangedSubviews {
+            if card.tag == currentWildCardCount {
+                animateWildCardOut(card: card)  {
+                    self.animateCurrentLetterOut {
+                        self.currentLetterLabel.text = ""
+                        self.currentLetterBackground.image = chooseCardFor(number: card.tag)
+                        self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width + 3 * gridWidth, y: self.currentLetterBackground.center.y)
+                        self.animateCurrentLetterIn {
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func animateWildCardOut(card: UIView, onCompelteCallback: (() -> Void)?) {
+        UIView.animate(withDuration: 0.50,
+                       delay: 0,
+                       options: UIView.AnimationOptions.curveEaseInOut,
+                       animations: {
+            card.transform = card.transform.translatedBy(x: 0, y: -card.frame.height + 5)
+        }) { (isCompelte) in
+            card.removeFromSuperview()
+            onCompelteCallback?()
+        }
+    }
+    
+    func animateCurrentLetterIn(onCompelteCallback: (() -> Void)?) {
+        UIView.animate(withDuration: animatingOutDuration,
+                       delay: 0,
+                       options: UIView.AnimationOptions.curveEaseInOut,
+                       animations: {
+                        self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width/2, y: self.currentLetterBackground.center.y)
+        }, completion: { (isComplete) in
+            if !isComplete {
+                log.warning("Word animating in animation couldnt complete")
+            } else {
+                onCompelteCallback?()
+            }
+        })
+    }
+    
+    func animateCurrentLetterOut(onCompelteCallback: (() -> Void)?) {
+        UIView.animate(withDuration: animatingOutDuration,
+                       delay: 0,
+                       options: UIView.AnimationOptions.curveEaseInOut,
+                       animations: {
+                self.currentLetterBackground.center = CGPoint(x:  -3 * gridWidth, y: self.currentLetterBackground.center.y)
+        }, completion: { (isComplete) in
+            if !isComplete {
+                log.warning("Word animating in animation couldnt complete")
+            } else {
+                onCompelteCallback?()
+            }
+        })
+    }
+    
     func resetTries() {
         currentTries = 3
         guard let layers = self.layer.sublayers else { return }
@@ -97,10 +157,10 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         
         if isPlayerTurn {
             playerScoreLabel.text = String(playerScore)
-            getCardsView(total: playerWildCards, in: playerCards)
+            getCardsView(total: playerWildCards, in: playerCards, isReverse: false)
         } else {
             enemyScoreLabel.text = String(enemyScore)
-            getCardsView(total: enemyWildCards, in: enemyCards)
+            getCardsView(total: enemyWildCards, in: enemyCards, isReverse: true)
         }
     }
     
@@ -561,7 +621,7 @@ extension GameScreenView {
     }
 }
 
-func getCardsView(total: Int, in stackView: UIStackView) {
+func getCardsView(total: Int, in stackView: UIStackView, isReverse: Bool) {
     for card in stackView.arrangedSubviews {
         card.removeFromSuperview()
     }
@@ -570,8 +630,10 @@ func getCardsView(total: Int, in stackView: UIStackView) {
         return
     }
     for i in 1...total {
-        let cardImage = chooseCardFor(number: i)
+        let cardNumber = isReverse ? total - i + 1 : i
+        let cardImage = chooseCardFor(number: cardNumber)
         let view = UIImageView(image: cardImage)
+        view.tag = cardNumber
         stackView.addArrangedSubview(view)
     }
 }
