@@ -208,6 +208,11 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, isWildCardModeOn: Bool, showSuccessCallback: (() -> Void)?) {
         let wordToShow = isWildCardModeOn ? word : String(word.dropFirst())
         let tilesToShow = getTiles(for: wordToShow)
+        if isTurn {
+            playerScoreLabel.text = String(score)
+        } else {
+            enemyScoreLabel.text = String(score)
+        }
         guard let lastTile = tilesToShow.last else {
             log.error("No last letter found")
             return

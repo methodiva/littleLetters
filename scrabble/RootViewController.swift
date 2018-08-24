@@ -234,13 +234,9 @@ func setViewConstraintsUnderStatusBar(for view: UIView) {
     if let mainView = mainView {
         view.snp.makeConstraints { (make) in
             if #available(iOS 11.0, *) {
-                //Bottom guide
                 make.bottom.equalTo(mainView.safeAreaLayoutGuide.snp.bottomMargin)
-                //Top guide
                 make.top.equalTo(mainView.safeAreaLayoutGuide.snp.topMargin)
-                //Leading guide
                 make.leading.equalTo(mainView.safeAreaLayoutGuide.snp.leadingMargin)
-                //Trailing guide
                 make.trailing.equalTo(mainView.safeAreaLayoutGuide.snp.trailingMargin)
                 
             } else {
