@@ -13,7 +13,8 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func hideLoadingWordAnimation()
     func setScanLabelTo(isHidden: Bool)
     func updateTabs(isPlayerTurn: Bool, playerScore: Int, playerWildCards: Int, enemyScore: Int, enemyWildCards: Int)
-    func setNames(playerName: String, enemyName: String) 
+    func setNames(playerName: String, enemyName: String)
+    func resetGameUI()
     func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, isWildCardModeOn: Bool, showSuccessCallback: (() -> Void)?)
 }
 
@@ -82,6 +83,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
                 self.cameraLogic?.hide()
                 self.endGameScreenLogic?.showWithParameters(playerScore: gameState.player.score, enemyScore: gameState.enemy.score)
                 self.resetVariables()
+                self.view?.resetGameUI() 
             }
         }
     }
@@ -197,6 +199,8 @@ class GameScreenLogic: GameScreenLogicProtocol {
     func resetVariables() {
         secondsLeftOnTimer = 0
         timer.invalidate()
+        isWildCardModeOn = false
+        isProcessingTap = false
     }
     
     func show() {

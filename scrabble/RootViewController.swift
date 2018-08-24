@@ -214,14 +214,14 @@ class RootViewController: UIViewController, RootProtocol {
     
     func dispose() {
         log.verbose("Disposing root view controller")
-        for featureName in features.keys {
-            let f = features[featureName]
-            log.verbose("Disposing feature \(featureName)")
-            f?.logic.dispose()
-            f?.view?.removeFromSuperview()
-            // cannot do: f?.view = nil (that does nothing to features)
-            features[featureName]?.view = nil
-        }
+//        for featureName in features.keys {
+//            let f = features[featureName]
+//            log.verbose("Disposing feature \(featureName)")
+//            f?.logic.dispose()
+//            f?.view?.removeFromSuperview()
+//            // cannot do: f?.view = nil (that does nothing to features)
+//            features[featureName]?.view = nil
+//        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

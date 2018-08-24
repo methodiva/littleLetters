@@ -248,6 +248,14 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
     }
     
+    func resetGameUI() {
+        for view in self.subviews {
+            view.removeFromSuperview()
+        }
+        initUI()
+        initConstraints()
+        currentTries = 3
+    }
     
     func updateTimer(to seconds: Int) {
         let time = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
