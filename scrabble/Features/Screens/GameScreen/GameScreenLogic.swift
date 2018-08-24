@@ -174,7 +174,11 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.timerScreenLogic?.setTimer(to: secondsLeftOnTimer)
         if secondsLeftOnTimer <= 0 {
             if gameState.isTurn {
-                self.didGameOverRequestHandler()
+                if canUseWildCard() {
+                    useWildCardRequestHandler()
+                } else {
+                    didGameOverRequestHandler()
+                }
             }
             timer.invalidate()
         }

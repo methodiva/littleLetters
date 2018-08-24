@@ -113,7 +113,7 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     
     @objc
     private func shareGameKey() {
-        let text = "6437"
+        let text = String(gameState.gameKey)
         let viewController = topViewController()
         let textToShare = [ text ]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)

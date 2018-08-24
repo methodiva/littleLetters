@@ -215,8 +215,12 @@ extension JoinGameScreenView: UITextFieldDelegate {
         let currentString: NSString = textField.text! as NSString
         let newString: NSString =
             currentString.replacingCharacters(in: range, with: string) as NSString
-        if newString.length >= gameJoinKeyLength {
-            joinGameButton.isEnabled = true
+        if newString.length >= gameJoinKeyLength{
+            if newString.length == gameJoinKeyLength {
+                joinGameButton.isEnabled = Int(newString as String) != nil
+            } else {
+                joinGameButton.isEnabled = Int(textField.text!) != nil
+            }
         } else {
             joinGameButton.isEnabled = false
         }
