@@ -212,6 +212,13 @@ class RootViewController: UIViewController, RootProtocol {
         }
     }
     
+    func receivePushNotification(data: [AnyHashable : Any]) {
+        log.verbose("Send push notification")
+        for (_, feature) in features {
+            feature.logic.receivePushNotification(data: data)
+        }
+    }
+    
     func dispose() {
         log.verbose("Disposing root view controller")
 //        for featureName in features.keys {
