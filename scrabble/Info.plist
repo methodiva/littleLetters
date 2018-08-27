@@ -24,8 +24,13 @@
 	<string>This application will use the camera for Augmented Reality.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string></string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Baloo-Regular.ttf</string>
+		<string>coiny-regular.ttf</string>
+		<string>Montserrat-Bold.otf</string>
+		<string>Montserrat-Regular.otf</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -40,13 +45,6 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Baloo-Regular.ttf</string>
-		<string>coiny-regular.ttf</string>
-		<string>Montserrat-Bold.otf</string>
-		<string>Montserrat-Regular.otf</string>
 	</array>
 </dict>
 </plist>

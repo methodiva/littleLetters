@@ -280,8 +280,24 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func hide(_ onHidden: (() -> Void)?) {
         self.isUserInteractionEnabled = false
         self.alpha = 0
-        mainView?.backgroundColor = .clear
         onHidden?()
+    }
+    
+    let blurEffect = UIBlurEffect(style: .dark )
+    lazy var blurView = UIVisualEffectView(effect: blurEffect)
+    
+    func setStatusBarBlurred() {
+        let statWindow = UIApplication.shared.value(forKey:"statusBarWindow") as! UIView
+        let statusBar = statWindow.subviews[0] as UIView
+        statusBar.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        statusBar.addSubview(blurView)
+    }
+    
+    func hideStatusBarBlurred() {
+        let statWindow = UIApplication.shared.value(forKey:"statusBarWindow") as! UIView
+        let statusBar = statWindow.subviews[0] as UIView
+        statusBar.backgroundColor = .clear
+        blurView.removeFromSuperview()
     }
     
     func show(_ onShowing: (() -> Void)?) {
@@ -289,7 +305,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         self.alpha = 1
         currentLetterLabel.text = String(gameState.currentLetter)
         setViewConstraintsUnderStatusBar(for: self)
-        mainView?.backgroundColor = appColors.white
+        setStatusBarBlurred()
         onShowing?()
     }
     

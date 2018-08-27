@@ -12,6 +12,7 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func showLoadingWordAnimation()
     func hideLoadingWordAnimation()
     func setScanLabelTo(isHidden: Bool)
+    func hideStatusBarBlurred()
     func updateTabs(isPlayerTurn: Bool, playerScore: Int, playerWildCards: Int, enemyScore: Int, enemyWildCards: Int)
     func setNames(playerName: String, enemyName: String)
     func resetGameUI()
@@ -22,6 +23,7 @@ protocol GameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
     func hide() 
     func endGame()
+    func hideStatusBarBlurred()
     func didGameOverRequestHandler()
     func playChanceEventHandler()
     func useWildCardEventHandler()
@@ -232,6 +234,10 @@ class GameScreenLogic: GameScreenLogicProtocol {
                               playerWildCards: gameState.player.wildCards,
                               enemyScore: gameState.enemy.score,
                               enemyWildCards: gameState.enemy.wildCards)
+    }
+    
+    func hideStatusBarBlurred() {
+         self.view?.hideStatusBarBlurred()
     }
 }
 
