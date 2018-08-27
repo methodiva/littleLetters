@@ -104,7 +104,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func animateWildCardOut(card: UIView, onCompelteCallback: (() -> Void)?) {
         UIView.animate(withDuration: 0.50,
                        delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
+                       options: UIViewAnimationOptions.curveEaseInOut,
                        animations: {
             card.transform = card.transform.translatedBy(x: 0, y: -card.frame.height + 5)
         }) { (isCompelte) in
@@ -120,7 +120,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func animateCurrentLetterIn(onCompelteCallback: (() -> Void)?) {
         UIView.animate(withDuration: animatingOutDuration,
                        delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
+                       options: UIViewAnimationOptions.curveEaseInOut,
                        animations: {
                         self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width/2, y: self.currentLetterBackground.center.y)
         }, completion: { (isComplete) in
@@ -135,7 +135,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func animateCurrentLetterOut(onCompelteCallback: (() -> Void)?) {
         UIView.animate(withDuration: animatingOutDuration,
                        delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
+                       options: UIViewAnimationOptions.curveEaseInOut,
                        animations: {
                 self.currentLetterBackground.center = CGPoint(x:  -3 * gridWidth, y: self.currentLetterBackground.center.y)
         }, completion: { (isComplete) in
@@ -242,7 +242,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
             log.warning("Wild card image for color not found")
         }
         imageView.addSubview(cardImage)
-        self.bringSubviewToFront(imageView)
+        self.bringSubview(toFront: imageView)
         cardImage.snp.makeConstraints { make in
             make.center.equalToSuperview().offset(20)
         }
@@ -260,10 +260,10 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func updateTimer(to seconds: Int) {
         let time = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
         let spacing = seconds == -1 ? CGFloat(3) : CGFloat(8)
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = getTimerColor(from: seconds)
         let timerAttributedString = NSMutableAttributedString(string: time, attributes: attributes)
-        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                                value: spacing,
                                                range: NSRange(location: 0, length: time.count-1))
         timerButton.setAttributedTitle(timerAttributedString, for: .normal)
@@ -330,7 +330,7 @@ extension GameScreenView {
         for tile in animateWord.dropLast() {
             UIView.animate(withDuration: animatingOutDuration,
                            delay: animatingInDuration + wordWaitDuration,
-                           options: UIView.AnimationOptions.curveEaseInOut,
+                           options: UIViewAnimationOptions.curveEaseInOut,
                            animations: {
                             tile.center = CGPoint(x: tileXPosition, y: tile.center.y)
             }, completion: { (isComplete) in
@@ -344,7 +344,7 @@ extension GameScreenView {
         }
         UIView.animate(withDuration: animatingOutDuration,
                        delay: animatingInDuration + wordWaitDuration,
-                       options: UIView.AnimationOptions.curveEaseInOut,
+                       options: UIViewAnimationOptions.curveEaseInOut,
                        animations: {
                         lastTile.center = CGPoint(x: UIScreen.main.bounds.width/2, y: lastTile.center.y)
         }, completion: { (isComplete) in
@@ -368,7 +368,7 @@ extension GameScreenView {
         
         UIView.animate(withDuration: animatingInDuration,
                        delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
+                       options: UIViewAnimationOptions.curveEaseInOut,
                        animations: {
                         self.currentLetterBackground.center = CGPoint(x: currentLetterFinalXPosition, y: self.currentLetterBackground.center.y)
         })
@@ -378,7 +378,7 @@ extension GameScreenView {
             tileXPosition = tileXPosition + tileWidth + letterTileSpacing
             UIView.animate(withDuration: animatingInDuration,
                            delay: 0,
-                           options: UIView.AnimationOptions.curveEaseInOut,
+                           options: UIViewAnimationOptions.curveEaseInOut,
                            animations: {
                             tile.center = CGPoint(x: tileXPosition, y: tile.center.y)
             }, completion: { (isComplete) in

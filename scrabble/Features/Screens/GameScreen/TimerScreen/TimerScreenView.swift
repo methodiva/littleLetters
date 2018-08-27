@@ -43,11 +43,11 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     func setTimer(to seconds: Int) {
         let string = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
         let spacing = seconds == -1 ? CGFloat(8) : CGFloat(20.0)
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = getTimerColor(from: seconds)
         
         let timerAttributedString = NSMutableAttributedString(string: string, attributes: attributes)
-        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                              value: spacing,
                                              range: NSRange(location: 0, length: string.count-1))
         timerLabel.attributedText = timerAttributedString
@@ -71,7 +71,7 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     
     func hide(_ onHidden: (() -> Void)?) {
         self.isUserInteractionEnabled = false
-         UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
+         UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
             self.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }) { (isComplete) in
             self.alpha = 0
@@ -83,7 +83,7 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
         self.isUserInteractionEnabled = true
         self.alpha = 1
         playerNameLabel.text = gameState.player.name
-        UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
             self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }) { (isComplete) in
             onShowing?()
@@ -146,12 +146,12 @@ extension TimerScreenView {
     
     func initEndGameButtonUI() {
         endGameButton.setBackgroundImage(endGameButtonImage, for: .normal)
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         
         let endGameTitle = "End Game"
         let endGameAttributedString = NSMutableAttributedString(string: endGameTitle, attributes: attributes)
-        endGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        endGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                              value: CGFloat(5.0),
                                              range: NSRange(location: 0, length: endGameTitle.count-1))
         endGameButton.setAttributedTitle(endGameAttributedString, for: .normal)

@@ -23,7 +23,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     let backButton = BackButton()
     let joinGameButton = UIButton()
     let keyTextField = UITextField()
-    let loadingActivityIndicatior = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
+    let loadingActivityIndicatior = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
     let errorMessageLabel = UILabel()
     
     let enterCodeLabel = UILabel()
@@ -71,12 +71,12 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     }
     
     func initShareKeyButton() {
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         joinGameButton.setBackgroundImage(UIImage(named: "pinkSmallButton"), for: .normal)
         let shareKeyTitle = "Join"
         let shareKeyAttributedString = NSMutableAttributedString(string: shareKeyTitle, attributes: attributes)
-        shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                               value: CGFloat(5.0),
                                               range: NSRange(location: 0, length: shareKeyTitle.count-1))
         joinGameButton.setAttributedTitle(shareKeyAttributedString, for: .normal)
