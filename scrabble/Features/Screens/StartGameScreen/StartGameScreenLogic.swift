@@ -10,6 +10,7 @@ protocol StartGameScreenViewProtocol: FeatureViewProtocol {
 
 protocol StartGameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
+    func startGameEvent()
 }
 
 class StartGameScreenLogic: StartGameScreenLogicProtocol {
@@ -51,10 +52,17 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     func goBack() {
         log.verbose("Going back to home screen")
         self.didCancelStartGameRequest = true
-        self.apiLogic?.didEndStartGame(onCompleteCallBack: { (data, response, error) in
+        self.apiLogic?.didGameOver(onCompleteCallBack: { (data, response, error) in
             guard let data = data, let response = response, error == nil else {
                 log.error("Couldnt send the request to end start game, \(String(describing: error))")
                 return
+            }
+            do {
+                let jsonResponse = try JSON(data: data)
+                log.debug(jsonResponse)
+            } catch {
+                let error = String(data: data, encoding: .utf8)
+                log.error(error ?? "Unknown error occurred")
             }
             gameState = GameState()
             // TODO: If the network isnt working
@@ -62,6 +70,11 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
         self.view?.hide {
             self.homeScreenLogic?.show()
         }
+    }
+    
+    func startGameEvent() {
+        log.verbose("Starting Game")
+        self.startGame()
     }
     
     func show() {

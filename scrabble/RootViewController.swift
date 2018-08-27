@@ -81,7 +81,7 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .Api: Feature(
             logic: ApiLogic(),
-            dependencies: [.GameScreen, .Requests],
+            dependencies: [.GameScreen, .Requests, .StartGameScreen, .JoinGameScreen],
             view: nil,
             viewOrder: 0
         ),

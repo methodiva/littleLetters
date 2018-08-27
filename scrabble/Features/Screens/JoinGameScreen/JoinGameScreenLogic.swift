@@ -13,6 +13,7 @@ protocol JoinGameScreenViewProtocol: FeatureViewProtocol {
 
 protocol JoinGameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
+    func startGameEvent()
 }
 
 class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
@@ -79,10 +80,6 @@ class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
             do {
                 let json = try JSON(data: data)
                 log.debug(json)
-                gameState.updateStateFrom(json: json)
-                DispatchQueue.main.async {
-                    self.startGame()
-                }
             } catch {
                 let error = String(data: data, encoding: .utf8)
                 log.error("Bad request to join game, \(String(describing: error))")
@@ -91,6 +88,11 @@ class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
                 }
             }
         })
+    }
+    
+    func startGameEvent() {
+        log.verbose("Start Game")
+        self.startGame()
     }
     
     
