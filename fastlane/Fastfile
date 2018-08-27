@@ -14,14 +14,8 @@ default_platform(:ios)
 platform :ios do
   desc "Increment version and upload a new beta build to TestFlight"
 
-  def bump_version
-    increment_build_number(xcodeproj: "scrabble.xcodeproj")
-    commit_version_bump(xcodeproj: "scrabble.xcodeproj")
-  end
-
-  def build_upload
+  def build
     build_app(workspace: "scrabble.xcworkspace", scheme: "scrabble")
-    upload_to_testflight
   end
 
   def notify_slack
@@ -33,17 +27,29 @@ platform :ios do
   end
 
   lane :versionbump do
-    bump_version
+    increment_build_number(xcodeproj: "scrabble.xcodeproj")
+    commit_version_bump(xcodeproj: "scrabble.xcodeproj")
+  end
+
+  lane :build do
+    build
   end
 
   lane :upload do
-    build_upload
+    upload_to_testflight
+    notify_slack
+  end
+
+  lane :build_upload do
+    build
+    upload_to_testflight
     notify_slack
   end
 
   lane :beta do
     bump_version
-    build_upload
+    build
+    upload_to_testflight
     notify_slack
   end
 end

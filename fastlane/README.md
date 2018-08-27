@@ -21,9 +21,19 @@ or alternatively using `brew cask install fastlane`
 fastlane ios versionbump
 ```
 Increment version and upload a new beta build to TestFlight
+### ios build
+```
+fastlane ios build
+```
+
 ### ios upload
 ```
 fastlane ios upload
+```
+
+### ios build_upload
+```
+fastlane ios build_upload
 ```
 
 ### ios beta
