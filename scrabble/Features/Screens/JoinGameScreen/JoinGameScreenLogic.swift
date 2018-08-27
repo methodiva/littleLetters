@@ -101,6 +101,7 @@ class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
         log.verbose("Starting game")
         self.view?.hide({
             self.gameScreenLogic?.show()
+            self.gameScreenLogic?.startTurn()
         })
     }
 }

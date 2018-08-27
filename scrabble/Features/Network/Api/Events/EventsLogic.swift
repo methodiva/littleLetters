@@ -17,7 +17,8 @@ class EventsLogic: EventsLogicProtocol {
     }
     
     func receivePushNotification(data: [AnyHashable : Any]) {
-        guard let eventType = data["event"] as? String else {
+        log.debug(data)
+        guard let eventType = data["eventType"] as? String else {
             log.error("Event type for the notfication not recieved")
             return
         }
@@ -31,7 +32,7 @@ class EventsLogic: EventsLogicProtocol {
             wordPlayed(data: data)
         case "usewildcard":
             wildCardUsed(data: data)
-        case "over":
+        case "gameover":
             gameOver(data: data)
         default:
             log.error("Unknown event found")

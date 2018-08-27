@@ -74,6 +74,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         joinGameButton.setBackgroundImage(UIImage(named: "pinkSmallButton"), for: .normal)
+        joinGameButton.setBackgroundImage(UIImage(named: "joinInactiveButton"), for: .disabled)
         let shareKeyTitle = "Join"
         let shareKeyAttributedString = NSMutableAttributedString(string: shareKeyTitle, attributes: attributes)
         shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,

@@ -54,8 +54,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     
     private let currentLetterLabel = UILabel()
     
-    private var currentTries = 3
-    
     convenience init(_ featureLogic: FeatureLogicProtocol) {
         self.init(frame: UIScreen.main.bounds)
         guard let logic = featureLogic as? GameScreenLogicProtocol else {
@@ -68,12 +66,11 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         initConstraints()
     }
     
-    func reduceOneTry() {
-        guard let layers = self.layer.sublayers else { return }
+    func reduceOneTry(to leftTries: Int) {
+        guard let layers = self.triesView.layer.sublayers else { return }
         for layer in layers {
-            if layer.name == String(currentTries) {
+            if layer.name == String(leftTries) {
                 animateArcForFailTry(for: layer)
-                currentTries -= 1
                 return
             }
         }
@@ -148,9 +145,8 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     }
     
     func resetTries() {
-        currentTries = 3
-        guard let layers = self.layer.sublayers else { return }
-        for i in 1...3 {
+        guard let layers = self.triesView.layer.sublayers else { return }
+        for i in 0...2 {
             for layer in layers {
                 if layer.name == String(i) {
                     resetArc(for: layer)
@@ -254,7 +250,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         }
         initUI()
         initConstraints()
-        currentTries = 3
     }
     
     func updateTimer(to seconds: Int) {
@@ -586,7 +581,7 @@ extension GameScreenView {
         let gapAngle = gapBetweenArcRationToArcAngle * anglePerArc
         var startAngle = -CGFloat.pi/2 + gapAngle / 2
         
-        for i in 1...maxTries {
+        for i in 0...maxTries - 1 {
             let shape = CAShapeLayer()
             let path = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: gridHeight * 6, startAngle: startAngle, endAngle: startAngle + anglePerArc, clockwise: true)
             shape.lineWidth = 2

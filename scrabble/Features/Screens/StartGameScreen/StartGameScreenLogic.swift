@@ -110,6 +110,7 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
         log.verbose("Starting game")
         self.view?.hide({
             self.gameScreenLogic?.show()
+            self.gameScreenLogic?.startTurn()
         })
     }
 }
