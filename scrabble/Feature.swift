@@ -31,6 +31,7 @@ protocol FeatureLogicProtocol: class {
     func initialize(root: RootProtocol, view: FeatureViewProtocol?, dependencies: [FeatureName: FeatureLogicProtocol]?)
     func willAppear(_ animated: Bool)
     func willDisappear(_ animated: Bool)
+    func receivePushNotification(data: [AnyHashable : Any])
     func applicationDidEnterBackground()
     func applicationDidEnterForeground()
     func dispose()
@@ -39,6 +40,7 @@ protocol FeatureLogicProtocol: class {
 extension FeatureLogicProtocol {
     func willAppear(_ animated: Bool) {}
     func willDisappear(_ animated: Bool) {}
+    func receivePushNotification(data: [AnyHashable : Any]) {}
     func applicationDidEnterBackground() {}
     func applicationDidEnterForeground() {}
     func dispose() {}

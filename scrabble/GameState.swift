@@ -34,6 +34,64 @@ class GameState {
          enemy = Player()
     }
     
+    func updateStateFrom(data: [AnyHashable : Any]) {
+        if let gameId = data["gameId"] as? String {
+            self.gameId = gameId
+        }
+        if let currentLetter = data["currentLetter"] as? String, let letter = currentLetter.first {
+            self.currentLetter = letter
+        }
+        if let gameKey = data["gameKey"] as? Int {
+            self.gameKey = gameKey
+        }
+        if let currentTurn = data["currentTurn"] as? String {
+            self.currentTurn = currentTurn
+        }
+        
+        var playerKey = ""
+        var enemyKey = ""
+        
+        if let playerOne = data["playerOne"] as? [AnyHashable : Any], let deviceId = playerOne["deviceId"] as? String {
+            if deviceId == deviceId {
+                playerKey = "playerOne"
+                enemyKey = "playerTwo"
+            } else {
+                playerKey = "playerTwo"
+                enemyKey = "playerOne"
+            }
+        }
+        
+        if let player = data[playerKey] as? [AnyHashable : Any] {
+            if let playerName = player["name"] as? String {
+                self.player.name = playerName
+            }
+            if let playerChances = player["chances"] as? Int {
+                self.player.chances = playerChances
+            }
+            if let playerWildCards = player["wildcards"] as? Int {
+                self.player.wildCards = playerWildCards
+            }
+            if let playerScore = player["score"] as? Int {
+                self.player.score = playerScore
+            }
+        }
+        
+        if let enemy = data[enemyKey] as? [AnyHashable : Any] {
+            if let enemyName = enemy["name"] as? String {
+                self.enemy.name = enemyName
+            }
+            if let enemyChances = enemy["chances"] as? Int {
+                self.enemy.chances = enemyChances
+            }
+            if let enemyWildCards = enemy["wildcards"] as? Int {
+                self.enemy.wildCards = enemyWildCards
+            }
+            if let enemyScore = enemy["score"] as? Int {
+                self.enemy.score = enemyScore
+            }
+        }
+    }
+    
     func updateStateFrom(json: JSON) {
         log.debug(json)
         if let gameId = json["gameId"].string {

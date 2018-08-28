@@ -2,7 +2,6 @@ import Foundation
 import SwiftyJSON
 
 protocol EventsLogicProtocol: FeatureLogicProtocol {
-    func handleEvent()
 }
 
 class EventsLogic: EventsLogicProtocol {
@@ -17,24 +16,48 @@ class EventsLogic: EventsLogicProtocol {
         self.apiLogic = apiLogic
     }
     
-    func handleEvent() {
-        // Temp variables ---
-        let json = JSON()
-        let eventType = ""
-        // -----------------
+    func receivePushNotification(data: [AnyHashable : Any]) {
+        log.debug(data)
+        guard let eventType = data["eventType"] as? String else {
+            log.error("Event type for the notfication not recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
         switch eventType {
-        case "start":
-            apiLogic?.gameStarted(json: json)
+        case "gamestarted":
+            gameStarted(data: data)
         case "playchance":
-            apiLogic?.chancePlayed(json: json)
+            chancePlayed(data: data)
         case "playword":
-            apiLogic?.wordPlayed(json: json)
+            wordPlayed(data: data)
         case "usewildcard":
-            apiLogic?.wildCardUsed(json: json)
-        case "over":
-            apiLogic?.gameOver(json: json)
+            wildCardUsed(data: data)
+        case "gameover":
+            gameOver(data: data)
         default:
             log.error("Unknown event found")
         }
+    }
+    
+    func gameStarted(data: [AnyHashable : Any]) {
+        self.apiLogic?.gameStarted()
+    }
+    
+    func chancePlayed(data: [AnyHashable : Any]) {
+        self.apiLogic?.chancePlayed()
+    }
+    
+    func wordPlayed(data: [AnyHashable : Any]) {
+        if let wildCardPosition = data["wildcardPosition"] as? Int, let word = data["word"] as? String{
+            self.apiLogic?.wordPlayed(word: word, wildCardPosition: wildCardPosition)
+        }
+    }
+    
+    func wildCardUsed(data: [AnyHashable : Any]) {
+        self.apiLogic?.wildCardUsed()
+    }
+    
+    func gameOver(data: [AnyHashable : Any]) {
+        self.apiLogic?.gameOver()
     }
 }

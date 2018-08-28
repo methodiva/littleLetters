@@ -78,13 +78,13 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
         playButtonStack.addArrangedSubview(startGameButton)
         playButtonStack.addArrangedSubview(joinGameButton)
         
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         
         let startGameTitle = "Start"
         startGameButton.setBackgroundImage(startGameImage, for: .normal)
         let startGameAttributedString = NSMutableAttributedString(string: startGameTitle, attributes: attributes)
-        startGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        startGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                                value: CGFloat(10.0),
                                                range: NSRange(location: 0, length: startGameTitle.count-1))
         startGameButton.setAttributedTitle(startGameAttributedString, for: .normal)
@@ -93,7 +93,7 @@ class HomeScreenView: UIView, HomeScreenViewProtocol {
         let joinGameTitle = "Join"
         joinGameButton.setBackgroundImage(joinGameImage, for: .normal)
         let joinGameAttributedString = NSMutableAttributedString(string: joinGameTitle, attributes: attributes)
-        joinGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        joinGameAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                               value: CGFloat(10.0),
                                               range: NSRange(location: 0, length: joinGameTitle.count-1))
         joinGameButton.setAttributedTitle(joinGameAttributedString, for: .normal)

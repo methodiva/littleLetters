@@ -3,7 +3,6 @@ import SwiftyJSON
 
 protocol RequestsLogicProtocol: FeatureLogicProtocol {
     func didStartGame(deviceID: String, playerName: String, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
-    func didEndStartGame(deviceID: String, gameID: String, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didJoinGame(deviceID: String, playerName: String, gameKey: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didPlayChance(deviceID: String, gameID: String, chances: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
     func didPlayWord(deviceID: String, gameID: String, score: Int, word: String, wildCards: Int, wildCardPosition: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?)->Void)?)
@@ -31,21 +30,6 @@ class RequestsLogic: RequestsLogicProtocol {
         let jsonObject = JSON(json)
         guard let request = makeRequest(jsonObject: jsonObject) else {
             log.error("Couldn't create a request for start game")
-            return
-        }
-        runRequest(request, onCompleteCallBack: onCompleteCallBack)
-    }
-    
-    func didEndStartGame(deviceID: String, gameID: String, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
-        let json: JSON = [
-            "deviceId": deviceID,
-            "gameId": gameID,
-            "eventType": RequestType.endStartGame.rawValue,
-            ]
-        
-        let jsonObject = JSON(json)
-        guard let request = makeRequest(jsonObject: jsonObject) else {
-            log.error("Couldn't create a request for ending start game")
             return
         }
         runRequest(request, onCompleteCallBack: onCompleteCallBack)
