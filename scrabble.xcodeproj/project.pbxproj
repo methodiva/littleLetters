@@ -664,6 +664,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = appIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = launchScreen;
 				CODE_SIGN_ENTITLEMENTS = scrabble/scrabble.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -685,6 +686,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = appIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = launchScreen;
 				CODE_SIGN_ENTITLEMENTS = scrabble/scrabble.entitlements;
 				CODE_SIGN_STYLE = Automatic;
