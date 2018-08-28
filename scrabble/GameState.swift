@@ -51,8 +51,8 @@ class GameState {
         var playerKey = ""
         var enemyKey = ""
         
-        if let playerOne = data["playerOne"] as? [AnyHashable : Any], let deviceId = playerOne["deviceId"] as? String {
-            if deviceId == deviceId {
+        if let playerOne = data["playerOne"] as? [AnyHashable : Any], let id = playerOne["deviceId"] as? String {
+            if id == deviceId {
                 playerKey = "playerOne"
                 enemyKey = "playerTwo"
             } else {
