@@ -668,6 +668,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = launchScreen;
 				CODE_SIGN_ENTITLEMENTS = scrabble/scrabble.entitlements;
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RTP2FFNB26;
 				INFOPLIST_FILE = scrabble/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
@@ -681,6 +682,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "match Development net.byondreal.ios.littleLetters";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -693,6 +695,7 @@
 				CODE_SIGN_ENTITLEMENTS = scrabble/scrabble.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RTP2FFNB26;
 				INFOPLIST_FILE = scrabble/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
@@ -706,6 +709,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore net.byondreal.ios.littleLetters";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
