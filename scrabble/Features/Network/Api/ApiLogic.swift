@@ -7,7 +7,7 @@ enum RequestType: String {
     case joinGame = "join"
     case playChance = "playchance"
     case playWord = "playword"
-    case useWildCard = "usewildcard"
+    case useWildCard = "playwildcard"
     case gameover = "over"
     case getGameState = "getgamestate"
 }

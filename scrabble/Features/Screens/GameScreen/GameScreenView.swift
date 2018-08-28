@@ -80,7 +80,7 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int, onCompelteCallback: (() -> Void)?) {
         let cardsView = isPlayerTurn ? playerCards : enemyCards
         for card in cardsView.arrangedSubviews {
-            if card.tag == currentWildCardCount {
+            if card.tag == currentWildCardCount + 1{
                 animateWildCardOut(card: card)  {
                     self.animateCurrentLetterOut {
                         self.currentLetterLabel.text = ""
@@ -94,8 +94,10 @@ class GameScreenView: UIView, GameScreenViewProtocol {
                         }
                     }
                 }
+                return
             }
         }
+        log.error("Wild card for animation not found")
     }
     
     func animateWildCardOut(card: UIView, onCompelteCallback: (() -> Void)?) {
@@ -205,9 +207,9 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         let wordToShow = isWildCardModeOn ? word : String(word.dropFirst())
         let tilesToShow = getTiles(for: wordToShow)
         if isTurn {
-            playerScoreLabel.text = String(score)
-        } else {
             enemyScoreLabel.text = String(score)
+        } else {
+            playerScoreLabel.text = String(score)
         }
         guard let lastTile = tilesToShow.last else {
             log.error("No last letter found")
@@ -553,6 +555,11 @@ extension GameScreenView {
     
     private func initTriesUI() {
         crossHair.image = UIImage(named: "crosshair")
+        if let layers = triesView.layer.sublayers {
+            for layer in layers {
+                layer.removeFromSuperlayer()
+            }
+        }
         drawCenterCircle()
         drawTries(for: 3)
         self.addSubview(triesView)

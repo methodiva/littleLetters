@@ -30,7 +30,7 @@ class EventsLogic: EventsLogicProtocol {
             chancePlayed(data: data)
         case "playword":
             wordPlayed(data: data)
-        case "usewildcard":
+        case "playwildcard":
             wildCardUsed(data: data)
         case "gameover":
             gameOver(data: data)
@@ -48,7 +48,7 @@ class EventsLogic: EventsLogicProtocol {
     }
     
     func wordPlayed(data: [AnyHashable : Any]) {
-        if let wildCardPosition = data["wildcardPosition"] as? Int, let word = data["word"] as? String{
+        if let wildCardPosition = data["wildcardPosition"] as? Int, let word = data["previousWord"] as? String{
             self.apiLogic?.wordPlayed(word: word, wildCardPosition: wildCardPosition)
         }
     }

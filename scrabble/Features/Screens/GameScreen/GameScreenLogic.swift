@@ -132,7 +132,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     }
     
     func canPlay() -> Bool{
-        return !self.isProcessingTap && gameState.isTurn &&  gameState.player.chances > 0
+        return !self.isProcessingTap && gameState.isTurn &&  ( gameState.player.chances > 0 || gameState.currentLetter == "*" )
     }
     
     func calculateScore(from word: String) -> Int{
@@ -229,8 +229,8 @@ class GameScreenLogic: GameScreenLogicProtocol {
     
     func startTurn() {
         self.updateViewTabs()
-        self.view?.resetTries()
         self.startTimer()
+        self.view?.resetTries()
     }
     
     func updateViewTabs() {
@@ -248,13 +248,16 @@ class GameScreenLogic: GameScreenLogicProtocol {
 
 extension GameScreenLogic {
     func playChanceEventHandler() {
-        self.resumeTimer()
+        log.verbose("Recieved play chance event")
+        self.isProcessingTap = false
         if gameState.isTurn && gameState.player.chances == 0 {
             if canUseWildCard() {
                 useWildCardRequestHandler()
             } else {
                 didGameOverRequestHandler()
             }
+        } else {
+            self.resumeTimer()
         }
         self.view?.hideLoadingWordAnimation()
         let chancesLeft = gameState.isTurn ? gameState.player.chances : gameState.enemy.chances
@@ -262,14 +265,14 @@ extension GameScreenLogic {
     }
     
     func playChanceRequestHandler() {
+        log.verbose("Sent request for play chance event")
         apiLogic?.didPlayChance(chances: gameState.player.chances - 1, onCompleteCallBack: { (data, response, error) in
             guard let data = data, error == nil else {
                 log.error("Couldnt send the request to play chance, \(String(describing: error))")
                 return
             }
             do {
-                let json = try JSON(data: data)
-                log.debug(json)
+                let _ = try JSON(data: data)
             } catch {
                 let error = String(data: data, encoding: .utf8)
                 log.error("Bad request to play chance, \(String(describing: error))")
@@ -278,14 +281,14 @@ extension GameScreenLogic {
     }
     
     func useWildCardRequestHandler() {
+        log.verbose("Sent request for play wild card event")
         apiLogic?.didUseWildCard(wildCards: gameState.player.wildCards - 1, onCompleteCallBack: { (data, response, error) in
             guard let data = data, error == nil else {
                 log.error("Couldnt send the request to use wild card, \(String(describing: error))")
                 return
             }
             do {
-                let json = try JSON(data: data)
-                log.debug(json)
+                let _ = try JSON(data: data)
             } catch {
                 let error = String(data: data, encoding: .utf8)
                 log.error("Bad request to use wild card, \(String(describing: error))")
@@ -294,10 +297,10 @@ extension GameScreenLogic {
     }
     
     func useWildCardEventHandler() {
+        log.verbose("Recieved play wild card event")
+        secondsLeftOnTimer = -1
         self.timerScreenLogic?.hide()
         self.stopTimer()
-        secondsLeftOnTimer = -1
-        self.updateViewTabs()
         isWildCardModeOn = true
         self.view?.setScanLabelTo(isHidden: false)
         let currentWildCards = gameState.isTurn ? gameState.player.wildCards : gameState.enemy.wildCards
@@ -307,6 +310,7 @@ extension GameScreenLogic {
     }
     
     func didGameOverRequestHandler() {
+        log.verbose("Sent request for game over event")
         self.endGame()
         apiLogic?.didGameOver(onCompleteCallBack: { (data, response, error) in
             guard let data = data, error == nil else {
@@ -314,8 +318,7 @@ extension GameScreenLogic {
                 return
             }
             do {
-                let json = try JSON(data: data)
-                log.debug(json)
+                let _ = try JSON(data: data)
             } catch {
                 let error = String(data: data, encoding: .utf8)
                 log.error("Bad request to end game, \(String(describing: error))")
@@ -324,24 +327,32 @@ extension GameScreenLogic {
     }
     
     func didGameOverEventHandler() {
+        log.verbose("Recieved game over event")
         self.endGame()
     }
     
     func playWordEventHandler(word: String, wildCardPosition: Int) {
-        self.resumeTimer()
+        log.verbose("Recieved play word event")
         let cardPosition = wildCardPosition != -1 ? wildCardPosition : nil
-        let score = gameState.isTurn ? gameState.player.score : gameState.enemy.score
-        self.view?.hideLoadingWordAnimation()
-        self.view?.showSuccess(with: word, isTurn: gameState.isTurn, score: score, cardPosition: cardPosition, isWildCardModeOn: isWildCardModeOn, showSuccessCallback: {
-            self.view?.setScanLabelTo(isHidden: true)
-            self.isWildCardModeOn = false
-            self.isProcessingTap = false
-            self.startTurn()
-        })
+        let score = gameState.isTurn ? gameState.enemy.score : gameState.player.score
+        DispatchQueue.main.async {
+            self.resumeTimer()
+            self.view?.hideLoadingWordAnimation()
+            log.debug(score )
+            self.view?.showSuccess(with: word, isTurn: gameState.isTurn, score: score, cardPosition: cardPosition, isWildCardModeOn: self.isWildCardModeOn, showSuccessCallback: {
+                self.view?.setScanLabelTo(isHidden: true)
+                self.isWildCardModeOn = false
+                self.isProcessingTap = false
+                self.startTurn()
+            })
+        }
     }
     
     func playWordRequestHandler(with word: String) {
-        self.stopTimer()
+        log.verbose("Sent request for play word event")
+        DispatchQueue.main.async {
+            self.stopTimer()
+        }
         let wildCardPosition = getWildCardPosition(for: word)
         let isWildCard = wildCardPosition != -1
         let wildCards = isWildCard ? gameState.player.wildCards + 1 : gameState.player.wildCards
@@ -355,8 +366,7 @@ extension GameScreenLogic {
                                     return
                                 }
                                 do {
-                                    let json = try JSON(data: data)
-                                    log.debug(json)
+                                    let _ = try JSON(data: data)
                                 } catch {
                                     let error = String(data: data, encoding: .utf8)
                                     log.error("Bad request to play word, \(String(describing: error))")
