@@ -83,6 +83,7 @@ class ApiLogic: ApiLogicProtocol {
     
     // Events
     func gameStarted() {
+        gameState.isPlaying = true
         if gameState.isTurn {
             startGameScreenLogic?.startGameEvent()
         } else {
@@ -103,7 +104,10 @@ class ApiLogic: ApiLogicProtocol {
     }
     
     func gameOver() {
-        gameScreenLogic?.didGameOverEventHandler()
+        if gameState.isPlaying {
+            gameScreenLogic?.didGameOverEventHandler()
+        }
+        gameState.isPlaying = false
     }
     
 }

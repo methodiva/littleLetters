@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        log.debug(deviceToken.hexString())
+        log.verbose("Device registered for notfiication with token \(deviceToken.hexString())")
         deviceId = deviceToken.hexString()
     }
     

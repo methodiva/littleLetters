@@ -232,8 +232,6 @@ extension StartGameScreenView {
         buttonStack.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
-        log.warning(textFieldBackground.frame)
     }
 }
 

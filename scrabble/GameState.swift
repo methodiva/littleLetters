@@ -7,6 +7,7 @@ let maxNameLength = 6
 class GameState {
     var gameId: String
     var gameKey: Int
+    var isPlaying : Bool
     
     var currentTurn: String
     var currentLetter: Character
@@ -27,6 +28,7 @@ class GameState {
          currentLetter = "A"
          timeStamp = ""
          currentTurn = "x"
+         isPlaying = false
          player = Player()
          if let savedValue = UserDefaults.standard.string(forKey: "playerName") {
             player.name = savedValue
@@ -154,7 +156,7 @@ struct Player {
     var wildCards: Int
     
     init() {
-        name = "asd"
+        name = ""
         chances = 0
         score = 0
         wildCards = 0

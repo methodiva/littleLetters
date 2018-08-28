@@ -81,12 +81,14 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func endGame() {
         log.verbose("Going to end game screen")
+        gameState.isPlaying = false
         DispatchQueue.main.async {
             self.view?.hide {
                 self.cameraLogic?.hide()
                 self.endGameScreenLogic?.showWithParameters(playerScore: gameState.player.score, enemyScore: gameState.enemy.score)
                 self.resetVariables()
-                self.view?.resetGameUI() 
+                self.view?.resetGameUI()
+                self.view?.onTapTimerButton(self, #selector(self.onTimerTap))
             }
         }
     }
@@ -336,9 +338,7 @@ extension GameScreenLogic {
         let cardPosition = wildCardPosition != -1 ? wildCardPosition : nil
         let score = gameState.isTurn ? gameState.enemy.score : gameState.player.score
         DispatchQueue.main.async {
-            self.resumeTimer()
             self.view?.hideLoadingWordAnimation()
-            log.debug(score )
             self.view?.showSuccess(with: word, isTurn: gameState.isTurn, score: score, cardPosition: cardPosition, isWildCardModeOn: self.isWildCardModeOn, showSuccessCallback: {
                 self.view?.setScanLabelTo(isHidden: true)
                 self.isWildCardModeOn = false

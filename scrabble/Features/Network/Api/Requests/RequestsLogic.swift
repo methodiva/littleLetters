@@ -87,8 +87,8 @@ class RequestsLogic: RequestsLogicProtocol {
         runRequest(request, onCompleteCallBack: onCompleteCallBack)
     }
     
-    // Request not made on the server side yet, recheck the parameters after it is made
     func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
+        log.info("Wild card request man")
         let json: JSON = [
             "deviceId": deviceID,
             "gameId": gameID,

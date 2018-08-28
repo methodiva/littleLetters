@@ -68,7 +68,7 @@ let labelSelector = CorrectLabelSelector()
 
 extension Array {
     func logArray(_ name: String) -> Array {
-        log.debug([name, self])
+       // log.debug([name, self])
         return self
     }
 }
