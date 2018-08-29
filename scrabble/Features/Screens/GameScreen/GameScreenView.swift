@@ -156,7 +156,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         setStatusBarBlurred()
         onShowing?()
     }
-    
 
 }
 

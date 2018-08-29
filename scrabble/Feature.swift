@@ -32,6 +32,7 @@ protocol FeatureLogicProtocol: class {
     func willAppear(_ animated: Bool)
     func willDisappear(_ animated: Bool)
     func receivePushNotification(data: [AnyHashable : Any])
+    func applicationWillTerminate()
     func applicationDidEnterBackground()
     func applicationDidEnterForeground()
     func dispose()
@@ -42,6 +43,7 @@ extension FeatureLogicProtocol {
     func willDisappear(_ animated: Bool) {}
     func receivePushNotification(data: [AnyHashable : Any]) {}
     func applicationDidEnterBackground() {}
+    func applicationWillTerminate() {}
     func applicationDidEnterForeground() {}
     func dispose() {}
 }

@@ -88,7 +88,6 @@ class RequestsLogic: RequestsLogicProtocol {
     }
     
     func didUseWildCard(deviceID: String, gameID: String, wildCards: Int, onCompleteCallBack: ((Data?, URLResponse?, Error?) -> Void)?) {
-        log.info("Wild card request man")
         let json: JSON = [
             "deviceId": deviceID,
             "gameId": gameID,

@@ -218,6 +218,12 @@ class RootViewController: UIViewController, RootProtocol {
         }
     }
     
+    func applicationWillTerminate() {
+        for (_, feature) in features {
+            feature.logic.applicationWillTerminate()
+        }
+    }
+    
     func dispose() {
         log.verbose("Disposing root view controller")
 //        for featureName in features.keys {

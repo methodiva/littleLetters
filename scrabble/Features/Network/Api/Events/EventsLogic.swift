@@ -22,7 +22,6 @@ class EventsLogic: EventsLogicProtocol {
             log.error("Event type for the notfication not recieved")
             return
         }
-        gameState.updateStateFrom(data: data)
         switch eventType {
         case "gamestarted":
             gameStarted(data: data)
@@ -40,24 +39,61 @@ class EventsLogic: EventsLogicProtocol {
     }
     
     func gameStarted(data: [AnyHashable : Any]) {
+        gameState.updateStateFrom(data: data)
         self.apiLogic?.gameStarted()
     }
     
     func chancePlayed(data: [AnyHashable : Any]) {
+        guard let id = data["gameId"] as? String else {
+            log.error("Game Id for the notfication not recieved")
+            return
+        }
+        if id != gameState.gameId {
+            log.error("Notfication for the wrong game recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
         self.apiLogic?.chancePlayed()
     }
     
     func wordPlayed(data: [AnyHashable : Any]) {
+        guard let id = data["gameId"] as? String else {
+            log.error("Game Id for the notfication not recieved")
+            return
+        }
+        if id != gameState.gameId {
+            log.error("Notfication for the wrong game recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
         if let wildCardPosition = data["wildcardPosition"] as? Int, let word = data["previousWord"] as? String{
             self.apiLogic?.wordPlayed(word: word, wildCardPosition: wildCardPosition)
         }
     }
     
     func wildCardUsed(data: [AnyHashable : Any]) {
+        guard let id = data["gameId"] as? String else {
+            log.error("Game Id for the notfication not recieved")
+            return
+        }
+        if id != gameState.gameId {
+            log.error("Notfication for the wrong game recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
         self.apiLogic?.wildCardUsed()
     }
     
     func gameOver(data: [AnyHashable : Any]) {
+        guard let id = data["gameId"] as? String else {
+            log.error("Game Id for the notfication not recieved")
+            return
+        }
+        if id != gameState.gameId {
+            log.error("Notfication for the wrong game recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
         self.apiLogic?.gameOver()
     }
 }

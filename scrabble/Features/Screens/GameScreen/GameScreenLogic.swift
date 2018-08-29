@@ -83,6 +83,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
         log.verbose("Going to end game screen")
         gameState.isPlaying = false
         DispatchQueue.main.async {
+            self.timerScreenLogic?.hide()
             self.view?.hide {
                 self.cameraLogic?.hide()
                 self.endGameScreenLogic?.showWithParameters(playerScore: gameState.player.score, enemyScore: gameState.enemy.score)
@@ -156,7 +157,14 @@ class GameScreenLogic: GameScreenLogicProtocol {
     }
     
     func getWildCardPosition(for word: String) -> Int {
-        return 1
+        if isWildCardModeOn {
+            return -1
+        }
+        if word.count < 5 {
+            return -1
+        }
+        let wildCardPosition = 1 + Int(arc4random_uniform(UInt32(word.count - 2)))
+        return wildCardPosition
     }
     
     @objc
@@ -245,6 +253,12 @@ class GameScreenLogic: GameScreenLogicProtocol {
     
     func hideStatusBarBlurred() {
          self.view?.hideStatusBarBlurred()
+    }
+    
+    func applicationWillTerminate() {
+        if gameState.isPlaying {
+            self.didGameOverRequestHandler()
+        }
     }
 }
 
