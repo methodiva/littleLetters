@@ -2,7 +2,6 @@ import Foundation
 import SwiftyJSON
 
 protocol EventsLogicProtocol: FeatureLogicProtocol {
-    func handleEvent()
 }
 
 class EventsLogic: EventsLogicProtocol {
@@ -17,24 +16,84 @@ class EventsLogic: EventsLogicProtocol {
         self.apiLogic = apiLogic
     }
     
-    func handleEvent() {
-        // Temp variables ---
-        let json = JSON()
-        let eventType = ""
-        // -----------------
+    func receivePushNotification(data: [AnyHashable : Any]) {
+        log.debug(data)
+        guard let eventType = data["eventType"] as? String else {
+            log.error("Event type for the notfication not recieved")
+            return
+        }
         switch eventType {
-        case "start":
-            apiLogic?.gameStarted(json: json)
+        case "gamestarted":
+            gameStarted(data: data)
         case "playchance":
-            apiLogic?.chancePlayed(json: json)
+            chancePlayed(data: data)
         case "playword":
-            apiLogic?.wordPlayed(json: json)
-        case "usewildcard":
-            apiLogic?.wildCardUsed(json: json)
-        case "over":
-            apiLogic?.gameOver(json: json)
+            wordPlayed(data: data)
+        case "playwildcard":
+            wildCardUsed(data: data)
+        case "gameover":
+            gameOver(data: data)
         default:
             log.error("Unknown event found")
         }
+    }
+    
+    func gameStarted(data: [AnyHashable : Any]) {
+        gameState.updateStateFrom(data: data)
+        self.apiLogic?.gameStarted()
+    }
+    
+    func chancePlayed(data: [AnyHashable : Any]) {
+        guard let id = data["gameId"] as? String else {
+            log.error("Game Id for the notfication not recieved")
+            return
+        }
+        if id != gameState.gameId {
+            log.error("Notfication for the wrong game recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
+        self.apiLogic?.chancePlayed()
+    }
+    
+    func wordPlayed(data: [AnyHashable : Any]) {
+        guard let id = data["gameId"] as? String else {
+            log.error("Game Id for the notfication not recieved")
+            return
+        }
+        if id != gameState.gameId {
+            log.error("Notfication for the wrong game recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
+        if let wildCardPosition = data["wildcardPosition"] as? Int, let word = data["previousWord"] as? String{
+            self.apiLogic?.wordPlayed(word: word, wildCardPosition: wildCardPosition)
+        }
+    }
+    
+    func wildCardUsed(data: [AnyHashable : Any]) {
+        guard let id = data["gameId"] as? String else {
+            log.error("Game Id for the notfication not recieved")
+            return
+        }
+        if id != gameState.gameId {
+            log.error("Notfication for the wrong game recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
+        self.apiLogic?.wildCardUsed()
+    }
+    
+    func gameOver(data: [AnyHashable : Any]) {
+        guard let id = data["gameId"] as? String else {
+            log.error("Game Id for the notfication not recieved")
+            return
+        }
+        if id != gameState.gameId {
+            log.error("Notfication for the wrong game recieved")
+            return
+        }
+        gameState.updateStateFrom(data: data)
+        self.apiLogic?.gameOver()
     }
 }

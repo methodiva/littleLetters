@@ -65,6 +65,7 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
     
     func show() {
         log.verbose("Started timer screen")
+        self.gameScreenLogic?.hideStatusBarBlurred()
         self.view?.show{
             self.gameScreenLogic?.hide()
         }

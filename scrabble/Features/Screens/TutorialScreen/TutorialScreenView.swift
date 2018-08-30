@@ -130,7 +130,7 @@ class ImageCell: UITableViewCell {
     func setupView() {
         self.addSubview(uiImage)
     }
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * 0.8 , height: 40).insetBy(dx: 20, dy: 10)
         setupView()

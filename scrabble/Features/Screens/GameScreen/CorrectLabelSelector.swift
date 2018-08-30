@@ -2,11 +2,21 @@ class CorrectLabelSelector {
     
     let threshold: Float = 0.6
     
-    let wordsToIgnore = [ "product", "blue" ]
+    let wordsToIgnore = [ "PRODUCT", "BLUE" ]
     
     func getCorrectLabel(from labelList: [ImageLabel], startFrom firstLetter: Character) -> String? {
         
-        let labelFilteredList = filter(labelList: labelList)
+        var upperCasedLabelList = [ImageLabel]()
+        
+        labelList.forEach { (label) in
+            let label = ImageLabel(
+                Score: label.Score,
+                Topicality: label.Topicality,
+                description: label.description.uppercased())
+            upperCasedLabelList.append(label)
+        }
+        
+        let labelFilteredList = filter(labelList: upperCasedLabelList)
         
         let labelsStartingFromCorrectLetter = labelFilteredList
             .filter { $0.description.first == firstLetter}
@@ -58,7 +68,7 @@ let labelSelector = CorrectLabelSelector()
 
 extension Array {
     func logArray(_ name: String) -> Array {
-        log.debug([name, self])
+       // log.debug([name, self])
         return self
     }
 }

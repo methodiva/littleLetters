@@ -47,7 +47,6 @@ class ObjectRecognizerLogic: ObjectRecognizerLogicProtocol {
             let responses: JSON = json["responses"][0]
             let labelAnnotations: JSON = responses["labelAnnotations"]
             let numLabels: Int = labelAnnotations.count
-            log.debug(labelAnnotations)
             guard numLabels > 0 else {
                 log.warning("No Label found")
                 return nil

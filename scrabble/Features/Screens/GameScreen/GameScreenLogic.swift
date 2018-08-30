@@ -6,12 +6,13 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
     func onTapTimerButton(_ target: Any?, _ handler: Selector)
     func updateTimer(to seconds: Int)
     func setUserInteractionEnabled(to isUserInteractionEnabled: Bool)
-    func reduceOneTry()
+    func reduceOneTry(to leftTries: Int)
     func resetTries()
     func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int, onCompelteCallback: (() -> Void)?)
     func showLoadingWordAnimation()
     func hideLoadingWordAnimation()
     func setScanLabelTo(isHidden: Bool)
+    func hideStatusBarBlurred()
     func updateTabs(isPlayerTurn: Bool, playerScore: Int, playerWildCards: Int, enemyScore: Int, enemyWildCards: Int)
     func setNames(playerName: String, enemyName: String)
     func resetGameUI()
@@ -20,8 +21,10 @@ protocol GameScreenViewProtocol: FeatureViewProtocol {
 
 protocol GameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
+    func startTurn()
     func hide() 
     func endGame()
+    func hideStatusBarBlurred()
     func didGameOverRequestHandler()
     func playChanceEventHandler()
     func useWildCardEventHandler()
@@ -78,12 +81,15 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func endGame() {
         log.verbose("Going to end game screen")
+        gameState.isPlaying = false
         DispatchQueue.main.async {
+            self.timerScreenLogic?.hide()
             self.view?.hide {
                 self.cameraLogic?.hide()
                 self.endGameScreenLogic?.showWithParameters(playerScore: gameState.player.score, enemyScore: gameState.enemy.score)
                 self.resetVariables()
-                self.view?.resetGameUI() 
+                self.view?.resetGameUI()
+                self.view?.onTapTimerButton(self, #selector(self.onTimerTap))
             }
         }
     }
@@ -101,6 +107,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     func playTurn() {
         isProcessingTap = true
         self.view?.showLoadingWordAnimation()
+        self.stopTimer()
         cameraLogic?.captureImage({ (image) in
             self.objectRecognizerLogic?.getLabel(for: image, labelCallBack: { (imageLabels) in
                 if let label = labelSelector.getCorrectLabel(from: imageLabels, startFrom: gameState.currentLetter){
@@ -108,7 +115,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
                 } else {
                     log.warning("Word for image not found")
                     if gameState.currentLetter != "*" {
-                        self.playChanceRequestHandler()
+                       self.playChanceRequestHandler()
                     }
                 }
             })
@@ -128,7 +135,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     }
     
     func canPlay() -> Bool{
-        return !self.isProcessingTap && gameState.isTurn &&  gameState.player.chances > 0
+        return !self.isProcessingTap && gameState.isTurn &&  ( gameState.player.chances > 0 || gameState.currentLetter == "*" )
     }
     
     func calculateScore(from word: String) -> Int{
@@ -150,7 +157,14 @@ class GameScreenLogic: GameScreenLogicProtocol {
     }
     
     func getWildCardPosition(for word: String) -> Int {
-        return 1
+        if isWildCardModeOn {
+            return -1
+        }
+        if word.count < 5 {
+            return -1
+        }
+        let wildCardPosition = 1 + Int(arc4random_uniform(UInt32(word.count - 2)))
+        return wildCardPosition
     }
     
     @objc
@@ -165,16 +179,18 @@ class GameScreenLogic: GameScreenLogicProtocol {
     
     @objc
     func startTimer() {
+        secondsLeftOnTimer = timerLengthInSeconds
+        resumeTimer()
+    }
+    
+    func resumeTimer() {
         if timer.isValid { return }
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
-        secondsLeftOnTimer = timerLengthInSeconds
         updateTimer()
     }
     
     func stopTimer() {
         timer.invalidate()
-        secondsLeftOnTimer = -1
-        
         self.view?.updateTimer(to: secondsLeftOnTimer)
         self.timerScreenLogic?.setTimer(to: secondsLeftOnTimer)
     }
@@ -182,8 +198,10 @@ class GameScreenLogic: GameScreenLogicProtocol {
     @objc
     func updateTimer() {
         secondsLeftOnTimer -= 1
-        self.view?.updateTimer(to: secondsLeftOnTimer)
-        self.timerScreenLogic?.setTimer(to: secondsLeftOnTimer)
+        DispatchQueue.main.async {
+            self.view?.updateTimer(to: self.secondsLeftOnTimer)
+            self.timerScreenLogic?.setTimer(to: self.secondsLeftOnTimer)
+        }
         if secondsLeftOnTimer <= 0 {
             if gameState.isTurn {
                 if canUseWildCard() {
@@ -208,7 +226,6 @@ class GameScreenLogic: GameScreenLogicProtocol {
         self.view?.setNames(playerName: gameState.player.name, enemyName: gameState.enemy.name)
         self.view?.show{
             self.cameraLogic?.show()
-            self.startTimer()
             self.updateViewTabs()
         }
     }
@@ -222,8 +239,8 @@ class GameScreenLogic: GameScreenLogicProtocol {
     
     func startTurn() {
         self.updateViewTabs()
-        self.view?.resetTries()
         self.startTimer()
+        self.view?.resetTries()
     }
     
     func updateViewTabs() {
@@ -233,30 +250,45 @@ class GameScreenLogic: GameScreenLogicProtocol {
                               enemyScore: gameState.enemy.score,
                               enemyWildCards: gameState.enemy.wildCards)
     }
+    
+    func hideStatusBarBlurred() {
+         self.view?.hideStatusBarBlurred()
+    }
+    
+    func applicationWillTerminate() {
+        if gameState.isPlaying {
+            self.didGameOverRequestHandler()
+        }
+    }
 }
 
 extension GameScreenLogic {
     func playChanceEventHandler() {
+        log.verbose("Recieved play chance event")
+        self.isProcessingTap = false
         if gameState.isTurn && gameState.player.chances == 0 {
             if canUseWildCard() {
                 useWildCardRequestHandler()
             } else {
                 didGameOverRequestHandler()
             }
+        } else {
+            self.resumeTimer()
         }
         self.view?.hideLoadingWordAnimation()
-        self.view?.reduceOneTry()
+        let chancesLeft = gameState.isTurn ? gameState.player.chances : gameState.enemy.chances
+        self.view?.reduceOneTry(to: chancesLeft)
     }
     
     func playChanceRequestHandler() {
+        log.verbose("Sent request for play chance event")
         apiLogic?.didPlayChance(chances: gameState.player.chances - 1, onCompleteCallBack: { (data, response, error) in
             guard let data = data, error == nil else {
                 log.error("Couldnt send the request to play chance, \(String(describing: error))")
                 return
             }
             do {
-                let json = try JSON(data: data)
-                log.debug(json)
+                let _ = try JSON(data: data)
             } catch {
                 let error = String(data: data, encoding: .utf8)
                 log.error("Bad request to play chance, \(String(describing: error))")
@@ -265,14 +297,14 @@ extension GameScreenLogic {
     }
     
     func useWildCardRequestHandler() {
+        log.verbose("Sent request for play wild card event")
         apiLogic?.didUseWildCard(wildCards: gameState.player.wildCards - 1, onCompleteCallBack: { (data, response, error) in
             guard let data = data, error == nil else {
                 log.error("Couldnt send the request to use wild card, \(String(describing: error))")
                 return
             }
             do {
-                let json = try JSON(data: data)
-                log.debug(json)
+                let _ = try JSON(data: data)
             } catch {
                 let error = String(data: data, encoding: .utf8)
                 log.error("Bad request to use wild card, \(String(describing: error))")
@@ -281,9 +313,10 @@ extension GameScreenLogic {
     }
     
     func useWildCardEventHandler() {
+        log.verbose("Recieved play wild card event")
+        secondsLeftOnTimer = -1
         self.timerScreenLogic?.hide()
         self.stopTimer()
-        self.updateViewTabs()
         isWildCardModeOn = true
         self.view?.setScanLabelTo(isHidden: false)
         let currentWildCards = gameState.isTurn ? gameState.player.wildCards : gameState.enemy.wildCards
@@ -293,6 +326,7 @@ extension GameScreenLogic {
     }
     
     func didGameOverRequestHandler() {
+        log.verbose("Sent request for game over event")
         self.endGame()
         apiLogic?.didGameOver(onCompleteCallBack: { (data, response, error) in
             guard let data = data, error == nil else {
@@ -300,8 +334,7 @@ extension GameScreenLogic {
                 return
             }
             do {
-                let json = try JSON(data: data)
-                log.debug(json)
+                let _ = try JSON(data: data)
             } catch {
                 let error = String(data: data, encoding: .utf8)
                 log.error("Bad request to end game, \(String(describing: error))")
@@ -310,22 +343,30 @@ extension GameScreenLogic {
     }
     
     func didGameOverEventHandler() {
+        log.verbose("Recieved game over event")
         self.endGame()
     }
     
     func playWordEventHandler(word: String, wildCardPosition: Int) {
+        log.verbose("Recieved play word event")
         let cardPosition = wildCardPosition != -1 ? wildCardPosition : nil
-        let score = gameState.isTurn ? gameState.player.score : gameState.enemy.score
-        self.view?.hideLoadingWordAnimation()
-        self.view?.showSuccess(with: word, isTurn: gameState.isTurn, score: score, cardPosition: cardPosition, isWildCardModeOn: isWildCardModeOn, showSuccessCallback: {
-            self.view?.setScanLabelTo(isHidden: true)
-            self.isWildCardModeOn = false
-            self.isProcessingTap = false
-            self.startTurn()
-        })
+        let score = gameState.isTurn ? gameState.enemy.score : gameState.player.score
+        DispatchQueue.main.async {
+            self.view?.hideLoadingWordAnimation()
+            self.view?.showSuccess(with: word, isTurn: gameState.isTurn, score: score, cardPosition: cardPosition, isWildCardModeOn: self.isWildCardModeOn, showSuccessCallback: {
+                self.view?.setScanLabelTo(isHidden: true)
+                self.isWildCardModeOn = false
+                self.isProcessingTap = false
+                self.startTurn()
+            })
+        }
     }
     
     func playWordRequestHandler(with word: String) {
+        log.verbose("Sent request for play word event")
+        DispatchQueue.main.async {
+            self.stopTimer()
+        }
         let wildCardPosition = getWildCardPosition(for: word)
         let isWildCard = wildCardPosition != -1
         let wildCards = isWildCard ? gameState.player.wildCards + 1 : gameState.player.wildCards
@@ -339,8 +380,7 @@ extension GameScreenLogic {
                                     return
                                 }
                                 do {
-                                    let json = try JSON(data: data)
-                                    log.debug(json)
+                                    let _ = try JSON(data: data)
                                 } catch {
                                     let error = String(data: data, encoding: .utf8)
                                     log.error("Bad request to play word, \(String(describing: error))")

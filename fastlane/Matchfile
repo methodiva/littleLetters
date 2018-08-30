@@ -1,0 +1,8 @@
+git_url("https://byondrealdev@github.com/methodiva/ios-certificates.git")
+
+type("development") # The default type, can be: appstore, adhoc, enterprise or development
+
+app_identifier(["net.byondreal.ios.littleLetters"])
+username("jinni216@gmail.com") # Your Apple Developer Portal username
+
+# For all available options run `fastlane match --help`

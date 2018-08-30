@@ -31,30 +31,31 @@ class GameScreenView: UIView, GameScreenViewProtocol {
     
     weak var featureLogic: GameScreenLogicProtocol!
     
-    private let timerButton = UIButton()
-    private let scanAnythingLabel = UILabel()
-    private let crossHair = UIImageView()
-    private let triesArcs = [UIBezierPath()]
-    private let triesView = UIView()
+    private var timerButton = UIButton()
+    private var scanAnythingLabel = UILabel()
+    private var crossHair = UIImageView()
+    private var triesArcs = [UIBezierPath()]
+    private var triesView = UIView()
     private var currentLetterBackground = UIImageView()
+    private var currentLetterLabel = UILabel()
     private var currentTileColor = appColors.mediumPurple
-    private let loadingTile = UIImageView(image: tileBack)
+    private var loadingTile = UIImageView(image: tileBack)
 
-    private let playerTab = UIImageView()
-    private let playerScoreTab = UIImageView()
-    private let playerScoreLabel = UILabel()
-    private let playerNameLabel = UILabel()
-    private let playerCards = UIStackView()
+    private var playerTab = UIImageView()
+    private var playerScoreTab = UIImageView()
+    private var playerScoreLabel = UILabel()
+    private var playerNameLabel = UILabel()
+    private var playerCards = UIStackView()
 
-    private let enemyTab = UIImageView()
-    private let enemyScoreTab = UIImageView()
-    private let enemyScoreLabel = UILabel()
-    private let enemyNameLabel = UILabel()
-    private let enemyCards = UIStackView()
+    private var enemyTab = UIImageView()
+    private var enemyScoreTab = UIImageView()
+    private var enemyScoreLabel = UILabel()
+    private var enemyNameLabel = UILabel()
+    private var enemyCards = UIStackView()
     
-    private let currentLetterLabel = UILabel()
     
-    private var currentTries = 3
+    let blurEffect = UIBlurEffect(style: .dark)
+    lazy var blurView = UIVisualEffectView(effect: blurEffect)
     
     convenience init(_ featureLogic: FeatureLogicProtocol) {
         self.init(frame: UIScreen.main.bounds)
@@ -68,89 +69,20 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         initConstraints()
     }
     
-    func reduceOneTry() {
-        guard let layers = self.layer.sublayers else { return }
+    func reduceOneTry(to leftTries: Int) {
+        guard let layers = self.triesView.layer.sublayers else { return }
         for layer in layers {
-            if layer.name == String(currentTries) {
+            if layer.name == String(leftTries) {
                 animateArcForFailTry(for: layer)
-                currentTries -= 1
                 return
             }
         }
         log.error("Arc for animation not found")
     }
     
-    func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int, onCompelteCallback: (() -> Void)?) {
-        let cardsView = isPlayerTurn ? playerCards : enemyCards
-        for card in cardsView.arrangedSubviews {
-            if card.tag == currentWildCardCount {
-                animateWildCardOut(card: card)  {
-                    self.animateCurrentLetterOut {
-                        self.currentLetterLabel.text = ""
-                        self.currentLetterBackground.image = chooseCardFor(number: card.tag)
-                        self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width + 3 * gridWidth, y: self.currentLetterBackground.center.y)
-                        for subview in self.currentLetterBackground.subviews {
-                            subview.removeFromSuperview()
-                        }
-                        self.animateCurrentLetterIn {
-                            onCompelteCallback?()
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    func animateWildCardOut(card: UIView, onCompelteCallback: (() -> Void)?) {
-        UIView.animate(withDuration: 0.50,
-                       delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
-                       animations: {
-            card.transform = card.transform.translatedBy(x: 0, y: -card.frame.height + 5)
-        }) { (isCompelte) in
-            card.removeFromSuperview()
-            onCompelteCallback?()
-        }
-    }
-    
-    func setScanLabelTo(isHidden: Bool) {
-        scanAnythingLabel.isHidden = isHidden
-    }
-    
-    func animateCurrentLetterIn(onCompelteCallback: (() -> Void)?) {
-        UIView.animate(withDuration: animatingOutDuration,
-                       delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
-                       animations: {
-                        self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width/2, y: self.currentLetterBackground.center.y)
-        }, completion: { (isComplete) in
-            if !isComplete {
-                log.warning("Word animating in animation couldnt complete")
-            } else {
-                onCompelteCallback?()
-            }
-        })
-    }
-    
-    func animateCurrentLetterOut(onCompelteCallback: (() -> Void)?) {
-        UIView.animate(withDuration: animatingOutDuration,
-                       delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
-                       animations: {
-                self.currentLetterBackground.center = CGPoint(x:  -3 * gridWidth, y: self.currentLetterBackground.center.y)
-        }, completion: { (isComplete) in
-            if !isComplete {
-                log.warning("Word animating in animation couldnt complete")
-            } else {
-                onCompelteCallback?()
-            }
-        })
-    }
-    
     func resetTries() {
-        currentTries = 3
-        guard let layers = self.layer.sublayers else { return }
-        for i in 1...3 {
+        guard let layers = self.triesView.layer.sublayers else { return }
+        for i in 0...2 {
             for layer in layers {
                 if layer.name == String(i) {
                     resetArc(for: layer)
@@ -160,6 +92,75 @@ class GameScreenView: UIView, GameScreenViewProtocol {
         log.verbose("Arcs for tries reseted ")
     }
     
+    func resetGameUI() {
+        for view in self.subviews {
+            view.removeFromSuperview()
+        }
+        timerButton = UIButton()
+        scanAnythingLabel = UILabel()
+        crossHair = UIImageView()
+        triesArcs = [UIBezierPath()]
+        triesView = UIView()
+        currentLetterBackground = UIImageView()
+        currentLetterLabel = UILabel()
+        currentTileColor = appColors.mediumPurple
+        loadingTile = UIImageView(image: tileBack)
+        
+        playerTab = UIImageView()
+        playerScoreTab = UIImageView()
+        playerScoreLabel = UILabel()
+        playerNameLabel = UILabel()
+        playerCards = UIStackView()
+        
+        enemyTab = UIImageView()
+        enemyScoreTab = UIImageView()
+        enemyScoreLabel = UILabel()
+        enemyNameLabel = UILabel()
+        enemyCards = UIStackView()
+        
+        initUI()
+        initConstraints()
+    }
+    
+    func updateTimer(to seconds: Int) {
+        let time = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
+        let spacing = seconds == -1 ? CGFloat(3) : CGFloat(8)
+        var attributes = [NSAttributedStringKey: AnyObject]()
+        attributes[.foregroundColor] = getTimerColor(from: seconds)
+        let timerAttributedString = NSMutableAttributedString(string: time, attributes: attributes)
+        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
+                                               value: spacing,
+                                               range: NSRange(location: 0, length: time.count-1))
+        timerButton.setAttributedTitle(timerAttributedString, for: .normal)
+    }
+    
+    func onTapScreen(_ target: Any?, _ handler: Selector) {
+        let gestureRecognizer = UITapGestureRecognizer(target: target, action: handler)
+        self.addGestureRecognizer(gestureRecognizer)
+    }
+    func onTapTimerButton(_ target: Any?, _ handler: Selector) {
+        timerButton.addTarget(target, action: handler, for: .touchUpInside)
+    }
+    
+    func hide(_ onHidden: (() -> Void)?) {
+        self.isUserInteractionEnabled = false
+        self.alpha = 0
+        onHidden?()
+    }
+    
+    func show(_ onShowing: (() -> Void)?) {
+        self.isUserInteractionEnabled = true
+        self.alpha = 1
+        currentLetterLabel.text = String(gameState.currentLetter)
+        setViewConstraintsUnderStatusBar(for: self)
+        setStatusBarBlurred()
+        onShowing?()
+    }
+
+}
+
+// Player tabs functions
+extension GameScreenView {
     func updateTabs(isPlayerTurn: Bool, playerScore: Int, playerWildCards: Int, enemyScore: Int, enemyWildCards: Int) {
         togglePlayerView(isActive: isPlayerTurn)
         toggleEnemyView(isActive: !isPlayerTurn)
@@ -171,10 +172,6 @@ class GameScreenView: UIView, GameScreenViewProtocol {
             enemyScoreLabel.text = String(enemyScore)
             getCardsView(total: enemyWildCards, in: enemyCards, isReverse: true)
         }
-    }
-    
-    func setUserInteractionEnabled(to isUserInteractionEnabled: Bool) {
-        self.isUserInteractionEnabled = isUserInteractionEnabled
     }
     
     private func togglePlayerView(isActive: Bool) {
@@ -204,28 +201,61 @@ class GameScreenView: UIView, GameScreenViewProtocol {
             enemyNameLabel.textColor = appColors.red
         }
     }
+}
+
+// Utility functions
+extension GameScreenView {
+    func setUserInteractionEnabled(to isUserInteractionEnabled: Bool) {
+        self.isUserInteractionEnabled = isUserInteractionEnabled
+    }
     
-    func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, isWildCardModeOn: Bool, showSuccessCallback: (() -> Void)?) {
-        let wordToShow = isWildCardModeOn ? word : String(word.dropFirst())
-        let tilesToShow = getTiles(for: wordToShow)
-        if isTurn {
-            playerScoreLabel.text = String(score)
-        } else {
-            enemyScoreLabel.text = String(score)
+    func setNames(playerName: String, enemyName: String) {
+        self.playerNameLabel.text = playerName
+        self.enemyNameLabel.text = enemyName
+    }
+    
+    func setScanLabelTo(isHidden: Bool) {
+        scanAnythingLabel.isHidden = isHidden
+    }
+    
+    func setStatusBarBlurred() {
+        let statWindow = UIApplication.shared.value(forKey:"statusBarWindow") as! UIView
+        let statusBar = statWindow.subviews[0] as UIView
+        statusBar.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+        statusBar.addSubview(blurView)
+    }
+    
+    func hideStatusBarBlurred() {
+        let statWindow = UIApplication.shared.value(forKey:"statusBarWindow") as! UIView
+        let statusBar = statWindow.subviews[0] as UIView
+        statusBar.backgroundColor = .clear
+        blurView.removeFromSuperview()
+    }
+}
+
+// Wild card
+extension GameScreenView {
+    func reduceOneWildCard(isPlayerTurn: Bool, from currentWildCardCount: Int, onCompelteCallback: (() -> Void)?) {
+        let cardsView = isPlayerTurn ? playerCards : enemyCards
+        for card in cardsView.arrangedSubviews {
+            if card.tag == currentWildCardCount + 1{
+                animateWildCardOut(card: card)  {
+                    self.animateCurrentLetterOut {
+                        self.currentLetterLabel.text = ""
+                        self.currentLetterBackground.image = chooseCardFor(number: card.tag)
+                        self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width + 3 * gridWidth, y: self.currentLetterBackground.center.y)
+                        for subview in self.currentLetterBackground.subviews {
+                            subview.removeFromSuperview()
+                        }
+                        self.animateCurrentLetterIn {
+                            onCompelteCallback?()
+                        }
+                    }
+                }
+                return
+            }
         }
-        guard let lastTile = tilesToShow.last else {
-            log.error("No last letter found")
-            return
-        }
-        positionOnScene(for: tilesToShow)
-        if let wildCardPosition = cardPosition {
-            showWildCard(on: tilesToShow[wildCardPosition], color: appColors.yellow)
-        }
-        animateWordIn(from: tilesToShow, isWildCardMode: isWildCardModeOn) {}
-        self.animateWordOut(from: tilesToShow, wordAnimatedOutCallBack: {
-            self.currentLetterBackground = lastTile
-            showSuccessCallback?()
-        })
+        log.error("Wild card for animation not found")
     }
     
     func showWildCard(on imageView: UIImageView, color: UIColor) {
@@ -242,66 +272,81 @@ class GameScreenView: UIView, GameScreenViewProtocol {
             log.warning("Wild card image for color not found")
         }
         imageView.addSubview(cardImage)
-        self.bringSubviewToFront(imageView)
+        self.bringSubview(toFront: imageView)
         cardImage.snp.makeConstraints { make in
             make.center.equalToSuperview().offset(20)
         }
     }
     
-    func resetGameUI() {
-        for view in self.subviews {
-            view.removeFromSuperview()
+    func animateWildCardOut(card: UIView, onCompelteCallback: (() -> Void)?) {
+        UIView.animate(withDuration: 0.50,
+                       delay: 0,
+                       options: UIViewAnimationOptions.curveEaseInOut,
+                       animations: {
+                        card.transform = card.transform.translatedBy(x: 0, y: -card.frame.height + 5)
+        }) { (isCompelte) in
+            card.removeFromSuperview()
+            onCompelteCallback?()
         }
-        initUI()
-        initConstraints()
-        currentTries = 3
     }
     
-    func updateTimer(to seconds: Int) {
-        let time = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
-        let spacing = seconds == -1 ? CGFloat(3) : CGFloat(8)
-        var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = getTimerColor(from: seconds)
-        let timerAttributedString = NSMutableAttributedString(string: time, attributes: attributes)
-        timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                               value: spacing,
-                                               range: NSRange(location: 0, length: time.count-1))
-        timerButton.setAttributedTitle(timerAttributedString, for: .normal)
+    func animateCurrentLetterIn(onCompelteCallback: (() -> Void)?) {
+        UIView.animate(withDuration: animatingOutDuration,
+                       delay: 0,
+                       options: UIViewAnimationOptions.curveEaseInOut,
+                       animations: {
+                        self.currentLetterBackground.center = CGPoint(x: UIScreen.main.bounds.width/2, y: self.currentLetterBackground.center.y)
+        }, completion: { (isComplete) in
+            if !isComplete {
+                log.warning("Word animating in animation couldnt complete")
+            } else {
+                onCompelteCallback?()
+            }
+        })
     }
     
-    func onTapScreen(_ target: Any?, _ handler: Selector) {
-        let gestureRecognizer = UITapGestureRecognizer(target: target, action: handler)
-        self.addGestureRecognizer(gestureRecognizer)
-    }
-    func onTapTimerButton(_ target: Any?, _ handler: Selector) {
-        timerButton.addTarget(target, action: handler, for: .touchUpInside)
-    }
-    
-    func hide(_ onHidden: (() -> Void)?) {
-        self.isUserInteractionEnabled = false
-        self.alpha = 0
-        mainView?.backgroundColor = .clear
-        onHidden?()
-    }
-    
-    func show(_ onShowing: (() -> Void)?) {
-        self.isUserInteractionEnabled = true
-        self.alpha = 1
-        currentLetterLabel.text = String(gameState.currentLetter)
-        setViewConstraintsUnderStatusBar(for: self)
-        mainView?.backgroundColor = appColors.white
-        onShowing?()
-    }
-    
-    func setNames(playerName: String, enemyName: String) {
-        self.playerNameLabel.text = playerName
-        self.enemyNameLabel.text = enemyName
+    func animateCurrentLetterOut(onCompelteCallback: (() -> Void)?) {
+        UIView.animate(withDuration: animatingOutDuration,
+                       delay: 0,
+                       options: UIViewAnimationOptions.curveEaseInOut,
+                       animations: {
+                        self.currentLetterBackground.center = CGPoint(x:  -3 * gridWidth, y: self.currentLetterBackground.center.y)
+        }, completion: { (isComplete) in
+            if !isComplete {
+                log.warning("Word animating in animation couldnt complete")
+            } else {
+                onCompelteCallback?()
+            }
+        })
     }
 }
 
 
-// Word Animations
+// Word Success
 extension GameScreenView {
+    func showSuccess(with word: String, isTurn: Bool, score: Int, cardPosition: Int?, isWildCardModeOn: Bool, showSuccessCallback: (() -> Void)?) {
+        let wordToShow = isWildCardModeOn ? word : String(word.dropFirst())
+        let tilesToShow = getTiles(for: wordToShow)
+        if isTurn {
+            enemyScoreLabel.text = String(score)
+        } else {
+            playerScoreLabel.text = String(score)
+        }
+        guard let lastTile = tilesToShow.last else {
+            log.error("No last letter found")
+            return
+        }
+        positionOnScene(for: tilesToShow)
+        if let wildCardPosition = cardPosition {
+            showWildCard(on: tilesToShow[wildCardPosition], color: appColors.yellow)
+        }
+        animateWordIn(from: tilesToShow, isWildCardMode: isWildCardModeOn) {}
+        self.animateWordOut(from: tilesToShow, wordAnimatedOutCallBack: {
+            self.currentLetterBackground = lastTile
+            showSuccessCallback?()
+        })
+    }
+    
     func showLoadingWordAnimation() {
         loadingTile.isHidden = false
         let animate = CABasicAnimation(keyPath: "transform.rotation")
@@ -330,7 +375,7 @@ extension GameScreenView {
         for tile in animateWord.dropLast() {
             UIView.animate(withDuration: animatingOutDuration,
                            delay: animatingInDuration + wordWaitDuration,
-                           options: UIView.AnimationOptions.curveEaseInOut,
+                           options: UIViewAnimationOptions.curveEaseInOut,
                            animations: {
                             tile.center = CGPoint(x: tileXPosition, y: tile.center.y)
             }, completion: { (isComplete) in
@@ -344,7 +389,7 @@ extension GameScreenView {
         }
         UIView.animate(withDuration: animatingOutDuration,
                        delay: animatingInDuration + wordWaitDuration,
-                       options: UIView.AnimationOptions.curveEaseInOut,
+                       options: UIViewAnimationOptions.curveEaseInOut,
                        animations: {
                         lastTile.center = CGPoint(x: UIScreen.main.bounds.width/2, y: lastTile.center.y)
         }, completion: { (isComplete) in
@@ -368,7 +413,7 @@ extension GameScreenView {
         
         UIView.animate(withDuration: animatingInDuration,
                        delay: 0,
-                       options: UIView.AnimationOptions.curveEaseInOut,
+                       options: UIViewAnimationOptions.curveEaseInOut,
                        animations: {
                         self.currentLetterBackground.center = CGPoint(x: currentLetterFinalXPosition, y: self.currentLetterBackground.center.y)
         })
@@ -378,7 +423,7 @@ extension GameScreenView {
             tileXPosition = tileXPosition + tileWidth + letterTileSpacing
             UIView.animate(withDuration: animatingInDuration,
                            delay: 0,
-                           options: UIView.AnimationOptions.curveEaseInOut,
+                           options: UIViewAnimationOptions.curveEaseInOut,
                            animations: {
                             tile.center = CGPoint(x: tileXPosition, y: tile.center.y)
             }, completion: { (isComplete) in
@@ -443,8 +488,9 @@ extension GameScreenView {
 // Initialising and adding constraints to all the subviews
 extension GameScreenView {
     private func initUI() {
-        initTriesUI()
+        
         initTabsUI()
+        initTriesUI()
         initCurrentLetterUI()
         initTimerUI()
         initLoadingWordAnimation()
@@ -570,7 +616,7 @@ extension GameScreenView {
         let gapAngle = gapBetweenArcRationToArcAngle * anglePerArc
         var startAngle = -CGFloat.pi/2 + gapAngle / 2
         
-        for i in 1...maxTries {
+        for i in 0...maxTries - 1 {
             let shape = CAShapeLayer()
             let path = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: gridHeight * 6, startAngle: startAngle, endAngle: startAngle + anglePerArc, clockwise: true)
             shape.lineWidth = 2

@@ -10,7 +10,7 @@ class ImageToStringCoverter {
             log.error("Image not in the correct format, need UIImage")
             return nil
         }
-        guard var imagedata = uiImage.pngData() else {
+        guard var imagedata = UIImagePNGRepresentation(uiImage) else {
             log.error("Coudldn't get pngData for uiImage")
             return nil
         }
@@ -29,7 +29,7 @@ class ImageToStringCoverter {
         UIGraphicsBeginImageContext(imageSize)
         image.draw(in: CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        let resizedImage = newImage!.pngData()
+        let resizedImage = UIImagePNGRepresentation(newImage!)
         UIGraphicsEndImageContext()
         return resizedImage!
     }

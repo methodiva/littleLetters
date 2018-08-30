@@ -81,7 +81,7 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .Api: Feature(
             logic: ApiLogic(),
-            dependencies: [.GameScreen, .Requests],
+            dependencies: [.GameScreen, .Requests, .StartGameScreen, .JoinGameScreen],
             view: nil,
             viewOrder: 0
         ),
@@ -209,6 +209,18 @@ class RootViewController: UIViewController, RootProtocol {
         log.verbose("Application entering foreground")
         for (_, feature) in features {
             feature.logic.applicationDidEnterForeground()
+        }
+    }
+    
+    func receivePushNotification(data: [AnyHashable : Any]) {
+        for (_, feature) in features {
+            feature.logic.receivePushNotification(data: data)
+        }
+    }
+    
+    func applicationWillTerminate() {
+        for (_, feature) in features {
+            feature.logic.applicationWillTerminate()
         }
     }
     

@@ -22,8 +22,8 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     let screenTitleLabel = UILabel()
     let backButton = BackButton()
     let shareKeyButton = UIButton()
-    let startGameActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
-    let waitingForPlayerActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
+    let startGameActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    let waitingForPlayerActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
     let waitingForPlayer = UILabel()
 
     
@@ -100,11 +100,11 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
     }
     
     private func setKey(to key: String) {
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.darkPurple
         
         let shareCodeLabelString = NSMutableAttributedString(string: key, attributes: attributes)
-        shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        shareCodeLabelString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                           value: CGFloat(5.0),
                                           range: NSRange(location: 0, length: key.count-1))
         shareKeyLabel.attributedText = shareCodeLabelString
@@ -121,7 +121,7 @@ class StartGameScreenView: UIView, StartGameScreenViewProtocol {
         activityViewController.popoverPresentationController?.sourceView = viewController.view // so that iPads won't crash
         activityViewController.excludedActivityTypes = [.addToReadingList, .airDrop, .assignToContact, .openInIBooks, .postToFlickr, .postToTencentWeibo, .postToVimeo, .postToWeibo, .print, .markupAsPDF]
         
-        activityViewController.completionWithItemsHandler = {(activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+        activityViewController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
             if !completed {
                 log.warning("User canceled the share")
             }
@@ -177,12 +177,12 @@ extension StartGameScreenView {
     }
     
     private func initShareKeyButtonUI() {
-        var attributes = [NSAttributedString.Key: AnyObject]()
+        var attributes = [NSAttributedStringKey: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         shareKeyButton.setBackgroundImage(UIImage(named: "purpleSmallButton"), for: .normal)
         let shareKeyTitle = "Share"
         let shareKeyAttributedString = NSMutableAttributedString(string: shareKeyTitle, attributes: attributes)
-        shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
+        shareKeyAttributedString.addAttribute(kCTKernAttributeName as NSAttributedStringKey,
                                               value: CGFloat(5.0),
                                               range: NSRange(location: 0, length: shareKeyTitle.count-1))
         shareKeyButton.setAttributedTitle(shareKeyAttributedString, for: .normal)
@@ -232,8 +232,6 @@ extension StartGameScreenView {
         buttonStack.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
-        log.warning(textFieldBackground.frame)
     }
 }
 
