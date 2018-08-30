@@ -40,6 +40,17 @@ class CameraView: UIView, CameraViewProtocol {
             log.verbose("Added camera view of type: ", gameCameraType.rawValue)
             self.addSubview(view)
         }
+        self.hide{}
+    }
+    
+    func hide(_ onHidden: (() -> Void)?) {
+        self.alpha = 0
+        onHidden?()
+    }
+    
+    func show(_ onShowing: (() -> Void)?) {
+        self.alpha = 1
+        onShowing?()
     }
    
     func startCameraSession() {

@@ -37,21 +37,32 @@ class RootViewController: UIViewController, RootProtocol {
         ),
         .SettingsScreen: Feature(
             logic: SettingsScreenLogic(),
-            dependencies: [.HomeScreen],
+            dependencies: [.HomeScreen, .ChangeNameScreen],
+            view: nil,
+            viewOrder: 6
+        ),
+        .ChangeNameScreen: Feature(
+            logic: ChangeNameScreenLogic(),
+            dependencies: [.SettingsScreen],
             view: nil,
             viewOrder: 6
         ),
         .GameScreen: Feature(
             logic: GameScreenLogic(),
-            dependencies: [.HomeScreen, .EndGameScreen, .Camera, .ObjectRecognizer],
+            dependencies: [.HomeScreen, .EndGameScreen, .TimerScreen, .Camera, .ObjectRecognizer],
             view: nil,
             viewOrder: 7
         ),
+        .TimerScreen: Feature(
+            logic: TimerScreenLogic(),
+            dependencies: [.HomeScreen, .GameScreen],
+            view: nil,
+            viewOrder: 8),
         .EndGameScreen: Feature(
             logic: EndGameScreenLogic(),
             dependencies: [.HomeScreen],
             view: nil,
-            viewOrder: 8
+            viewOrder: 9
         ),
         .ObjectRecognizer: Feature(
             logic: ObjectRecognizerLogic(),
@@ -72,8 +83,10 @@ class RootViewController: UIViewController, RootProtocol {
         .JoinGameScreen: { featureLogic in JoinGameScreenView(featureLogic) },
         .TutorialScreen: { featureLogic in TutorialScreenView(featureLogic) },
         .SettingsScreen: { featureLogic in SettingsScreenView(featureLogic) },
+        .ChangeNameScreen: { featureLogic in ChangeNameScreenView(featureLogic) },
         .GameScreen: { featureLogic in GameScreenView(featureLogic) },
-        .EndGameScreen: { featureLogic in EndGameScreenView(featureLogic) }
+        .EndGameScreen: { featureLogic in EndGameScreenView(featureLogic) },
+        .TimerScreen: { featureLogic in TimerScreenView(featureLogic) }
     ]
 
     // MARK: - UIViewController
@@ -96,6 +109,7 @@ class RootViewController: UIViewController, RootProtocol {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        log.warning("MEMORY WARNING")
         self.dispose()
     }
 

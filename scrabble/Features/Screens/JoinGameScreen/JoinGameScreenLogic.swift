@@ -2,7 +2,7 @@ import Foundation
 
 protocol JoinGameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
-    func onTapPlayGameButton(_ target: Any?, _ handler: Selector)
+    func onTapJoinGameButton(_ target: Any?, _ handler: Selector)
 }
 
 protocol JoinGameScreenLogicProtocol: FeatureLogicProtocol {
@@ -35,7 +35,7 @@ class JoinGameScreenLogic: JoinGameScreenLogicProtocol {
         
         self.view = uiView
         self.view?.onTapBackButton(self, #selector(goBack))
-        self.view?.onTapPlayGameButton(self, #selector(startGame))
+        self.view?.onTapJoinGameButton(self, #selector(startGame))
     }
     
     @objc

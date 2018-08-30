@@ -1,11 +1,19 @@
 import Foundation
 
 protocol EndGameScreenViewProtocol: FeatureViewProtocol {
-    func onTapBackButton(_ target: Any?, _ handler: Selector)
+    func onTapEndGameButton(_ target: Any?, _ handler: Selector)
+    func setEndGameVariables(gameResult: GameResult, playerScore: Int, enemyScore: Int)
 }
 
 protocol EndGameScreenLogicProtocol: FeatureLogicProtocol {
     func show()
+    func showWithParameters(playerScore: Int, enemyScore: Int) 
+}
+
+enum GameResult {
+    case playerWon
+    case enemyWon
+    case draw
 }
 
 class EndGameScreenLogic: EndGameScreenLogicProtocol {
@@ -26,11 +34,9 @@ class EndGameScreenLogic: EndGameScreenLogicProtocol {
                 log.error("Dependency unfulfilled")
                 return
         }
-        
         self.homeScreenLogic = homeScreenLogic
-        
         self.view = uiView
-        self.view?.onTapBackButton(self, #selector(goBack))
+        self.view?.onTapEndGameButton(self, #selector(goBack))
     }
     
     @objc
@@ -44,5 +50,21 @@ class EndGameScreenLogic: EndGameScreenLogicProtocol {
     func show() {
         log.verbose("Started end game screen")
         self.view?.show{}
+    }
+    func showWithParameters(playerScore: Int, enemyScore: Int) {
+        log.verbose("Started end game screen")
+        let gameResult = getGameResult(playerScore: playerScore, enemyScore: enemyScore)
+        self.view?.setEndGameVariables(gameResult: gameResult, playerScore: playerScore, enemyScore: enemyScore)
+        self.view?.show{}
+    }
+    
+    private func getGameResult(playerScore: Int, enemyScore: Int) -> GameResult {
+        if playerScore == enemyScore {
+            return .draw
+        }
+        if playerScore > enemyScore {
+            return .playerWon
+        }
+        return .enemyWon
     }
 }
