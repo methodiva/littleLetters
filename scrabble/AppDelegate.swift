@@ -1,5 +1,6 @@
 import UIKit
-
+import UserNotifications
+import UserNotificationsUI
 import SwiftyBeaver
 let log = SwiftyBeaver.self
 
@@ -22,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.rootViewController = rootViewController
         window!.makeKeyAndVisible()
         // Override point for customization after application launch.
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options:[.badge, .alert ]) { (granted, error) in
+            // Enable or disable features based on authorization.
+        }
+        application.registerForRemoteNotifications()
+        
         return true
     }
 
@@ -53,7 +60,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        log.debug(deviceToken.hexString())
+        deviceId = deviceToken.hexString()
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        log.error("Coudln't register for notifications")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        log.debug(userInfo)
+    }
 }
 
 // swiftlint:enable line_length
+
+extension Data {
+    func hexString() -> String {
+        return self.reduce("") { string, byte in
+            string + String(format: "%02X", byte)
+        }
+    }
+}

@@ -23,16 +23,21 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     let backButton = BackButton()
     let joinGameButton = UIButton()
     let keyTextField = UITextField()
+    let loadingActivityIndicatior = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
+    let errorMessageLabel = UILabel()
     
     let enterCodeLabel = UILabel()
     let buttonStack = UIStackView()
     let textFieldBackground = UIImageView(image: UIImage(named: "joinGameTextFieldBackground"))
+    
+    let gameJoinKeyLength = 4
     
     // Loading font
     let titleFont = UIFont(name: "Montserrat-Bold", size: 22)
     let buttonsFont = UIFont(name: "Montserrat-Bold", size: 25)
     let enterCodeFont = UIFont(name: "Montserrat-Regular", size: 28)
     let keyFont = UIFont(name: "Montserrat-Bold", size: 32)
+    let errorMessageFont = UIFont(name: "Montserrat-Regular", size: 15)
     
     func initUI() {
         screenTitleLabel.text = "JOIN GAME"
@@ -42,6 +47,7 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         
         initTextField()
         initShareKeyButton()
+        initErrorMessageUI()
         
         buttonStack.addArrangedSubview(textFieldBackground)
         buttonStack.addArrangedSubview(joinGameButton)
@@ -49,9 +55,13 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
         buttonStack.spacing = gridHeight * 2.5
         buttonStack.alignment = .center
         
+        loadingActivityIndicatior.isHidden = true
+        
         self.addSubview(backgroundImage)
         self.addSubview(backButton)
         self.addSubview(screenTitleLabel)
+        self.addSubview(loadingActivityIndicatior)
+        self.addSubview(errorMessageLabel)
         
         self.addSubview(buttonStack)
         self.addSubview(enterCodeLabel)
@@ -71,11 +81,17 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
                                               range: NSRange(location: 0, length: shareKeyTitle.count-1))
         joinGameButton.setAttributedTitle(shareKeyAttributedString, for: .normal)
         joinGameButton.titleLabel?.font = buttonsFont
+        joinGameButton.isEnabled = false
     }
     
     func addTapGesture() {
         let keyboardResignGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDismiss))
         self.addGestureRecognizer(keyboardResignGesture)
+    }
+    
+    func initErrorMessageUI() {
+        errorMessageLabel.font = errorMessageFont
+        errorMessageLabel.textColor = appColors.white
     }
     
     @objc
@@ -112,18 +128,25 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
             make.leftMargin.equalTo(0.75 * gridWidth)
         }
         enterCodeLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(8.1 * gridHeight )
+            make.top.equalTo(textFieldBackground.snp.top).inset(15)
             make.centerX.equalToSuperview()
         }
         keyTextField.snp.makeConstraints { make in
-            make.topMargin.equalTo(10.5 * gridHeight)
+            make.bottom.equalTo(textFieldBackground.snp.bottom).inset(20)
             make.width.equalTo(gridWidth * 4)
             make.centerX.equalToSuperview()
         }
         buttonStack.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
+        loadingActivityIndicatior.snp.makeConstraints { (make) in
+            make.top.equalTo(buttonStack.snp.bottom).offset(gridHeight)
+            make.centerX.equalToSuperview()
+        }
+        errorMessageLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(screenTitleLabel.snp.bottom).offset(gridHeight * 4)
+        }
     }
     
     func onTapBackButton(_ target: Any?, _ handler: Selector) {
@@ -144,8 +167,41 @@ class JoinGameScreenView: UIView, JoinGameScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.keyTextField.text = ""
+        self.errorMessageLabel.text = ""
+        self.joinGameButton.isEnabled = false
         self.alpha = 1
         onShowing?()
+    }
+    
+    func showWaitingForGame() {
+        loadingActivityIndicatior.startAnimating()
+        joinGameButton.isEnabled = false
+    }
+    
+    func stopWaitingForGame() {
+        loadingActivityIndicatior.stopAnimating()
+        joinGameButton.isEnabled = true
+    }
+    
+    func showFail(with message: String) {
+        errorMessageLabel.text = message
+    }
+    
+    func isKeyValid(key: Int?) -> Bool {
+        guard let key = key else {
+            return false
+        }
+        if key > 999 && key < 10000 {
+            return true
+        }
+        return false
+    }
+    
+    func getGameKey() -> Int? {
+        if let text = self.keyTextField.text {
+            return Int(text)
+        }
+        return nil
     }
 }
 
@@ -159,7 +215,15 @@ extension JoinGameScreenView: UITextFieldDelegate {
         let currentString: NSString = textField.text! as NSString
         let newString: NSString =
             currentString.replacingCharacters(in: range, with: string) as NSString
+        if newString.length >= gameJoinKeyLength{
+            if newString.length == gameJoinKeyLength {
+                joinGameButton.isEnabled = Int(newString as String) != nil
+            } else {
+                joinGameButton.isEnabled = Int(textField.text!) != nil
+            }
+        } else {
+            joinGameButton.isEnabled = false
+        }
         return newString.length <= gameJoinKeyLength
     }
-    
 }

@@ -40,13 +40,15 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     private let playerCards = UIStackView()
     private let endGameButton = UIButton()
     
-    func setTimer(to string: String) {
+    func setTimer(to seconds: Int) {
+        let string = seconds == -1 ? "Wild card" : getTimeInString(from: seconds)
+        let spacing = seconds == -1 ? CGFloat(8) : CGFloat(20.0)
         var attributes = [NSAttributedString.Key: AnyObject]()
-        attributes[.foregroundColor] = appColors.white
+        attributes[.foregroundColor] = getTimerColor(from: seconds)
         
         let timerAttributedString = NSMutableAttributedString(string: string, attributes: attributes)
         timerAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                             value: CGFloat(20.0),
+                                             value: spacing,
                                              range: NSRange(location: 0, length: string.count-1))
         timerLabel.attributedText = timerAttributedString
     }
@@ -56,7 +58,7 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     }
     
     func setPlayerCards(to numberOfCards: Int) {
-        getCardsView(total: numberOfCards, in: playerCards)
+        getCardsView(total: numberOfCards, in: playerCards, isReverse: false)
     }
     
     func onTapBackButton(_ target: Any?, _ handler: Selector) {
@@ -80,6 +82,7 @@ class TimerScreenView: UIView, TimerScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
+        playerNameLabel.text = gameState.player.name
         UIView.animate(withDuration: 0.25, delay: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
             self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }) { (isComplete) in
@@ -138,7 +141,6 @@ extension TimerScreenView {
         // Initialising name tab
         playerNameLabel.font = playerNameFont
         playerNameLabel.textColor = appColors.white
-        playerNameLabel.text = playerName
         self.addSubview(playerTab)
     }
     

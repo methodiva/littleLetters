@@ -1,5 +1,7 @@
 import UIKit
 
+var mainView: UIView?
+
 class RootViewController: UIViewController, RootProtocol {
     // MARK: - Features
 
@@ -11,62 +13,87 @@ class RootViewController: UIViewController, RootProtocol {
             view: nil,
             viewOrder: 1
         ),
+        .UsernameScreen: Feature(
+            logic: UsernameScreenLogic(),
+            dependencies: [.HomeScreen],
+            view: nil,
+            viewOrder: 2
+        ),
         .HomeScreen: Feature(
             logic: HomeScreenLogic(),
             dependencies: [.StartGameScreen, .JoinGameScreen, .TutorialScreen, .SettingsScreen],
             view: nil,
-            viewOrder: 2
+            viewOrder: 3
         ),
         .StartGameScreen: Feature(
             logic: StartGameScreenLogic(),
-            dependencies: [.HomeScreen, .GameScreen],
+            dependencies: [.HomeScreen, .GameScreen, .Api],
             view: nil,
-            viewOrder: 3
+            viewOrder: 4
         ),
         .JoinGameScreen: Feature(
             logic: JoinGameScreenLogic(),
-            dependencies: [.HomeScreen, .GameScreen],
+            dependencies: [.HomeScreen, .GameScreen, .Api],
             view: nil,
-            viewOrder: 4
+            viewOrder: 5
         ),
         .TutorialScreen: Feature(
             logic: TutorialScreenLogic(),
             dependencies: [.HomeScreen],
             view: nil,
-            viewOrder: 5
+            viewOrder: 6
         ),
         .SettingsScreen: Feature(
             logic: SettingsScreenLogic(),
             dependencies: [.HomeScreen, .ChangeNameScreen],
             view: nil,
-            viewOrder: 6
+            viewOrder: 7
         ),
         .ChangeNameScreen: Feature(
             logic: ChangeNameScreenLogic(),
             dependencies: [.SettingsScreen],
             view: nil,
-            viewOrder: 6
+            viewOrder: 8
         ),
         .GameScreen: Feature(
             logic: GameScreenLogic(),
-            dependencies: [.HomeScreen, .EndGameScreen, .TimerScreen, .Camera, .ObjectRecognizer],
+            dependencies: [.HomeScreen, .EndGameScreen, .TimerScreen, .Camera, .ObjectRecognizer, .Api],
             view: nil,
-            viewOrder: 7
+            viewOrder: 9
         ),
         .TimerScreen: Feature(
             logic: TimerScreenLogic(),
             dependencies: [.HomeScreen, .GameScreen],
             view: nil,
-            viewOrder: 8),
+            viewOrder: 10
+        ),
         .EndGameScreen: Feature(
             logic: EndGameScreenLogic(),
             dependencies: [.HomeScreen],
             view: nil,
-            viewOrder: 9
+            viewOrder: 11
         ),
         .ObjectRecognizer: Feature(
             logic: ObjectRecognizerLogic(),
             dependencies: nil,
+            view: nil,
+            viewOrder: 0
+        ),
+        .Api: Feature(
+            logic: ApiLogic(),
+            dependencies: [.GameScreen, .Requests],
+            view: nil,
+            viewOrder: 0
+        ),
+        .Requests: Feature(
+            logic: RequestsLogic(),
+            dependencies: nil,
+            view: nil,
+            viewOrder: 0
+        ),
+        .Events: Feature(
+            logic: EventsLogic(),
+            dependencies: [.Api],
             view: nil,
             viewOrder: 0
         )
@@ -78,6 +105,7 @@ class RootViewController: UIViewController, RootProtocol {
 
     private let views: [FeatureName: (FeatureLogicProtocol) -> FeatureViewProtocol] = [
         .Camera: { featureLogic in CameraView(featureLogic) },
+        .UsernameScreen: { featureLogic in UsernameScreenView(featureLogic) },
         .HomeScreen: { featureLogic in HomeScreenView(featureLogic) },
         .StartGameScreen: { featureLogic in StartGameScreenView(featureLogic) },
         .JoinGameScreen: { featureLogic in JoinGameScreenView(featureLogic) },
@@ -92,6 +120,7 @@ class RootViewController: UIViewController, RootProtocol {
     // MARK: - UIViewController
 
     override func viewDidLoad() {
+        mainView = self.view
         super.viewDidLoad()
         self.initialize()
     }
@@ -185,13 +214,34 @@ class RootViewController: UIViewController, RootProtocol {
     
     func dispose() {
         log.verbose("Disposing root view controller")
-        for featureName in features.keys {
-            let f = features[featureName]
-            log.verbose("Disposing feature \(featureName)")
-            f?.logic.dispose()
-            f?.view?.removeFromSuperview()
-            // cannot do: f?.view = nil (that does nothing to features)
-            features[featureName]?.view = nil
+//        for featureName in features.keys {
+//            let f = features[featureName]
+//            log.verbose("Disposing feature \(featureName)")
+//            f?.logic.dispose()
+//            f?.view?.removeFromSuperview()
+//            // cannot do: f?.view = nil (that does nothing to features)
+//            features[featureName]?.view = nil
+//        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+}
+
+
+func setViewConstraintsUnderStatusBar(for view: UIView) {
+    if let mainView = mainView {
+        view.snp.makeConstraints { (make) in
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(mainView.safeAreaLayoutGuide.snp.bottomMargin)
+                make.top.equalTo(mainView.safeAreaLayoutGuide.snp.topMargin)
+                make.leading.equalTo(mainView.safeAreaLayoutGuide.snp.leadingMargin)
+                make.trailing.equalTo(mainView.safeAreaLayoutGuide.snp.trailingMargin)
+                
+            } else {
+                make.edges.equalToSuperview()
+            }
         }
     }
 }

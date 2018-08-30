@@ -185,9 +185,9 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
         case .draw:
             return "It's a Draw!"
         case .playerWon:
-            return playerName + " Won!"
+            return gameState.player.name + " Won!"
         case .enemyWon:
-            return enemyName + " Won!"
+            return gameState.enemy.name + " Won!"
         }
     }
     
@@ -204,6 +204,8 @@ class EndGameScreenView: UIView, EndGameScreenViewProtocol {
         self.isUserInteractionEnabled = true
         self.alpha = 1
         animateStars()
+        playerNameLabel.text = gameState.player.name
+        enemyNameLabel.text = gameState.enemy.name
         onShowing?()
     }
 }
@@ -264,7 +266,6 @@ extension EndGameScreenView {
         // Initialising name tab
         playerNameLabel.font = playerNameFont
         playerNameLabel.textColor = appColors.white
-        playerNameLabel.text = playerName
         tabStack.addArrangedSubview(playerTab)
     }
     
@@ -283,7 +284,6 @@ extension EndGameScreenView {
         // Initialising name tab
         enemyNameLabel.font = playerNameFont
         enemyNameLabel.textColor = appColors.white
-        enemyNameLabel.text = enemyName
         tabStack.addArrangedSubview(enemyTab)
     }
     

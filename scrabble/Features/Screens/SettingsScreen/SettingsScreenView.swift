@@ -15,6 +15,8 @@ class SettingsScreenView: UIView, SettingsScreenViewProtocol {
         initConstraints()
     }
     
+    let appId = "1316361894"
+    
     // UI Elements
     let screenTitleLabel = UILabel()
     let backButton = BackButton()

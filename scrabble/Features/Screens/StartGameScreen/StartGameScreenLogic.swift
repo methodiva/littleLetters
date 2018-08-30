@@ -1,8 +1,11 @@
 import Foundation
+import SwiftyJSON
 
 protocol StartGameScreenViewProtocol: FeatureViewProtocol {
     func onTapBackButton(_ target: Any?, _ handler: Selector)
     func onTapShareKeyButton()
+    func showGameStartingLoading(_ onShowing: (() -> Void)?)
+    func showWith(key: Int, onShowing: (() -> Void)?)
 }
 
 protocol StartGameScreenLogicProtocol: FeatureLogicProtocol {
@@ -14,6 +17,9 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     
     private weak var homeScreenLogic: HomeScreenLogicProtocol?
     private weak var gameScreenLogic: GameScreenLogicProtocol?
+    private weak var apiLogic: ApiLogicProtocol?
+    
+    private var didCancelStartGameRequest = false
     
     // MARK: - FeatureProtocol conformance
     func initialize(root: RootProtocol,
@@ -25,13 +31,16 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
         }
         guard let deps = dependencies,
             let homeScreenLogic = deps[.HomeScreen] as? HomeScreenLogicProtocol,
-            let gameScreenLogic = deps[.GameScreen] as? GameScreenLogicProtocol else {
+            let gameScreenLogic = deps[.GameScreen] as? GameScreenLogicProtocol,
+            let apiLogic = deps[.Api] as? ApiLogicProtocol else {
                 log.error("Dependency unfulfilled")
                 return
         }
         
         self.homeScreenLogic = homeScreenLogic
         self.gameScreenLogic = gameScreenLogic
+        self.apiLogic = apiLogic
+        
         
         self.view = uiView
         self.view?.onTapBackButton(self, #selector(goBack))
@@ -41,6 +50,15 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     @objc
     func goBack() {
         log.verbose("Going back to home screen")
+        self.didCancelStartGameRequest = true
+        self.apiLogic?.didEndStartGame(onCompleteCallBack: { (data, response, error) in
+            guard let data = data, let response = response, error == nil else {
+                log.error("Couldnt send the request to end start game, \(String(describing: error))")
+                return
+            }
+            gameState = GameState()
+            // TODO: If the network isnt working
+        })
         self.view?.hide {
             self.homeScreenLogic?.show()
         }
@@ -48,6 +66,29 @@ class StartGameScreenLogic: StartGameScreenLogicProtocol {
     
     func show() {
         log.verbose("Started game menu")
+        self.didCancelStartGameRequest = false
+        self.view?.showGameStartingLoading({
+            self.apiLogic?.didStartGame(onCompleteCallBack: { (data, response, error) in
+                guard let data = data, error == nil else {
+                    log.error("Couldnt send the request to start game, \(String(describing: error))")
+                    return
+                }
+                do {
+                    let jsonResponse = try JSON(data: data)
+                    gameState.updateStateFrom(json: jsonResponse)
+                    DispatchQueue.main.async {
+                        if !self.didCancelStartGameRequest {
+                            self.view?.showWith(key: gameState.gameKey, onShowing: {
+                                //
+                            })
+                        }
+                    }
+                } catch {
+                    let error = String(data: data, encoding: .utf8)
+                    log.error(error ?? "Unknown error occurred")
+                }
+            })
+        })
         self.view?.show{}
     }
     

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5D189C4B21076A690005C938 /* CorrectLabelSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D189C4A21076A690005C938 /* CorrectLabelSelector.swift */; };
+		5D3107212126F18800ABD427 /* ApiLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3107202126F18800ABD427 /* ApiLogic.swift */; };
+		5D3107242126FCF900ABD427 /* EventsLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3107232126FCF900ABD427 /* EventsLogic.swift */; };
+		5D310727212705AF00ABD427 /* RequestsLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D310726212705AF00ABD427 /* RequestsLogic.swift */; };
 		5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */; };
 		5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */; };
 		5D36EC502100A98700DCFBE4 /* JoinGameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */; };
@@ -33,6 +36,8 @@
 		5D86359020FE4483005E7141 /* AVFoundationCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */; };
 		5DD6A3BB2119A95D00E4CB3C /* TimerScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD6A3BA2119A95D00E4CB3C /* TimerScreenLogic.swift */; };
 		5DD6A3BD2119A96A00E4CB3C /* TimerScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */; };
+		5DDFEBC4212FE8BD00CC99D7 /* UsernameScreenLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFEBC3212FE8BD00CC99D7 /* UsernameScreenLogic.swift */; };
+		5DDFEBC6212FE8CA00CC99D7 /* UsernameScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFEBC5212FE8CA00CC99D7 /* UsernameScreenView.swift */; };
 		5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */; };
 		5DF346DA20F0DB82006FFCF8 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D720F0DB82006FFCF8 /* Feature.swift */; };
 		5DF346DB20F0DB82006FFCF8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346D820F0DB82006FFCF8 /* Logger.swift */; };
@@ -40,6 +45,7 @@
 		5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346E920F0E148006FFCF8 /* CameraView.swift */; };
 		5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */; };
 		5DF346FD20F0E1EE006FFCF8 /* 3DTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */; };
+		5DF38864212B347E0075EC84 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF38863212B347E0075EC84 /* GameState.swift */; };
 		5DF68E62210B2E8300A99468 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E60210B2DE900A99468 /* Montserrat-Bold.otf */; };
 		5DF68E63210B2E8500A99468 /* coiny-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E61210B2DE900A99468 /* coiny-regular.ttf */; };
 		5DF68E64210B2E8800A99468 /* Baloo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF68E5E210B2DE900A99468 /* Baloo-Regular.ttf */; };
@@ -51,6 +57,9 @@
 /* Begin PBXFileReference section */
 		208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scrabble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-scrabble/Pods-scrabble.debug.xcconfig"; sourceTree = "<group>"; };
 		5D189C4A21076A690005C938 /* CorrectLabelSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectLabelSelector.swift; sourceTree = "<group>"; };
+		5D3107202126F18800ABD427 /* ApiLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLogic.swift; sourceTree = "<group>"; };
+		5D3107232126FCF900ABD427 /* EventsLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsLogic.swift; sourceTree = "<group>"; };
+		5D310726212705AF00ABD427 /* RequestsLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsLogic.swift; sourceTree = "<group>"; };
 		5D36EC4A2100A90900DCFBE4 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		5D36EC4C2100A92E00DCFBE4 /* HomeScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenLogic.swift; sourceTree = "<group>"; };
 		5D36EC4F2100A98700DCFBE4 /* JoinGameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGameScreenLogic.swift; sourceTree = "<group>"; };
@@ -78,6 +87,9 @@
 		5D86358F20FE4483005E7141 /* AVFoundationCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVFoundationCameraView.swift; sourceTree = "<group>"; };
 		5DD6A3BA2119A95D00E4CB3C /* TimerScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerScreenLogic.swift; sourceTree = "<group>"; };
 		5DD6A3BC2119A96A00E4CB3C /* TimerScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerScreenView.swift; sourceTree = "<group>"; };
+		5DDD0000212A84A000AAC60F /* scrabble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = scrabble.entitlements; sourceTree = "<group>"; };
+		5DDFEBC3212FE8BD00CC99D7 /* UsernameScreenLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameScreenLogic.swift; sourceTree = "<group>"; };
+		5DDFEBC5212FE8CA00CC99D7 /* UsernameScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameScreenView.swift; sourceTree = "<group>"; };
 		5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootProtocol.swift; sourceTree = "<group>"; };
 		5DF346D720F0DB82006FFCF8 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		5DF346D820F0DB82006FFCF8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -85,6 +97,7 @@
 		5DF346E920F0E148006FFCF8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		5DF346EA20F0E148006FFCF8 /* CameraLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraLogic.swift; sourceTree = "<group>"; };
 		5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 3DTypes.swift; sourceTree = "<group>"; };
+		5DF38863212B347E0075EC84 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		5DF68E5E210B2DE900A99468 /* Baloo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo-Regular.ttf"; sourceTree = "<group>"; };
 		5DF68E5F210B2DE900A99468 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		5DF68E60210B2DE900A99468 /* Montserrat-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.otf"; sourceTree = "<group>"; };
@@ -113,6 +126,40 @@
 				E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		5D31071E2126F11000ABD427 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				5D31071F2126F15500ABD427 /* Api */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		5D31071F2126F15500ABD427 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				5D3107202126F18800ABD427 /* ApiLogic.swift */,
+				5D3107222126FCD400ABD427 /* Events */,
+				5D3107252127059D00ABD427 /* Requests */,
+			);
+			path = Api;
+			sourceTree = "<group>";
+		};
+		5D3107222126FCD400ABD427 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				5D3107232126FCF900ABD427 /* EventsLogic.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		5D3107252127059D00ABD427 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				5D310726212705AF00ABD427 /* RequestsLogic.swift */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		5D36EC492100A88300DCFBE4 /* HomeScreen */ = {
@@ -184,6 +231,7 @@
 		5D36EC6C2100B00500DCFBE4 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				5DDFEBC2212FE86E00CC99D7 /* UsernameScreen */,
 				5D36EC492100A88300DCFBE4 /* HomeScreen */,
 				5D36EC512100A9BC00DCFBE4 /* StartGameScreen */,
 				5D36EC4E2100A96800DCFBE4 /* JoinGameScreen */,
@@ -225,11 +273,13 @@
 		5D73792D20F0B6CF00885CEB /* scrabble */ = {
 			isa = PBXGroup;
 			children = (
+				5DDD0000212A84A000AAC60F /* scrabble.entitlements */,
 				5DF68E5D210B2D8300A99468 /* Fonts */,
 				5DF85E442100C8B10079CD18 /* Components */,
 				5D73792E20F0B6CF00885CEB /* AppDelegate.swift */,
 				5DF346D520F0DB41006FFCF8 /* RootProtocol.swift */,
 				5DF346FC20F0E1ED006FFCF8 /* 3DTypes.swift */,
+				5DF38863212B347E0075EC84 /* GameState.swift */,
 				5DF346DD20F0E148006FFCF8 /* Features */,
 				5DF346D720F0DB82006FFCF8 /* Feature.swift */,
 				5DF346D820F0DB82006FFCF8 /* Logger.swift */,
@@ -259,9 +309,19 @@
 			path = TimerScreen;
 			sourceTree = "<group>";
 		};
+		5DDFEBC2212FE86E00CC99D7 /* UsernameScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5DDFEBC3212FE8BD00CC99D7 /* UsernameScreenLogic.swift */,
+				5DDFEBC5212FE8CA00CC99D7 /* UsernameScreenView.swift */,
+			);
+			path = UsernameScreen;
+			sourceTree = "<group>";
+		};
 		5DF346DD20F0E148006FFCF8 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				5D31071E2126F11000ABD427 /* Network */,
 				5D7766912105E2F100ACEE22 /* ObjectRecognizer */,
 				5D36EC6C2100B00500DCFBE4 /* Screens */,
 				5DF346E820F0E148006FFCF8 /* Camera */,
@@ -341,6 +401,11 @@
 				TargetAttributes = {
 					5D73792A20F0B6CF00885CEB = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -427,14 +492,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DF346F720F0E148006FFCF8 /* CameraView.swift in Sources */,
+				5DDFEBC4212FE8BD00CC99D7 /* UsernameScreenLogic.swift in Sources */,
 				5D36EC572100AA0C00DCFBE4 /* StartGameScreenView.swift in Sources */,
 				5DD6A3BB2119A95D00E4CB3C /* TimerScreenLogic.swift in Sources */,
 				5D36EC642100AAE000DCFBE4 /* GameScreenView.swift in Sources */,
 				5D36EC612100AABB00DCFBE4 /* TutorialScreenView.swift in Sources */,
+				5D310727212705AF00ABD427 /* RequestsLogic.swift in Sources */,
 				5DF85E462100C8C20079CD18 /* BackButton.swift in Sources */,
 				5DF346DB20F0DB82006FFCF8 /* Logger.swift in Sources */,
 				5D36EC5C2100AA8300DCFBE4 /* SettingsScreenView.swift in Sources */,
 				5DF346DA20F0DB82006FFCF8 /* Feature.swift in Sources */,
+				5D3107212126F18800ABD427 /* ApiLogic.swift in Sources */,
 				5D36EC4D2100A92E00DCFBE4 /* HomeScreenLogic.swift in Sources */,
 				5D7766932105E48800ACEE22 /* ObjectRecognizerLogic.swift in Sources */,
 				5D36EC662100AAEB00DCFBE4 /* GameScreenLogic.swift in Sources */,
@@ -446,11 +514,14 @@
 				5D7766972105E59F00ACEE22 /* ImageToStringConverter.swift in Sources */,
 				5DF346D620F0DB41006FFCF8 /* RootProtocol.swift in Sources */,
 				5D36EC6B2100AB3D00DCFBE4 /* EndGameScreenView.swift in Sources */,
+				5D3107242126FCF900ABD427 /* EventsLogic.swift in Sources */,
 				5D36EC4B2100A90900DCFBE4 /* HomeScreenView.swift in Sources */,
 				5D36EC692100AB2F00DCFBE4 /* EndGameScreenLogic.swift in Sources */,
+				5DF38864212B347E0075EC84 /* GameState.swift in Sources */,
 				5D36EC552100A9FF00DCFBE4 /* StartGameScreenLogic.swift in Sources */,
 				5D48F7DE210B1AD200737814 /* ChangeNameScreenView.swift in Sources */,
 				5D189C4B21076A690005C938 /* CorrectLabelSelector.swift in Sources */,
+				5DDFEBC6212FE8CA00CC99D7 /* UsernameScreenView.swift in Sources */,
 				5DF346F820F0E148006FFCF8 /* CameraLogic.swift in Sources */,
 				5D73792F20F0B6CF00885CEB /* AppDelegate.swift in Sources */,
 				5D36EC5A2100AA7400DCFBE4 /* SettingsScreenLogic.swift in Sources */,
@@ -594,6 +665,7 @@
 			baseConfigurationReference = 208D257CDAB2DA3AE4EC2902 /* Pods-scrabble.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = scrabble/scrabble.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZL7ZAP27F7;
 				INFOPLIST_FILE = scrabble/Info.plist;
@@ -614,6 +686,7 @@
 			baseConfigurationReference = E97BA1FEE91847FC3EE01A3A /* Pods-scrabble.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = scrabble/scrabble.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZL7ZAP27F7;
 				INFOPLIST_FILE = scrabble/Info.plist;

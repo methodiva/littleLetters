@@ -1,7 +1,7 @@
 import Foundation
 
 protocol TimerScreenViewProtocol: FeatureViewProtocol {
-    func setTimer(to time: String)
+    func setTimer(to time: Int)
     func setScore(to score: String)
     func setPlayerCards(to numberOfCards: Int)
     func onTapBackButton(_ target: Any?, _ handler: Selector)
@@ -9,10 +9,11 @@ protocol TimerScreenViewProtocol: FeatureViewProtocol {
 }
 
 protocol TimerScreenLogicProtocol: FeatureLogicProtocol {
-    func setTimer(to time: String)
+    func setTimer(to seconds: Int)
     func setScore(to score: String)
     func setPlayerCards(to numberOfCards: Int)
     func show()
+    func hide()
 }
 
 class TimerScreenLogic: TimerScreenLogicProtocol {
@@ -21,7 +22,7 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
     private weak var homeScreenLogic: HomeScreenLogicProtocol?
     private weak var gameScreenLogic: GameScreenLogicProtocol?
     
-    // MARK: - FeatureProtocol conformance
+    // MARK: - FeatureProtocol conforman ce
     func initialize(root: RootProtocol,
                     view: FeatureViewProtocol?,
                     dependencies: [FeatureName: FeatureLogicProtocol]?) {
@@ -49,25 +50,32 @@ class TimerScreenLogic: TimerScreenLogicProtocol {
     @objc
     func goBack() {
         log.verbose("Going back to game screen")
+        self.gameScreenLogic?.show()
         self.view?.hide {
-           self.gameScreenLogic?.show()
         }
     }
     
     @objc
     func endGame() {
         log.verbose("Going back to home screen")
-        self.gameScreenLogic?.endGame()
+        self.gameScreenLogic?.didGameOverRequestHandler()
         self.view?.hide {
         }
     }
     
     func show() {
         log.verbose("Started timer screen")
-        self.view?.show{}
+        self.view?.show{
+            self.gameScreenLogic?.hide()
+        }
     }
     
-    func setTimer(to time: String) {
+    func hide() {
+        log.verbose("Hiding timer screen")
+        self.view?.hide{}
+    }
+    
+    func setTimer(to time: Int) {
         self.view?.setTimer(to: time)
     }
     

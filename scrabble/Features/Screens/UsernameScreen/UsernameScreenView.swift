@@ -1,17 +1,20 @@
 import UIKit
 
-class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
+
+class UsernameScreenView: UIView, UsernameScreenViewProtocol {
     
-    weak var featureLogic: ChangeNameScreenLogicProtocol!
+    weak var featureLogic: UsernameScreenLogicProtocol!
     
     convenience init(_ featureLogic: FeatureLogicProtocol) {
         self.init(frame: UIScreen.main.bounds)
-        guard let logic = featureLogic as? ChangeNameScreenLogicProtocol else {
+        guard let logic = featureLogic as? UsernameScreenLogicProtocol else {
             log.error("Invalid featureLogic provided")
             return
         }
         self.featureLogic = logic
-        self.isUserInteractionEnabled = false
+        if UserDefaults.standard.string(forKey: "playerName") != nil {
+            self.hide{}
+        }
         initUI()
         initConstraints()
     }
@@ -19,8 +22,6 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
     // UI elements
     
     let backgroundImage = UIImageView(image: UIImage(named: "BackgroundImage"))
-    let screenTitleLabel = UILabel()
-    let backButton = BackButton()
     let changeNameButton = UIButton()
     let userNameTextField = UITextField()
     
@@ -35,10 +36,6 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
     let keyFont = UIFont(name: "Montserrat-Bold", size: 32)
     
     func initUI() {
-        screenTitleLabel.text = "CHANGE NAME"
-        screenTitleLabel.textAlignment = .center
-        screenTitleLabel.font = titleFont
-        screenTitleLabel.textColor = appColors.white
         
         initTextField()
         initChangeNameButton()
@@ -50,25 +47,23 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
         buttonStack.alignment = .center
         
         self.addSubview(backgroundImage)
-        self.addSubview(backButton)
-        self.addSubview(screenTitleLabel)
         
         self.addSubview(buttonStack)
         self.addSubview(userName)
         self.addSubview(userNameTextField)
         addTapGesture()
-        self.hide{}
+        changeNameButton.isEnabled = false
     }
     
     func initChangeNameButton() {
         var attributes = [NSAttributedString.Key: AnyObject]()
         attributes[.foregroundColor] = appColors.white
         changeNameButton.setBackgroundImage(UIImage(named: "pinkSmallButton"), for: .normal)
-        let doneTitle = "Done"
+        let doneTitle = "Let's Go"
         let doneAttributedString = NSMutableAttributedString(string: doneTitle, attributes: attributes)
         doneAttributedString.addAttribute(kCTKernAttributeName as NSAttributedString.Key,
-                                              value: CGFloat(5.0),
-                                              range: NSRange(location: 0, length: doneTitle.count-1))
+                                          value: CGFloat(5.0),
+                                          range: NSRange(location: 0, length: doneTitle.count-1))
         changeNameButton.setAttributedTitle(doneAttributedString, for: .normal)
         changeNameButton.titleLabel?.font = buttonsFont
     }
@@ -103,14 +98,6 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
             make.height.equalToSuperview()
             make.center.equalToSuperview()
         }
-        screenTitleLabel.snp.makeConstraints { make in
-            make.topMargin.equalTo(0.75 * gridHeight )
-            make.centerX.equalToSuperview()
-        }
-        backButton.snp.makeConstraints { make in
-            make.topMargin.equalTo(0.75 * gridHeight)
-            make.leftMargin.equalTo(0.75 * gridWidth)
-        }
         userName.snp.makeConstraints { make in
             make.top.equalTo(textFieldBackground.snp.top).inset(15)
             make.centerX.equalToSuperview()
@@ -126,8 +113,8 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
         
     }
     
-    func onTapBackButton(_ target: Any?, _ handler: Selector) {
-        self.backButton.addTarget(target, action: handler, for: .touchUpInside)
+    func getCurrentName() -> String? {
+        return userNameTextField.text
     }
     
     func onTapChangeNameButton(_ target: Any?, _ handler: Selector) {
@@ -143,18 +130,14 @@ class ChangeNameScreenView: UIView, ChangeNameScreenViewProtocol {
     func show(_ onShowing: (() -> Void)?) {
         self.isUserInteractionEnabled = true
         self.alpha = 1
-        self.userNameTextField.text = gameState.player.name
         onShowing?()
-    }
-    
-    func getCurrentName() -> String? {
-        return userNameTextField.text
     }
 }
 
-extension ChangeNameScreenView: UITextFieldDelegate {
+extension UsernameScreenView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        self.keyboardDismiss()
         return true
     }
     
