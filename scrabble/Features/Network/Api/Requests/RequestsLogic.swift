@@ -23,7 +23,6 @@ class RequestsLogic: RequestsLogicProtocol {
         let json: JSON = [
                 "deviceId": deviceID,
                 "playerName": playerName,
-                "token": "a827089yd2y093ys8",
                 "eventType": RequestType.startGame.rawValue,
         ]
         
@@ -39,7 +38,6 @@ class RequestsLogic: RequestsLogicProtocol {
         let json: JSON = [
             "deviceId": deviceID,
             "playerName": playerName,
-            "token": "u093j1u09du489032u",
             "gameKey": gameKey,
             "eventType": RequestType.joinGame.rawValue
             ]
