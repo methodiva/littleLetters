@@ -45,7 +45,7 @@ class GameScreenLogic: GameScreenLogicProtocol {
     var isProcessingTap = false
     
     var timer = Timer()
-    let timerLengthInSeconds = 30
+    let timerLengthInSeconds = 90
     var secondsLeftOnTimer = 0
     
     // MARK: - FeatureProtocol conformance
