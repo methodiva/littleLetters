@@ -54,12 +54,15 @@ class CorrectLabelSelector {
     }
     
     private func chooseWordBetween(first: ImageLabel, second: ImageLabel) -> ImageLabel {
-        if first.description.count > second.description.count {
+        if first.Score > second.Score {
             return first
         }
-        if first.description.count == second.description.count && first.Score > second.Score {
-            return first
-        }
+//        if first.description.count > second.description.count {
+//            return first
+//        }
+//        if first.description.count == second.description.count && first.Score > second.Score {
+//            return first
+//        }
         return second
     }
 }
